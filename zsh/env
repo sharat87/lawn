@@ -1,0 +1,9 @@
+export EDITOR='vim'
+export PATH=/var/lib/gems/1.8/bin/:$PATH
+export PATH=.:~/bin:$PATH
+
+export PYTHONSTARTUP="/home/sharat/.py"
+
+export TERM="xterm-256color"
+
+# vim: se ft=sh :

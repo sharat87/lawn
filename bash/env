@@ -1,0 +1,17 @@
+PATH=".:/var/lib/gems/1.8/bin:$PATH"
+
+export PYTHONSTARTUP="/home/sharat/.py"
+
+export HISTIGNORE="&:[bf]g:exit:logout"
+
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+
+# Use vim as a pager (to view man pages for example)
+export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
+    vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
+    -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
+    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
+
+export TERM="xterm-256color"

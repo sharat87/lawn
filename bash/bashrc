@@ -1,0 +1,10 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# Symlink to this file from ~/.bashrc
+
+if [ -e ~/.aliases ]
+then
+    source ~/.aliases
+fi
+
+source ~/dotfiles/bash/env
+source ~/dotfiles/bash/config

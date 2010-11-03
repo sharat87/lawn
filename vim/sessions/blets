@@ -1,0 +1,372 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+imap <End> $
+inoremap <silent> <S-Tab> =BackwardsSnippet()
+inoremap <silent> <Plug>NERDCommenterInInsert  <BS>:call NERDComment(0, "insert")
+imap <Home> ^
+map! <S-Insert> <MiddleMouse>
+snoremap <silent> 	 i<Right>=TriggerSnippet()
+nmap <NL> 
+nmap  
+nmap  :e **/*
+nmap <silent>  :FF
+nmap  :e **/*
+snoremap  b<BS>
+nmap <silent>  :noh
+map  :call SmartSwitch()
+snoremap % b<BS>%
+snoremap ' b<BS>'
+nmap ,ca <Plug>NERDCommenterAltDelims
+vmap D y'>p
+xmap S <Plug>VSurround
+snoremap U b<BS>U
+nmap Y y$
+vmap [% [%m'gv``
+nmap <silent> \sa <Plug>VCSAdd
+nmap <silent> \sc <Plug>VCSCommit
+nmap <silent> \sD <Plug>VCSDelete
+nmap <silent> \sd <Plug>VCSDiff
+nmap <silent> \sG <Plug>VCSClearAndGotoOriginal
+nmap <silent> \sg <Plug>VCSGotoOriginal
+nmap <silent> \si <Plug>VCSInfo
+nmap <silent> \sL <Plug>VCSLock
+nmap <silent> \sl <Plug>VCSLog
+nmap <silent> \sN <Plug>VCSSplitAnnotate
+nmap <silent> \sn <Plug>VCSAnnotate
+nmap <silent> \sr <Plug>VCSReview
+nmap <silent> \ss <Plug>VCSStatus
+nmap <silent> \sU <Plug>VCSUnlock
+nmap <silent> \su <Plug>VCSUpdate
+nmap <silent> \sv <Plug>VCSVimDiff
+map \t <Plug>TaskList
+snoremap \ b<BS>\
+nmap <silent> \slr :DBListVar
+xmap <silent> \sa :DBVarRangeAssign
+nmap <silent> \sap :'<,'>DBVarRangeAssign
+nmap <silent> \sal :.,.DBVarRangeAssign
+nmap <silent> \sas :1,$DBVarRangeAssign
+nmap \so <Plug>DBOrientationToggle
+nmap \sh <Plug>DBHistory
+nmap \slv <Plug>DBListView
+nmap \slp <Plug>DBListProcedure
+nmap \slt <Plug>DBListTable
+xmap <silent> \slc :exec 'DBListColumn "'.DB_getVisualBlock().'"'
+nmap \slc <Plug>DBListColumn
+nmap \sbp <Plug>DBPromptForBufferParameters
+nmap \sdpa <Plug>DBDescribeProcedureAskName
+xmap <silent> \sdp :exec 'DBDescribeProcedure "'.DB_getVisualBlock().'"'
+nmap \sdp <Plug>DBDescribeProcedure
+nmap \sdta <Plug>DBDescribeTableAskName
+xmap <silent> \sdt :exec 'DBDescribeTable "'.DB_getVisualBlock().'"'
+nmap \sdt <Plug>DBDescribeTable
+xmap <silent> \sT :exec 'DBSelectFromTableTopX "'.DB_getVisualBlock().'"'
+nmap \sT <Plug>DBSelectFromTopXTable
+nmap \sta <Plug>DBSelectFromTableAskName
+nmap \stw <Plug>DBSelectFromTableWithWhere
+xmap <silent> \st :exec 'DBSelectFromTable "'.DB_getVisualBlock().'"'
+nmap \st <Plug>DBSelectFromTable
+nmap <silent> \sep :'<,'>DBExecRangeSQL
+nmap <silent> \sel :.,.DBExecRangeSQL
+nmap <silent> \sea :1,$DBExecRangeSQL
+nmap \sE <Plug>DBExecSQLUnderTopXCursor
+nmap \se <Plug>DBExecSQLUnderCursor
+xmap \sE <Plug>DBExecVisualTopXSQL
+xmap \se <Plug>DBExecVisualSQL
+nmap \a <Plug>ToggleAutoCloseMappings
+nmap \ca <Plug>NERDCommenterAltDelims
+vmap \cA <Plug>NERDCommenterAppend
+nmap \cA <Plug>NERDCommenterAppend
+vmap \c$ <Plug>NERDCommenterToEOL
+nmap \c$ <Plug>NERDCommenterToEOL
+vmap \cu <Plug>NERDCommenterUncomment
+nmap \cu <Plug>NERDCommenterUncomment
+vmap \cn <Plug>NERDCommenterNest
+nmap \cn <Plug>NERDCommenterNest
+vmap \cb <Plug>NERDCommenterAlignBoth
+nmap \cb <Plug>NERDCommenterAlignBoth
+vmap \cl <Plug>NERDCommenterAlignLeft
+nmap \cl <Plug>NERDCommenterAlignLeft
+vmap \cy <Plug>NERDCommenterYank
+nmap \cy <Plug>NERDCommenterYank
+vmap \ci <Plug>NERDCommenterInvert
+nmap \ci <Plug>NERDCommenterInvert
+vmap \cs <Plug>NERDCommenterSexy
+nmap \cs <Plug>NERDCommenterSexy
+vmap \cm <Plug>NERDCommenterMinimal
+nmap \cm <Plug>NERDCommenterMinimal
+vmap \c  <Plug>NERDCommenterToggle
+nmap \c  <Plug>NERDCommenterToggle
+vmap \cc <Plug>NERDCommenterComment
+nmap \cc <Plug>NERDCommenterComment
+nmap <silent> \sq <Plug>VCSRevert
+nmap \\ \c 
+vmap ]% ]%m'gv``
+snoremap ^ b<BS>^
+nmap _ :ls:b 
+snoremap ` b<BS>`
+vmap a% [%v]%
+nmap cs <Plug>Csurround
+nmap cr <Plug>Coerce
+nmap cd :cd %:p:h:pwd
+nmap ds <Plug>Dsurround
+nmap gd ?\(function\|var\) \<\>
+nmap gx <Plug>NetrwBrowseX
+xmap gS <Plug>VgSurround
+xmap s <Plug>Vsurround
+nmap ySS <Plug>YSsurround
+nmap ySs <Plug>YSsurround
+nmap yss <Plug>Yssurround
+nmap yS <Plug>YSurround
+nmap ys <Plug>Ysurround
+nmap <S-Insert> "+P
+nnoremap <silent> <Plug>VCSAdd :VCSAdd
+nnoremap <silent> <Plug>VCSAnnotate :VCSAnnotate
+nnoremap <silent> <Plug>VCSCommit :VCSCommit
+nnoremap <silent> <Plug>VCSDelete :VCSDelete
+nnoremap <silent> <Plug>VCSDiff :VCSDiff
+nnoremap <silent> <Plug>VCSGotoOriginal :VCSGotoOriginal
+nnoremap <silent> <Plug>VCSClearAndGotoOriginal :VCSGotoOriginal!
+nnoremap <silent> <Plug>VCSInfo :VCSInfo
+nnoremap <silent> <Plug>VCSLock :VCSLock
+nnoremap <silent> <Plug>VCSLog :VCSLog
+nnoremap <silent> <Plug>VCSRevert :VCSRevert
+nnoremap <silent> <Plug>VCSReview :VCSReview
+nnoremap <silent> <Plug>VCSSplitAnnotate :VCSAnnotate!
+nnoremap <silent> <Plug>VCSStatus :VCSStatus
+nnoremap <silent> <Plug>VCSUnlock :VCSUnlock
+nnoremap <silent> <Plug>VCSUpdate :VCSUpdate
+nnoremap <silent> <Plug>VCSVimDiff :VCSVimDiff
+nnoremap <silent> <Plug>CVSEdit :CVSEdit
+nnoremap <silent> <Plug>CVSEditors :CVSEditors
+nnoremap <silent> <Plug>CVSUnedit :CVSUnedit
+nnoremap <silent> <Plug>CVSWatchers :CVSWatchers
+nnoremap <silent> <Plug>CVSWatchAdd :CVSWatch add
+nnoremap <silent> <Plug>CVSWatchOff :CVSWatch off
+nnoremap <silent> <Plug>CVSWatchOn :CVSWatch on
+nnoremap <silent> <Plug>CVSWatchRemove :CVSWatch remove
+vmap <S-Insert> <MiddleMouse>
+snoremap <Left> bi
+snoremap <Right> a
+snoremap <BS> b<BS>
+snoremap <silent> <S-Tab> i<Right>=BackwardsSnippet()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
+nmap <silent> <Plug>NERDCommenterAppend :call NERDComment(0, "append")
+nnoremap <silent> <Plug>NERDCommenterToEOL :call NERDComment(0, "toEOL")
+vnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment(1, "uncomment")
+nnoremap <silent> <Plug>NERDCommenterUncomment :call NERDComment(0, "uncomment")
+vnoremap <silent> <Plug>NERDCommenterNest :call NERDComment(1, "nested")
+nnoremap <silent> <Plug>NERDCommenterNest :call NERDComment(0, "nested")
+vnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment(1, "alignBoth")
+nnoremap <silent> <Plug>NERDCommenterAlignBoth :call NERDComment(0, "alignBoth")
+vnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment(1, "alignLeft")
+nnoremap <silent> <Plug>NERDCommenterAlignLeft :call NERDComment(0, "alignLeft")
+vmap <silent> <Plug>NERDCommenterYank :call NERDComment(1, "yank")
+nmap <silent> <Plug>NERDCommenterYank :call NERDComment(0, "yank")
+vnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment(1, "invert")
+nnoremap <silent> <Plug>NERDCommenterInvert :call NERDComment(0, "invert")
+vnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment(1, "sexy")
+nnoremap <silent> <Plug>NERDCommenterSexy :call NERDComment(0, "sexy")
+vnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment(1, "minimal")
+nnoremap <silent> <Plug>NERDCommenterMinimal :call NERDComment(0, "minimal")
+vnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment(1, "toggle")
+nnoremap <silent> <Plug>NERDCommenterToggle :call NERDComment(0, "toggle")
+vnoremap <silent> <Plug>NERDCommenterComment :call NERDComment(1, "norm")
+nnoremap <silent> <Plug>NERDCommenterComment :call NERDComment(0, "norm")
+nmap <F4> :NERDTreeToggle
+nmap <F2> :wa
+omap <S-Insert> <MiddleMouse>
+imap S <Plug>ISurround
+imap s <Plug>Isurround
+inoremap <silent> 	 =TriggerSnippet()
+inoremap <silent> 	 =ShowAvailableSnips()
+imap  <Plug>Isurround
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set background=dark
+set backspace=indent,eol,start
+set backup
+set backupdir=~/.vimbaks
+set errorformat=%A%f:%l:\ %m,%-Z%p^
+set expandtab
+set fileencodings=ucs-bom,utf-8,default,latin1
+set guifont=Consolas\ 12
+set guioptions=aegimrLtb
+set guitablabel=%{TabGuiCaptionLabel()}
+set helplang=en
+set hidden
+set history=500
+set hlsearch
+set ignorecase
+set iminsert=0
+set imsearch=0
+set incsearch
+set laststatus=2
+set listchars=tab:⁍\ ,trail:∙
+set makeprg=~/prg/bin/closure\ --js=\"%\"\ --summary_detail_level=3\ --js_output_file=/dev/null
+set mouse=a
+set omnifunc=syntaxcomplete#Complete
+set operatorfunc=<SNR>24_opfunc
+set path=.
+set printoptions=paper:a4
+set ruler
+set runtimepath=~/.vim,/var/lib/vim/addons,/usr/share/vim/vimfiles,/usr/share/vim/vim72,/usr/share/vim/vimfiles/after,/var/lib/vim/addons/after,~/.vim/after
+set shiftwidth=4
+set showcmd
+set softtabstop=4
+set nostartofline
+set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%b\ %l/%L|%c%V\ %P
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set tabline=%!TabCaptionLineFunction()
+set tabstop=4
+set termencoding=utf-8
+set wildignore=*.pyc
+set wildmenu
+set window=32
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/desk/blets
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +1 blets.py
+badd +9 resize.js
+badd +11 reset-ituser.js
+badd +9 login.js
+badd +4 blets.json
+badd +12 show-passwords.js
+badd +9 table-to-csv.js
+badd +5 jquery-selectors.js
+badd +11 chu-debug-bar.js
+badd +113 fabfile.py
+silent! argdel *
+edit chu-debug-bar.js
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal noautoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=4
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetJsIndent()
+setlocal indentkeys=0{,0},0),:,!^F,o,O,e,*<Return>,=*/
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,$
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=4
+setlocal tags=~/.vim/jquery-doc-tags
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+set nowrap
+setlocal nowrap
+setlocal wrapmargin=0
+1
+normal zo
+8
+normal zo
+let s:l = 9 - ((8 * winheight(0) + 16) / 33)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+9
+normal! 08l
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

@@ -1,0 +1,5 @@
+[user]
+	name = Shrikant Sharat
+	email = shrikantsharat.k@gmail.com
+[core]
+	excludesfile = /home/sharat/.gitignore

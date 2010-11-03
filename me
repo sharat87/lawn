@@ -1,0 +1,90 @@
+#!/bin/bash
+
+put() {
+
+    if [ -d _originals ]
+    then
+        echo '_originals already exists. Delete it first, if you do not need it.'
+        exit
+    else
+        mkdir _originals
+    fi
+
+    DOTFILES="$(cd `dirname $0` && pwd)"
+
+    dln fabricrc
+    dln toprc
+    dln aliases
+
+    dln git/config ~/.gitconfig
+    dln git/ignore ~/.gitignore
+
+    dln hg/hgrc ~/.hgrc
+    dln hg/hgignore ~/.hgignore
+
+    dln vim
+    dln vim/vimrc ~/.vimrc
+
+    dln zsh/zshrc ~/.zshrc
+    dln zsh/env ~/.zshenv
+
+}
+
+unput() {
+
+    if [ ! -d _originals ]
+    then
+        echo '_originals directory does not exist. Nothing to restore.'
+    fi
+
+    for f in `ls -A _originals`
+    do
+        echo "> $f"
+        mv "_originals/$f" ~/"$f"
+    done
+
+    echo 'Restored'
+
+    rmdir _originals
+    echo 'Removed _originals directory.'
+}
+
+main() {
+    cmd="$1"
+    if [ "$cmd" = "" ]
+    then
+        echo 'No command given'
+        exit
+    fi
+    if [ "$cmd" == "put" ]
+    then
+        put "$@"
+    elif [ "$cmd" == "unput" ]
+    then
+        unput "$@"
+    else
+        echo "Unknown command $cmd"
+        exit
+    fi
+}
+
+dln() {
+    source="$1"
+    target="$2"
+    if [ "$target" = "" ]
+    then
+        target="$HOME/.$source"
+    fi
+    if isnode "$target"
+    then
+        mv "$target" _originals
+    fi
+    ln -s "$DOTFILES/$source" "$target"
+}
+
+# Check if a file exists
+isnode() {
+    [ -e "$1" -o -L "$1" ]
+}
+
+main "$@"

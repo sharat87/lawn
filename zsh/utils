@@ -1,0 +1,114 @@
+ec () {
+    easytether connect &
+    sleep 3s
+    sudo dhclient easytether0
+    notify-send "EasyTether" "Connection established"
+}
+
+ex () {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1;;
+            *.tar.gz)    tar xzf $1;;
+            *.bz2)       bunzip2 $1;;
+            *.rar)       rar x $1;;
+            *.gz)        gunzip $1;;
+            *.tar)       tar xf $1;;
+            *.tbz2)      tar xjf $1;;
+            *.tgz)       tar xzf $1;;
+            *.zip)       unzip $1;;
+            *.Z)         uncompress $1;;
+            *.7z)        7z x $1;;
+            *)           echo "'$1' cannot be extracted via extract()";;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Run a command and notify when done
+r () {
+    if $@
+    then
+        notify-send 'zsh' "$1 finished successfully"
+    else
+        notify-send 'zsh' "$1 has failed"
+    fi
+}
+
+ca () {
+    cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
+}
+
+#----------------------------------------
+# apt-get utilities
+#----------------------------------------
+
+# install command
+sagi () {
+    if sudo apt-get install "$@"
+    then
+        notify-send "apg-get" "$1 installation finished"
+    else
+        notify-send "apt-get" "Error installing $1"
+    fi
+}
+
+# update command
+sagu () {
+    sudo apt-get update "$@"
+    notify-send "apt-get" "Update finished"
+}
+
+#----------------------------------------
+# SVN Command utilities
+#----------------------------------------
+
+# Wrapped SVN command
+s () {
+    if svn "$@"
+    then
+        notify-send "Subversion" "$1 has finished successfully"
+    else
+        notify-send "Subversion" "$1 has failed"
+    fi
+}
+
+# SVN info
+sin () {
+    svn info
+}
+
+# SVN update command
+sup () {
+    if svn up "$@"
+    then
+        notify-send "Subversion" "Update successfully finished"
+    else
+        notify-send "Subversion" "Update has failed"
+    fi
+}
+
+# Commit
+sci () {
+    if svn ci "$@"
+    then
+        notify-send "Subversion" "Commit successfully completed"
+    else
+        notify-send "Subversion" "Commit failed"
+    fi
+}
+
+alias sst="svn st"
+
+#----------------------------------------
+# Other miscellaneous utilities
+#----------------------------------------
+
+# Execute server's silk
+ssi () {
+    ssh sk silk "$@"
+    notify-send "Server Silk ($1) finished"
+}
+
+# vim: se ft=sh :

@@ -1,0 +1,7 @@
+# pack-refs with: peeled 
+eb911bc389d0beed9198dd5995fdcca95572719a refs/tags/1.1.2
+c4314a08aea85136c420c89c4fdeeff0eaacc7f1 refs/tags/1.1.1
+c4314a08aea85136c420c89c4fdeeff0eaacc7f1 refs/tags/1.1
+6b18b95e491cafb3c32c86240c124cbdecd2ba47 refs/tags/1.0
+eb911bc389d0beed9198dd5995fdcca95572719a refs/remotes/origin/master
+573566b8e51ded3abb1e7a936b021385e9033ace refs/remotes/origin/habamax
