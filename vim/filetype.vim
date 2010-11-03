@@ -14,6 +14,9 @@ autocmd BufRead,BufNewFile *.mkd setfiletype mkd
 autocmd BufRead,BufNewFile *.mxml setfiletype mxml
 autocmd BufRead,BufNewFile *.as setfiletype actionscript
 
+" Clojure
+autocmd BufRead,BufNewFile *.clj setfiletype clojure
+
 " File type preferences
 autocmd Syntax make setlocal noet sts=0 ts=4 sw=4
 
