@@ -16,6 +16,9 @@ alias mvv='mv -v'
 alias cpv='cp -v'
 alias lnv='ln -v'
 
+# `so` means `source` in vim :)
+alias so='source'
+
 # alias sagi='sudo apt-get install'
 # alias sagu='sudo apt-get update'
 # alias sagui='sudo apt-get update && sudo apt-get install'

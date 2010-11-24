@@ -17,7 +17,7 @@ extdiff =
 progress =
 
 prompt = ~/dotfiles/hg/hg-prompt/prompt.py
-notify = ~/dotfiles/hg/notify.py
+# notify = ~/dotfiles/hg/notify.py
 
 [alias]
 clog = glog --style compact

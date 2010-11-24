@@ -5,8 +5,9 @@ colors
 # Key bindings
 #----------------------------------------
 
-# vi mode
-bindkey -v
+# vi/emacs mode
+# bindkey -v
+bindkey -e
 
 bindkey $terminfo[khome] vi-beginning-of-line
 bindkey $terminfo[kend] vi-end-of-line

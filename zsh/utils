@@ -1,6 +1,6 @@
 ec () {
     easytether connect &
-    sleep 3s
+    sleep 1s
     sudo dhclient easytether0
     notify-send "EasyTether" "Connection established"
 }
@@ -100,6 +100,10 @@ sci () {
 }
 
 alias sst="svn st"
+
+sadd () {
+    svn st | grep '^?' | awk '{print $2}' | xargs svn add
+}
 
 #----------------------------------------
 # Other miscellaneous utilities
