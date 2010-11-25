@@ -30,9 +30,9 @@ ex () {
 r () {
     if $@
     then
-        notify-send 'zsh' "$1 finished successfully"
+        notify-send 'Shell' "$1 finished successfully"
     else
-        notify-send 'zsh' "$1 has failed"
+        notify-send 'Shell' "$1 has failed"
     fi
 }
 

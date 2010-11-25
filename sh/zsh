@@ -1,3 +1,7 @@
+parent=~/dotfiles
+source $parent/sh/aliases
+source $parent/sh/utils
+
 autoload -U colors
 colors
 
