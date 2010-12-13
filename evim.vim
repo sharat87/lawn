@@ -1,0 +1,2 @@
+colorscheme tango
+set nolist
