@@ -18,7 +18,6 @@
 " Bundle: git://github.com/vim-scripts/ManPageView.git
 " Bundle: git://github.com/tpope/vim-markdown.git
 " Bundle: git://github.com/ehamberg/vim-cute-python.git
-" Bundle: git://github.com/vim-scripts/Flex-Development-Support.git
 " Bundle: git://github.com/pangloss/vim-javascript.git
 
 " Bundle: git://github.com/sharat87/GotoFile.git
