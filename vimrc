@@ -193,8 +193,9 @@ endif
 
 " Mappings {{{
 
-" Maps that make more sense in Vim, but are not default to maintain with vi
+" Maps that make more sense
 nnoremap Y y$
+nnoremap ZZ :wa<CR>:x<CR>
 
 " Easier way to go to normal mode and save all modified buffers
 inoremap <silent> <S-CR> <ESC><CR>

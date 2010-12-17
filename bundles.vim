@@ -9,7 +9,7 @@
 " Bundle: git://github.com/michaeljsmith/vim-indent-object.git
 " Bundle: git://github.com/vim-scripts/matchit.zip.git
 " Bundle: git://github.com/tpope/vim-repeat.git
-" Bundle: git://github.com/msanders/snipmate.vim.git
+" Bundle: git@github.com:sharat87/snipmate.vim.git
 " Bundle: git://github.com/tomtom/tcomment_vim.git
 " Bundle: git://github.com/tpope/vim-unimpaired.git
 " Bundle: git://github.com/Shougo/vimproc.git
