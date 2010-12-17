@@ -140,7 +140,7 @@ if s:qui_os() != "win"
 endif
 
 " Keep swap files in one location
-set directory=$HOME/.vim.swp//,.
+set directory=$VIMFILES/swap//,.
 
 " lines to save from command line history
 set history=1000
