@@ -84,10 +84,6 @@ let g:ragtag_global_maps = 1
 " Gundo Toggle
 nnoremap <F10> :GundoToggle<CR>
 
-" Bundle: git://github.com/vim-scripts/LustyJuggler.git
-" LustyJuggler
-let g:LustyJugglerSuppressRubyWarning = 1
-
 " Bundle: git://github.com/ujihisa/quickrun.git
 " Quickrun settings
 let g:quickrun_config = { '_': {} }
