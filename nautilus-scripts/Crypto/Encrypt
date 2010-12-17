@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for f in  $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+do
+
+    if [ -d "$f" ]
+        tar c "$f" > "$f_.tar"
+    fi
+
+done

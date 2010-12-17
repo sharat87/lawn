@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for uri in $NAUTILUS_SCRIPT_SELECTED_URIS
+do
+    gksudo "gnome-open $uri" &
+done
+
