@@ -15,11 +15,11 @@ fun! <SID>qui_os()
 endfun
 
 " Define the VIMFILES directory, if not already done
-if !exists("$VIMFILES")
-    if s:qui_os() == "win"
-        let $VIMFILES="C:/tools/Vim/vimfiles"
+if !exists('$VIMFILES')
+    if s:qui_os() == 'win'
+        let $VIMFILES = 'C:/tools/Vim/vimfiles'
     else
-        let $VIMFILES="$HOME/.vim"
+        let $VIMFILES = $HOME . '/.vim'
     endif
 endif
 
