@@ -3,8 +3,8 @@
 # for examples
 
 parent=~/dotfiles
-source $parent/sh/aliases
-source $parent/sh/env
+source $parent/shell/aliases
+source $parent/shell/env
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
