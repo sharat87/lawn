@@ -37,4 +37,6 @@ alias eal='vim ~/dotfiles/bash/aliases && source ~/dotfiles/bash/aliases'
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 
+alias sp='rlwrap sqlplus'
+
 # vim: se ft=sh :
