@@ -24,6 +24,8 @@
 nnoremap <silent> <C-n> :GF<CR>
 
 " Bundle: https://github.com/vim-scripts/Command-T.git
+" Run: cd ruby/command-t
+" Run: ruby extconf.rb && make
 " Command-T launcher
 nnoremap <silent> <Leader>f :CommandT<CR>
 nnoremap <Leader>F :CommandTFlush<CR><CR><Leader>f
