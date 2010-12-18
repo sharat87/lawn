@@ -200,6 +200,12 @@ nnoremap ZZ :wa<CR>:x<CR>
 " Easier way to go to normal mode and save all modified buffers
 inoremap <silent> <S-CR> <ESC><CR>
 
+" A use for the unused Arrow keys :)
+nnoremap <Up> <C-y>
+nnoremap <Down> <C-e>
+vnoremap <Up> <C-y>
+vnoremap <Down> <C-e>
+
 " Save all modified buffers
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 nnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
