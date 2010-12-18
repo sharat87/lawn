@@ -13,7 +13,6 @@
 " Bundle: git://github.com/tomtom/tcomment_vim.git
 " Bundle: git://github.com/tpope/vim-unimpaired.git
 " Bundle: git://github.com/Shougo/vimproc.git
-" Bundle: git://github.com/tyru/winmove.vim.git
 " Bundle: git://github.com/vim-scripts/ZoomWin.git
 " Bundle: git://github.com/vim-scripts/ManPageView.git
 " Bundle: git://github.com/tpope/vim-markdown.git
