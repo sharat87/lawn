@@ -239,6 +239,10 @@ nnoremap : ;
 vnoremap ; :
 vnoremap : ;
 
+" F1 is goddamn close to <ESC>. I don't want to see help with F1.
+noremap <F1> <Nop>
+inoremap <F1> <Nop>
+
 " }}}
 
 " My status line rules!
