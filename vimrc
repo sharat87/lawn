@@ -1,10 +1,12 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
 " Used On: (G)Vim 7.3 and 7.2 on Ubuntu Maverick, Karmic and Lucid, and Windows 7
-" Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 :
+" Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 fdm=marker :
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+
+" Utilities {{{
 
 " Return the operating system we are running
 fun! <SID>qui_os()
@@ -23,17 +25,21 @@ if !exists('$VIMFILES')
     endif
 endif
 
+" Is vimrc running for the first time. e.g., not run with `source`
+let s:first_time = !exists('g:vimrc_done')
+let g:vimrc_done = 1
+
 " Bundle: git://github.com/tpope/vim-pathogen.git
 " Load Pathogen bundles
 set rtp+=$VIMFILES/bundle/vim-pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-" Is vimrc running for the first time. e.g., not run with `source`
-let s:first_time = !exists('g:vimrc_done')
-let g:vimrc_done = 1
-
 set path=./**
+
+" }}}
+
+" Settings {{{
 
 if has('gui_running')
 
@@ -192,6 +198,16 @@ if has('conceal')
 
 endif
 
+" My status line rules!
+set laststatus=2
+set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%b\ %l/%L\|%c%V\ %P
+
+" My title line rules too!!
+set title
+"set titlestring=\{%{\ g:LAST_SESSION\ }\}+\ %m\ %f\ %h\ -\ GVIM
+
+" }}}
+
 " Mappings {{{
 
 " Maps that make more sense
@@ -244,24 +260,9 @@ vnoremap : ;
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
-" }}}
-
-" My status line rules!
-set laststatus=2
-set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%b\ %l/%L\|%c%V\ %P
-
-" My title line rules too!!
-set title
-"set titlestring=\{%{\ g:LAST_SESSION\ }\}+\ %m\ %f\ %h\ -\ GVIM
-
 " * and # to work in visual mode, but search for the selected text
 vnoremap * y/<C-R>"<CR>
 vnoremap # y?<C-R>"<CR>
-
-" A C command to do simple/complex calculations by evaluating the given
-" expression as a python expression (with math module imported).
-command! -nargs=+ C :py print <args>
-py from math import *
 
 " Replace consecutive blank lines with a single blank line
 nnoremap <silent> <Leader>xx :call <SID>PurgeExtraBlankLines()<CR>
@@ -300,11 +301,6 @@ fun! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfun
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
 
 " Text object shortcuts
 
@@ -353,8 +349,23 @@ call <SID>ObMapper("'")
 " Next ""
 call <SID>ObMapper('"')
 
+" }}}
 
-" Plugins
+" Custom Commands {{{
+
+" A C command to do simple/complex calculations by evaluating the given
+" expression as a python expression (with math module imported).
+command! -nargs=+ C :py print <args>
+py from math import *
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
+
+" }}}
+
+" Plugins {{{
 
 " Bundle: git://github.com/tpope/vim-surround.git with git
 " Bundle: git://github.com/tpope/vim-abolish.git
@@ -487,3 +498,5 @@ endfun
 if v:progname =~? "evim"
     source $VIMFILES/evim.vim
 endif
+
+" }}}
