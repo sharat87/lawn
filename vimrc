@@ -191,7 +191,7 @@ if has('conceal')
     set concealcursor=nvic
 
     " Toggle concealing
-    nnoremap <silent> <F8> :call <SID>ToggleConceal(2)<CR>
+    nnoremap <silent> <F3> :call <SID>ToggleConceal(2)<CR>
     fun! <SID>ToggleConceal(value)
         exe 'set conceallevel=' . (&conceallevel == 0 ? a:value : 0)
     endfun
@@ -248,7 +248,7 @@ nnoremap <F9> <C-w>o
 inoremap <Home> <C-o>^
 
 " Turn off hlsearch temporarily
-nnoremap <silent> <F3> :noh<CR>
+nnoremap <silent> <Leader>h :noh<CR>
 
 " More convinient to go to command mode
 nnoremap ; :
@@ -384,10 +384,6 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 " Bundle: git://github.com/tpope/vim-markdown.git
 " Bundle: git://github.com/ehamberg/vim-cute-python.git
 " Bundle: git://github.com/pangloss/vim-javascript.git
-
-" Bundle: git://github.com/sharat87/GotoFile.git
-" Launch GotoFile
-nnoremap <silent> <C-n> :GF<CR>
 
 " Bundle: https://github.com/vim-scripts/Command-T.git
 " Run: cd ruby/command-t
