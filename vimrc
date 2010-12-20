@@ -119,8 +119,10 @@ syntax on
 " Make backspace act sane (i.e., non vi-compatible)
 set backspace=indent,eol,start
 
-" Swap leader and `,`
-nnoremap \ ,
+" Use `,` as the leader, and space for the default functionality of `;` and
+" `,`
+nnoremap <Space> ;
+nnoremap <S-Space> ,
 let mapleader = ','
 
 " enable mouse
@@ -252,9 +254,7 @@ nnoremap <silent> <Leader>h :noh<CR>
 
 " More convinient to go to command mode
 nnoremap ; :
-nnoremap : ;
 vnoremap ; :
-vnoremap : ;
 
 " F1 is goddamn close to <ESC>. I don't want to see help with F1.
 noremap <F1> <Nop>
