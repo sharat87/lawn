@@ -217,7 +217,7 @@ nnoremap Y y$
 nnoremap ZZ :wa<CR>:x<CR>
 
 " Easier way to go to normal mode and save all modified buffers
-inoremap <silent> <S-CR> <ESC><CR>
+inoremap <silent> <S-CR> <ESC>
 
 " A use for the unused Arrow keys :)
 nnoremap <Up> <C-y>
