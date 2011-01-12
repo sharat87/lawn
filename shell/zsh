@@ -98,4 +98,10 @@ $(prompt_char) '
 
 # Set RPROMPT to have info show up on the right, too.
 
+# Run the syntax highlighting script
+source $parent/shell/zsh-syntax-highlighting.zsh
+
+echo
+fortune | cowsay
+
 # vim: se ft=zsh :

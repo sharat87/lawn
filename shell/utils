@@ -61,51 +61,6 @@ sagu () {
 }
 
 #----------------------------------------
-# SVN Command utilities
-#----------------------------------------
-
-# Wrapped SVN command
-s () {
-    if svn "$@"
-    then
-        notify-send "Subversion" "$1 has finished successfully"
-    else
-        notify-send "Subversion" "$1 has failed"
-    fi
-}
-
-# SVN info
-sin () {
-    svn info
-}
-
-# SVN update command
-sup () {
-    if svn up "$@"
-    then
-        notify-send "Subversion" "Update successfully finished"
-    else
-        notify-send "Subversion" "Update has failed"
-    fi
-}
-
-# Commit
-sci () {
-    if svn ci "$@"
-    then
-        notify-send "Subversion" "Commit successfully completed"
-    else
-        notify-send "Subversion" "Commit failed"
-    fi
-}
-
-alias sst="svn st"
-
-sadd () {
-    svn st | grep '^?' | awk '{print $2}' | xargs svn add
-}
-
-#----------------------------------------
 # Other miscellaneous utilities
 #----------------------------------------
 

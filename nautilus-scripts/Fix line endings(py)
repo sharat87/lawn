@@ -5,8 +5,10 @@ import os
 files = os.getenv('NAUTILUS_SCRIPT_SELECTED_FILE_PATHS').split('\n')
 
 for filename in (f for f in files if f):
-    fl = open(filename, 'rb')
-    text = fl.read().replace(b'\r', b'')
-    fl.close()
-    open(filename, 'wb').write(text)
+    text = None
+    with open(filename, 'rb') as f:
+        text = f.read().replace(b'\r', b'')
+    if text:
+        with open(filename, 'wb') as f:
+            f.write(text)
 

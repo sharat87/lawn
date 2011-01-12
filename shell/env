@@ -2,6 +2,9 @@ export EDITOR='vim'
 export PATH=/var/lib/gems/1.8/bin/:$PATH
 export PATH=~/bin:$PATH
 
+# Fix swing components not being shown under compiz
+# export AWT_TOOLKIT=MToolkit
+
 # Oracle variables
 export ORACLE_BASE=/u01/app/oracle
 export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_3
@@ -9,6 +12,11 @@ export ORACLE_SID=orcl
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib
 export PATH=$ORACLE_HOME/bin:$PATH
 # export EDITOR=/usr/bin/vi
+
+# The default CVSROOT I need
+export CVSROOT=:extssh:cvs:/usr/local/cvs
+
+export PIP_DOWNLOAD_CACHE=~/.pip/cache
 
 #export HISTIGNORE="&:[bf]g:exit:logout"
 

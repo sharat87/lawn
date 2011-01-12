@@ -1,2 +1,2 @@
 #!/bin/sh
-rlwrap java -classpath ~/desk/clojure/clojure-1.2.0/clojure.jar:/home/sharat/desk/clojure/clojure-contrib-1.2.0/target/clojure-contrib-1.2.0.jar:. clojure.main "$@"
+rlwrap java -classpath ~/apps/clojure/clojure-1.2.0/clojure.jar:/home/sharat/apps/clojure/clojure-contrib-1.2.0/target/clojure-contrib-1.2.0.jar:. clojure.main "$@"
