@@ -20,6 +20,9 @@ autocmd BufRead,BufNewFile *.as setfiletype actionscript
 " Clojure
 autocmd BufRead,BufNewFile *.clj setfiletype clojure
 
+" GNUPlot
+autocmd BufRead,BufNewFile *.plt setfiletype gnuplot
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File type specific preferences
 
