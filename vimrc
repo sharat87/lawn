@@ -60,8 +60,7 @@ if has('gui_running')
         set lines=32 columns=120
 
         " set the default colorscheme
-        " colorscheme liquidcarbon
-        colorscheme chance-of-storm
+        colorscheme liquidcarbon
 
     endif
 
@@ -177,6 +176,9 @@ set showcmd
 " Show a mini-menu when using Tab-completions for commands
 set wildmenu
 
+" Ignore these files when autocompleting
+set wildignore=*.o,*.object,*.so,*.class
+
 " Use / instead of \ in file name completion among other places
 set shellslash
 
@@ -185,7 +187,8 @@ set omnifunc=syntaxcomplete#Complete
 
 " Characters used to show invisibles with `list`
 " Other possible tab chars: ›‣⁍
-"set list listchars=tab:›\ ,trail:∙
+set listchars=tab:›\ ,trail:∙
+"set list
 
 " Use blowfish encryption by default
 if has('&cryptmethod')
@@ -220,6 +223,7 @@ set title
 " Maps that make more sense
 nnoremap Y y$
 nnoremap ZZ :wa<CR>:x<CR>
+nnoremap <silent> Q :wa<CR>:x<CR>
 
 " Easier way to go to normal mode and save all modified buffers
 inoremap <silent> <S-CR> <ESC>
@@ -406,7 +410,7 @@ let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
 " #Bundle: https://sharat87@github.com/sharat87/sessionman.vim.git
 " Bundle: git://github.com/sharat87/sessionman.vim.git
 " Map to open a session
-nnoremap <Leader>n :SessionOpen<Space>
+nnoremap <Leader>s :SessionOpen<Space>
 
 " Bundle: http://bitbucket.org/sharat87/vim-looks
 " Themes for use with looks.vim
