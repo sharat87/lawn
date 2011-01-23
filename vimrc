@@ -152,6 +152,10 @@ endif
 " Keep swap files in one location
 set directory=$VIMFILES/swap//,.
 
+" Store undofiles (persistent-undo)
+set undodir=$VIMFILES/undo//,.
+set undofile
+
 " lines to save from command line history
 set history=1000
 
