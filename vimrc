@@ -33,6 +33,7 @@ let g:vimrc_done = 1
 " Load Pathogen bundles
 set rtp+=$VIMFILES/bundle/vim-pathogen
 call pathogen#runtime_append_all_bundles()
+call pathogen#runtime_append_all_bundles('bundle-local')
 call pathogen#helptags()
 
 set path=./**
