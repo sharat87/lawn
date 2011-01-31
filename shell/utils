@@ -60,6 +60,15 @@ sagu () {
     notify-send "apt-get" "Update finished"
 }
 
+c () {
+    if cvs -d ':extssh:cvs:/usr/local/cvs' "$@"
+    then
+        notify-send "CVS Success" "CVS $1 exited successfully"
+    else
+        notify-send "CVS Failure" "CVS $1 seem to have failed"
+    fi
+}
+
 #----------------------------------------
 # Other miscellaneous utilities
 #----------------------------------------
