@@ -69,6 +69,23 @@ c () {
     fi
 }
 
+cdk () {
+    if [ -z "$1" ]
+    then
+        cd ..
+    else
+        old_dir=`pwd`
+        while [ "$(basename $(pwd))" != "$1" ] && [ "$(pwd)" != "/" ]
+        do
+            cd ..
+        done
+        if [ "$(pwd)" = "/" ]
+        then
+            cd "$old_dir"
+        fi
+    fi
+}
+
 #----------------------------------------
 # Other miscellaneous utilities
 #----------------------------------------
