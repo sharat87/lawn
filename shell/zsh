@@ -76,11 +76,33 @@ function prompt_vcs_name {
     svn info >/dev/null 2>/dev/null && echo "with %{$fg[blue]%}svn%{$reset_color%}" && return
 }
 
-function prompt_char {
-    hg root >/dev/null 2>/dev/null && echo '☿' && return
-    git branch >/dev/null 2>/dev/null && echo '±' && return
-    svn info >/dev/null 2>/dev/null && echo '∞' && return
-    echo '⚪'
+function prompt_char_vcs {
+    o=" "
+    if [ "$?" = "0" ]
+    then
+        o="$o%{$fg_bold[green]%}"
+    else
+        o="$o%{$fg_bold[red]%}"
+    fi
+    if hg root &> /dev/null
+    then
+        o="$o☿"
+    elif git branch &> /dev/null
+    then
+        o="$o±"
+    elif svn info &> /dev/null
+    then
+        o="$o∞"
+    else
+        o="$o⚪"
+    fi
+    o="$o%{$reset_color%}"
+    echo -n $o
+}
+
+function prompt_char_exitcode {
+    # echo -n " %(?.%{$fg[green]%}:)%{$reset_color%}.%{$fg_bold[red]%}:(%{$reset_color%})"
+    echo -n " %(?.%{$fg[green]%}☺%{$reset_color%}.%{$fg_bold[red]%}☹%{$reset_color%})"
 }
 
 function hg_prompt_info {
@@ -91,10 +113,34 @@ function hg_prompt_info {
 patches: <patches|join( → )|pre_applied(%{$fg[yellow]%})|post_applied(%{$reset_color%})|pre_unapplied(%{$fg_bold[black]%})|post_unapplied(%{$reset_color%})>>" 2>/dev/null
 }
 
+# English-y prompt!
+# setopt prompt_subst
+# PROMPT='
+# %{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}%~%{$reset_color%} $(prompt_vcs_name using\ )$(hg_prompt_info)
+# $(prompt_char_vcs) '
+
+function prompt_vcs_summary {
+    if hg root &> /dev/null
+    then
+        metas="@$(hg branch) $(hg log -l1 | awk '/^tag:/ { o = o "#" $NF } END { print o }')"
+        status_chars=$(hg st | cut -d\  -f 1 | sort -u | awk '{ o = o $1 } END { if (o != "") print " " o }')
+        echo "  %{$fg[yellow]%}☿ $metas%{$reset_color%}%{$fg_bold[yellow]%}${status_chars}%{$reset_color%}"
+    elif git branch &> /dev/null
+    then
+        branch=$(git branch | grep '^*' | cut -d\  -f 2)
+        metas="@$branch $tags"
+        echo "  %{$fg[cyan]%}± $metas%{$reset_color%}%{$fg_bold[cyan]%}${status_chars}%{$reset_color%}"
+    fi
+}
+
+function compact_pwd {
+    d=`pwd`
+}
+
+# Compacty compacty prompt
 setopt prompt_subst
 PROMPT='
-%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}%~%{$reset_color%} $(prompt_vcs_name using\ )$(hg_prompt_info)
-$(prompt_char) '
+%{$fg[magenta]%}%n:%m %{$fg_bold[blue]%}%3~%{$reset_color%}$(prompt_vcs_summary)$(prompt_char_exitcode) '
 
 # Set RPROMPT to have info show up on the right, too.
 
