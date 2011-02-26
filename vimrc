@@ -55,6 +55,7 @@ if has('gui_running')
         set guioptions+=b " enable horizontal scrollbar
         set guioptions-=T " remove toolbar
         set guioptions-=t " remove tearoff from menus
+        set guioptions-=e " Do not use a gui tab bar
         " set guioptions+=c " user console like dialogs instead of GUI ones
 
         set lines=32 columns=120
@@ -118,12 +119,6 @@ syntax on
 
 " Make backspace act sane (i.e., non vi-compatible)
 set backspace=indent,eol,start
-
-" Use `,` as the leader, and space for the default functionality of `;` and
-" `,`
-nnoremap <Space> ;
-nnoremap <S-Space> ,
-let mapleader = ','
 
 " enable mouse
 set mouse=a
@@ -225,8 +220,16 @@ nnoremap Y y$
 nnoremap ZZ :wa<CR>:x<CR>
 nnoremap <silent> Q :wa<CR>:x<CR>
 
-" Easier way to go to normal mode and save all modified buffers
-inoremap <silent> <S-CR> <ESC>
+" Use `,` as the leader, and space for the default functionality of `;` and
+" `,`
+nnoremap <Space> ;
+nnoremap <S-Space> ,
+vnoremap <Space> ;
+vnoremap <S-Space> ,
+let mapleader = ','
+
+" Open a new line without leaving insert mode
+inoremap <silent> <S-CR> <C-o>o
 
 " A use for the unused Arrow keys :)
 nnoremap <Up> <C-y>
@@ -234,14 +237,21 @@ nnoremap <Down> <C-e>
 vnoremap <Up> <C-y>
 vnoremap <Down> <C-e>
 
+" Easier way to go to normal mode
+inoremap <silent> <C-CR> <C-[>
+
 " Save all modified buffers
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 nnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
+vnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
+vnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
 fun! <SID>SuperEnterKey()
     if &buftype == 'quickfix'
         .cc
-    else
+    elseif expand('%') != ''
         wa
+    elseif &modified
+        echoerr "No filename"
     endif
 endfun
 
@@ -393,6 +403,11 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 " Bundle: git://github.com/tpope/vim-markdown.git
 " Bundle: git://github.com/ehamberg/vim-cute-python.git
 " Bundle: git://github.com/pangloss/vim-javascript.git
+" Bundle: git://github.com/vim-scripts/Mark.git
+" Bundle: git://github.com/vim-scripts/MarkLines.git
+
+" Bundle: git://github.com/vim-scripts/cvsmenu.vim-updated.git
+let $CVSOPT = '-z9 -d :extssh:cvs:/usr/local/cvs'
 
 " Bundle: https://github.com/vim-scripts/Command-T.git
 " Run: cd ruby/command-t
@@ -417,12 +432,21 @@ nnoremap <Leader>s :SessionOpen<Space>
 let g:looks = {}
 let g:looks.mac = {
             \ ':colorscheme': 'mac_classic',
-            \ '&guifont': 'Inconsolata Medium 15',
+            \ '&guifont': 'Monaco 12',
             \ '&cursorline': 1
             \ }
 let g:looks.mac._map = 'm'
 let g:looks.calmDark = { ':colorscheme': 'lucius', '&guifont': 'Consolas 13', '&cursorline': 0 }
 let g:looks.calmDark._map = 'd'
+let g:looks.tasty = { ':colorscheme': 'tango', '&guifont': 'Droid Sans Mono 14', '&cursorline': 1 }
+let g:looks.tasty._map = 't'
+let g:looks.cped = {
+            \ ':colorscheme': 'mac_classic',
+            \ '&guifont': 'Monaco 12',
+            \ '&cursorline': 0
+            \ }
+
+let g:classpathed_look = 'cped'
 
 " Bundle: git://github.com/vim-scripts/Conque-Shell.git
 " Conque options
