@@ -52,3 +52,8 @@ xterm*|rxvt*)
 *)
     ;;
 esac
+
+# enable 256 colors!
+if [[ "${COLORTERM}" == "gnome-terminal" && "${TERM}" != "xterm"  ]]; then
+    export TERM="gnome-256color"
+fi

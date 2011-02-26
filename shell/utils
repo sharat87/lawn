@@ -69,6 +69,8 @@ c () {
     fi
 }
 
+alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \$3; next } { print }'"
+
 cdk () {
     if [ -z "$1" ]
     then
@@ -90,10 +92,13 @@ cdk () {
 # Other miscellaneous utilities
 #----------------------------------------
 
-# Execute server's silk
-ssi () {
-    ssh sk silk "$@"
-    notify-send "Server Silk ($1) finished"
+# ants and ants and ants and ants!
+ant5 () {
+    (export PATH=~/apps/javas/jdk1.5.0_22/bin/:$PATH; r ant "$@")
+}
+
+ant6 () {
+    (export PATH=~/apps/javas/jdk1.6.0_22/bin/:$PATH; r ant "$@")
 }
 
 # vim: se ft=sh :

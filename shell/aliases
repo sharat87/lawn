@@ -32,7 +32,9 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
 # Command to quickly edit the aliases file
-alias eal='vim ~/dotfiles/bash/aliases && source ~/dotfiles/bash/aliases'
+alias eal='vim ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
+
+alias t='python ~/desk/sjl-t/t.py --task-dir ~ --list tasks'
 
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory

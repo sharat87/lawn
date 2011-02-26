@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if tmux has
+then
+    tmux "$@" attach
+else
+    tmux "$@"
+fi

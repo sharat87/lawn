@@ -20,17 +20,15 @@ bindkey $terminfo[kend] vi-end-of-line
 # Options/Settings
 #----------------------------------------
 
-# setopt PRINT_EXIT_VALUE
-
 # auto correction
 setopt CORRECT
 setopt CORRECTALL
 
 # ignore duplication command history list
-setopt hist_ignore_dups
+setopt HIST_IGNORE_ALL_DUPS
 
 # share command history data
-setopt share_history
+setopt SHARE_HISTORY
 
 setopt HIST_IGNORE_SPACE
 
@@ -140,14 +138,20 @@ function compact_pwd {
 # Compacty compacty prompt
 setopt prompt_subst
 PROMPT='
-%{$fg[magenta]%}%n:%m %{$fg_bold[blue]%}%3~%{$reset_color%}$(prompt_vcs_summary)$(prompt_char_exitcode) '
+$(prompt_vcs_summary)$(prompt_char_exitcode) '
+RPROMPT='%8~'
 
 # Set RPROMPT to have info show up on the right, too.
 
 # Run the syntax highlighting script
 source $parent/shell/zsh-syntax-highlighting.zsh
 
-echo
-fortune | cowsay
+source $parent/shell/sjl-z.sh
+function precmd {
+    z --add "$(pwd -P)"
+}
+
+# echo
+# fortune | cowsay
 
 # vim: se ft=zsh :
