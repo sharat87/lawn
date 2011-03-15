@@ -38,5 +38,6 @@ autocmd FileType vimwiki setlocal et ts=8 sw=2 sts=2 nolist spell
 autocmd FileType conque_term setlocal nolist
 
 autocmd FileType help nnoremap <buffer> <silent> q :q<CR>
+autocmd FileType man nnoremap <buffer> <silent> q :q<CR>
 
 augroup END
