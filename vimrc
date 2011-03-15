@@ -70,10 +70,6 @@ else
     colorscheme tango
 endif
 
-" My remapping of <C-^>. If there is no alternate file, then switch to next file.
-" Original: VIM Tips wiki
-nnoremap <silent> <C-^> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
-
 " set backup only if not using version control
 if has("vms")
     set nobackup
@@ -236,6 +232,15 @@ nnoremap <Up> <C-y>
 nnoremap <Down> <C-e>
 vnoremap <Up> <C-y>
 vnoremap <Down> <C-e>
+
+" Make ' act as ` which has the saner behavior
+nnoremap ' `
+vnoremap ' `
+
+" My remapping of <C-^>. If there is no alternate file, then switch to next file.
+" Use ` to toggle to alternate buffer
+" Original: VIM Tips wiki
+nnoremap <silent> ` :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
 inoremap <silent> <C-CR> <C-[>
@@ -405,6 +410,14 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 " Bundle: git://github.com/pangloss/vim-javascript.git
 " Bundle: git://github.com/vim-scripts/Mark.git
 " Bundle: git://github.com/vim-scripts/MarkLines.git
+" Bundle: git://github.com/vim-scripts/vorax.git
+" Bundle: git://github.com/vim-scripts/dbext.vim.git
+" Bundle: git://github.com/kchmck/vim-coffee-script.git
+
+" Bundle: git://github.com/vim-scripts/FuzzyFinder.git
+" Bundle: git://github.com/vim-scripts/L9.git
+" --- the above is just a dependency
+nnoremap <Leader>b :FufBuffer<CR>
 
 " Bundle: git://github.com/vim-scripts/cvsmenu.vim-updated.git
 let $CVSOPT = '-z9 -d :extssh:cvs:/usr/local/cvs'
@@ -425,7 +438,7 @@ let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
 " #Bundle: https://sharat87@github.com/sharat87/sessionman.vim.git
 " Bundle: git://github.com/sharat87/sessionman.vim.git
 " Map to open a session
-nnoremap <Leader>s :SessionOpen<Space>
+nnoremap <Leader>e :SessionOpen<Space>
 
 " Bundle: http://bitbucket.org/sharat87/vim-looks
 " Themes for use with looks.vim
