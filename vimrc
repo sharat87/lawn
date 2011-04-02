@@ -61,13 +61,15 @@ if has('gui_running')
         set lines=32 columns=120
 
         " set the default colorscheme
-        colorscheme liquidcarbon
+        let g:solarized_bold = 0
+        set bg=dark
+        colorscheme solarized
 
     endif
 
 else
-    set bg=light
-    colorscheme tango
+    set bg=dark
+    colorscheme solarized
 endif
 
 " set backup only if not using version control
@@ -225,7 +227,7 @@ vnoremap <S-Space> ,
 let mapleader = ','
 
 " Open a new line without leaving insert mode
-inoremap <silent> <S-CR> <C-o>o
+inoremap <silent> <S-CR> <C-[>
 
 " A use for the unused Arrow keys :)
 nnoremap <Up> <C-y>
@@ -391,6 +393,10 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 
 " Plugins {{{
 
+" Colorschemes
+" Bundle: git://github.com/altercation/vim-colors-solarized.git
+
+" Scripts
 " Bundle: git://github.com/tpope/vim-surround.git with git
 " Bundle: git://github.com/tpope/vim-abolish.git
 " Bundle: git://github.com/mileszs/ack.vim.git
@@ -479,6 +485,7 @@ let g:vimwiki_list = [
     \]
 
 " Bundle: http://bitbucket.org/kotarak/vimclojure
+" Run: cp vim/* .
 " VimClojure preferences
 let vimclojure#ParenRainbow = 1
 

@@ -23,6 +23,9 @@ autocmd BufRead,BufNewFile *.clj setfiletype clojure
 " GNUPlot
 autocmd BufRead,BufNewFile *.plt setfiletype gnuplot
 
+" log4j log files
+autocmd BufRead,BufNewFile *.log setfiletype log4j
+
 " Pipe separated log files
 autocmd BufRead,BufNewFile *_SQL_*.log,*_REQUEST_*.log,*_CLIENTREQUEST_*.log,*_WORKFLOW_*.log
     \ setfiletype elog
