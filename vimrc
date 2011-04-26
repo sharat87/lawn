@@ -395,6 +395,15 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 
 " Colorschemes
 " Bundle: git://github.com/altercation/vim-colors-solarized.git
+function! <SID>ToggleSolarizedBackground()
+    if (w:solarized_style == "dark")
+        let w:solarized_style = "light"
+    else
+        let w:solarized_style = "dark"
+    endif
+    colorscheme solarized
+endfunction
+nnoremap <F3> :call <SID>ToggleSolarizedBackground()<CR>
 
 " Scripts
 " Bundle: git://github.com/tpope/vim-surround.git with git
