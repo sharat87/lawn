@@ -1,4 +1,11 @@
 #!/bin/bash
 
+if [ -z `which meld` ] ; then
+    zenity --error --text="meld not found!
+
+Please install meld."
+    exit 1
+fi
+
 meld $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 

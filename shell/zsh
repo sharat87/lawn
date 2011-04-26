@@ -1,157 +1,28 @@
-parent=~/dotfiles
-source $parent/shell/aliases
-source $parent/shell/utils
+_start_time=$(date +%s.%N)
 
-autoload -U colors
-colors
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/dotfiles/shell/oh-my-zsh
 
-#----------------------------------------
-# Key bindings
-#----------------------------------------
+# Set to the name theme to load.
+# Look in ~/.oh-my-zsh/themes/
+export ZSH_THEME="arrow"
 
-# vi/emacs mode
-# bindkey -v
-bindkey -e
+# Set to this to use case-sensitive completion
+# export CASE_SENSITIVE="true"
 
-bindkey $terminfo[khome] vi-beginning-of-line
-bindkey $terminfo[kend] vi-end-of-line
+# Comment this out to disable weekly auto-update checks
+# export DISABLE_AUTO_UPDATE="true"
 
-#----------------------------------------
-# Options/Settings
-#----------------------------------------
+# Uncomment following line if you want to disable colors in ls
+# export DISABLE_LS_COLORS="true"
 
-# auto correction
-setopt CORRECT
-setopt CORRECTALL
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=()
 
-# ignore duplication command history list
-setopt HIST_IGNORE_ALL_DUPS
+source $ZSH/oh-my-zsh.sh
 
-# share command history data
-setopt SHARE_HISTORY
+# Customize to your needs...
 
-setopt HIST_IGNORE_SPACE
-
-# write history only when closing
-setopt APPEND_HISTORY
-
-# add more info
-setopt EXTENDED_HISTORY
-
-#----------------------------------------
-# Variables
-#----------------------------------------
-
-# Quote pasted URLs
-autoload url-quote-magic
-zle -N self-insert url-quote-magic
-
-HISTFILE=~/.zsh_history
-SAVEHIST=10000
-HISTSIZE=10000
-
-# Show elapsed time if command took more than X seconds
-REPORTTIME=10
-
-# ask to complete if top of list would scroll off screen
-LISTMAX=0
-
-# Load completions for Ruby, Git, etc.
-autoload compinit
-compinit
-
-# Make CTRL-W delete after other chars, not just spaces
-WORDCHARS=${WORDCHARS//[&=\/;\!#%\{]}
-
-#----------------------------------------
-# Prompt
-#----------------------------------------
-autoload -Uz vcs_info
-
-function prompt_vcs_name {
-    hg root >/dev/null 2>/dev/null && echo "with %{$fg[blue]%}hg%{$reset_color%}" && return
-    git branch >/dev/null 2>/dev/null && echo "with %{$fg[blue]%}git%{$reset_color%}" && return
-    svn info >/dev/null 2>/dev/null && echo "with %{$fg[blue]%}svn%{$reset_color%}" && return
-}
-
-function prompt_char_vcs {
-    o=" "
-    if [ "$?" = "0" ]
-    then
-        o="$o%{$fg_bold[green]%}"
-    else
-        o="$o%{$fg_bold[red]%}"
-    fi
-    if hg root &> /dev/null
-    then
-        o="$o☿"
-    elif git branch &> /dev/null
-    then
-        o="$o±"
-    elif svn info &> /dev/null
-    then
-        o="$o∞"
-    else
-        o="$o⚪"
-    fi
-    o="$o%{$reset_color%}"
-    echo -n $o
-}
-
-function prompt_char_exitcode {
-    # echo -n " %(?.%{$fg[green]%}:)%{$reset_color%}.%{$fg_bold[red]%}:(%{$reset_color%})"
-    echo -n " %(?.%{$fg[green]%}☺%{$reset_color%}.%{$fg_bold[red]%}☹%{$reset_color%})"
-}
-
-function hg_prompt_info {
-    hg prompt --angle-brackets "\
-< on %{$fg[magenta]%}<branch>%{$reset_color%}>\
-< at %{$fg[yellow]%}<tags|%{$reset_color%}, %{$fg[yellow]%}>%{$reset_color%}>\
-%{$fg[green]%}<status|modified|unknown><update>%{$reset_color%}<
-patches: <patches|join( → )|pre_applied(%{$fg[yellow]%})|post_applied(%{$reset_color%})|pre_unapplied(%{$fg_bold[black]%})|post_unapplied(%{$reset_color%})>>" 2>/dev/null
-}
-
-# English-y prompt!
-# setopt prompt_subst
-# PROMPT='
-# %{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}%~%{$reset_color%} $(prompt_vcs_name using\ )$(hg_prompt_info)
-# $(prompt_char_vcs) '
-
-function prompt_vcs_summary {
-    if hg root &> /dev/null
-    then
-        metas="@$(hg branch) $(hg log -l1 | awk '/^tag:/ { o = o "#" $NF } END { print o }')"
-        status_chars=$(hg st | cut -d\  -f 1 | sort -u | awk '{ o = o $1 } END { if (o != "") print " " o }')
-        echo "  %{$fg[yellow]%}☿ $metas%{$reset_color%}%{$fg_bold[yellow]%}${status_chars}%{$reset_color%}"
-    elif git branch &> /dev/null
-    then
-        branch=$(git branch | grep '^*' | cut -d\  -f 2)
-        metas="@$branch $tags"
-        echo "  %{$fg[cyan]%}± $metas%{$reset_color%}%{$fg_bold[cyan]%}${status_chars}%{$reset_color%}"
-    fi
-}
-
-function compact_pwd {
-    d=`pwd`
-}
-
-# Compacty compacty prompt
-setopt prompt_subst
-PROMPT='
-$(prompt_vcs_summary)$(prompt_char_exitcode) '
-RPROMPT='%8~'
-
-# Set RPROMPT to have info show up on the right, too.
-
-# Run the syntax highlighting script
-source $parent/shell/zsh-syntax-highlighting.zsh
-
-source $parent/shell/sjl-z.sh
-function precmd {
-    z --add "$(pwd -P)"
-}
-
-# echo
-# fortune | cowsay
-
-# vim: se ft=zsh :
+_end_time=$(date +%s.%N)
+echo "Shell startup took $_start_time to $_end_time, which is $(($_end_time - $_start_time))sec(s)"

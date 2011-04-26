@@ -1,6 +1,6 @@
 #!/bin/bash
 
-put() {
+put () {
 
     if [ -d _originals ]
     then
@@ -12,6 +12,7 @@ put() {
 
     DOTFILES="$(cd `dirname $0` && pwd)"
 
+    dln tmux.conf
     dln fabricrc
     dln toprc
 
@@ -26,9 +27,14 @@ put() {
 
     dln shell/bash ~/.bashrc
 
+    echo Finished setting up links
+
+    hg clone http://bitbucket.org/sjl/hg-prompt hg/hg-prompt
+    hg clone https://sharat87@bitbucket.org/tksoh/hgshelve hg/hgshelve
+
 }
 
-unput() {
+unput () {
 
     if [ ! -d _originals ]
     then
@@ -47,7 +53,30 @@ unput() {
     echo 'Removed _originals directory.'
 }
 
-main() {
+reget () {
+    wget --no-check-certificate -O bin/ack http://betterthangrep.com/ack-standalone
+    wget --no-check-certificate -O bin/droopy http://stackp.online.fr/wp-content/uploads/droopy
+    wget --no-check-certificate -O bin/lein https://github.com/technomancy/leiningen/raw/stable/bin/lein
+    wget --no-check-certificate -O shell/sjl-z.sh https://github.com/sjl/z-zsh/raw/master/z.sh
+    wget --no-check-certificate -O shell/zsh-syntax-highlighting.zsh https://github.com/nicoulaj/zsh-syntax-highlighting/raw/master/zsh-syntax-highlighting.zsh
+    (cd hg/hg-prompt/ && hg pull)
+    (cd hg/hgshelve/ && hg pull)
+    
+    # Download oh-my-zsh and set it up
+    if [ -d "shell/oh-my-zsh" ]
+    then
+        (cd shell/oh-my-zsh && git pull)
+    else
+        git clone git://github.com/robbyrussell/oh-my-zsh.git shell/oh-my-zsh
+    fi
+    (cd shell/oh-my-zsh
+        rm -Rf custom
+        ln -s ../custom-configs custom
+    )
+
+}
+
+main () {
     cmd="$1"
     if [ "$cmd" = "" ]
     then
@@ -60,13 +89,16 @@ main() {
     elif [ "$cmd" == "unput" ]
     then
         unput "$@"
+    elif [ "$cmd" == "reget" ]
+    then
+        reget "$@"
     else
         echo "Unknown command $cmd"
         exit
     fi
 }
 
-dln() {
+dln () {
     source="$1"
     target="$2"
     if [ "$target" = "" ]
@@ -81,7 +113,7 @@ dln() {
 }
 
 # Check if a file exists
-isnode() {
+isnode () {
     [ -e "$1" -o -L "$1" ]
 }
 
