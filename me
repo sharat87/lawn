@@ -54,13 +54,24 @@ unput () {
 }
 
 reget () {
-    wget --no-check-certificate -O bin/ack http://betterthangrep.com/ack-standalone
-    wget --no-check-certificate -O bin/droopy http://stackp.online.fr/wp-content/uploads/droopy
-    wget --no-check-certificate -O bin/lein https://github.com/technomancy/leiningen/raw/stable/bin/lein
-    wget --no-check-certificate -O shell/sjl-z.sh https://github.com/sjl/z-zsh/raw/master/z.sh
-    wget --no-check-certificate -O shell/zsh-syntax-highlighting.zsh https://github.com/nicoulaj/zsh-syntax-highlighting/raw/master/zsh-syntax-highlighting.zsh
-    (cd hg/hg-prompt/ && hg pull)
-    (cd hg/hgshelve/ && hg pull)
+
+    # A few awesome tools
+    (cd bin
+        wget --no-check-certificate -O ack http://betterthangrep.com/ack-standalone
+        wget --no-check-certificate -O droopy http://stackp.online.fr/wp-content/uploads/droopy
+        wget --no-check-certificate -O lein https://github.com/technomancy/leiningen/raw/stable/bin/lein
+        wget --no-check-certificate -O cake http://releases.clojure-cake.org/cake
+    )
+
+    # Stuff that make command line more fun!
+    (cd shell/custom-configs
+        wget --no-check-certificate -O sjl-z.sh https://github.com/sjl/z-zsh/raw/master/z.sh
+        wget --no-check-certificate -O zsh-syntax-highlighting.zsh https://github.com/nicoulaj/zsh-syntax-highlighting/raw/master/zsh-syntax-highlighting.zsh
+    )
+
+    # Update my mercurial plugins
+    (cd hg/hg-prompt/ && hg fetch)
+    (cd hg/hgshelve/ && hg fetch)
     
     # Download oh-my-zsh and set it up
     if [ -d "shell/oh-my-zsh" ]
@@ -70,8 +81,8 @@ reget () {
         git clone git://github.com/robbyrussell/oh-my-zsh.git shell/oh-my-zsh
     fi
     (cd shell/oh-my-zsh
-        rm -Rf custom
-        ln -s ../custom-configs custom
+        rm -Rfv custom
+        ln -sv ../custom-configs custom
     )
 
 }
