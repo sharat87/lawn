@@ -240,9 +240,9 @@ nnoremap ' `
 vnoremap ' `
 
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
-" Use ` to toggle to alternate buffer
+" Use <Tab> to toggle to alternate buffer
 " Original: VIM Tips wiki
-nnoremap <silent> ` :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
+nnoremap <silent> <Tab> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
 inoremap <silent> <C-CR> <C-[>
