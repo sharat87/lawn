@@ -58,7 +58,7 @@ if has('gui_running')
         set guioptions-=e " Do not use a gui tab bar
         " set guioptions+=c " user console like dialogs instead of GUI ones
 
-        set lines=32 columns=120
+        set lines=30 columns=100
 
     endif
 endif
