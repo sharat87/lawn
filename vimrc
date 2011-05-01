@@ -417,7 +417,6 @@ call togglebg#map('<F5>')
 " Bundle: git://github.com/vim-scripts/Mark.git
 " Bundle: git://github.com/vim-scripts/MarkLines.git
 " Bundle: git://github.com/vim-scripts/vorax.git
-" Bundle: git://github.com/vim-scripts/dbext.vim.git
 " Bundle: git://github.com/kchmck/vim-coffee-script.git
 
 " Bundle: git://github.com/vim-scripts/FuzzyFinder.git
