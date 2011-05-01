@@ -60,17 +60,16 @@ if has('gui_running')
 
         set lines=32 columns=120
 
-        " set the default colorscheme
-        let g:solarized_bold = 0
-        set bg=dark
-        colorscheme solarized
-
     endif
-
-else
-    set bg=dark
-    colorscheme solarized
 endif
+
+" set the default colorscheme
+let g:solarized_termcolors = 16
+let g:solarized_termtrans = 1
+let g:solarized_bold = 0
+let g:solarized_visibility = 'low'
+set bg=dark
+colorscheme solarized
 
 " set backup only if not using version control
 if has("vms")
@@ -395,15 +394,7 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 
 " Colorschemes
 " Bundle: git://github.com/altercation/vim-colors-solarized.git
-function! <SID>ToggleSolarizedBackground()
-    if (w:solarized_style == "dark")
-        let w:solarized_style = "light"
-    else
-        let w:solarized_style = "dark"
-    endif
-    colorscheme solarized
-endfunction
-nnoremap <F3> :call <SID>ToggleSolarizedBackground()<CR>
+call togglebg#map('<F5>')
 
 " Scripts
 " Bundle: git://github.com/tpope/vim-surround.git with git
