@@ -29,7 +29,16 @@ put () {
 
     echo Finished setting up links
 
+    if [ -d hg/hg-prompt ]
+    then
+        rm -Rf hg/hg-prompt
+    fi
     hg clone http://bitbucket.org/sjl/hg-prompt hg/hg-prompt
+
+    if [ -d hg/hgshelve ]
+    then
+        rm -Rf hg/hgshelve
+    fi
     hg clone https://sharat87@bitbucket.org/tksoh/hgshelve hg/hgshelve
 
 }
