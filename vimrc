@@ -483,8 +483,8 @@ let g:vimwiki_list = [
     \ { 'path': '~/knolskape/vnotes', 'nested_syntaxes': nested_syntaxes }
     \]
 
-" Bundle: http://bitbucket.org/kotarak/vimclojure
-" Run: cp vim/* .
+" Bundle: http://bitbucket.org/kotarak/vimclojure force clone
+" Run: cp -R vim/* .
 " VimClojure preferences
 let vimclojure#ParenRainbow = 1
 
