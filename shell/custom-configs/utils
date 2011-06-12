@@ -72,21 +72,38 @@ c () {
 alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \$3; next } { print }'"
 
 cdk () {
+
     if [ -z "$1" ]
     then
-        cd ..
-    else
-        old_dir=`pwd`
-        while [ "$(basename $(pwd))" != "$1" ] && [ "$(pwd)" != "/" ]
-        do
-            cd ..
-        done
-        if [ "$(pwd)" = "/" ]
-        then
-            cd "$old_dir"
-        fi
+        echo "Please give a dirname"
     fi
+
+    local d="$(dirname "$(pwd)")"
+
+    while [ "$(basename "$d")" != "$1" ] && [ "$d" != "/" ]
+    do
+        d="$(dirname "$d")"
+    done
+
+    cd "$d"
+
 }
+
+_cdk_complete () {
+    local d="$(dirname "$(pwd)")"
+    local cword=${COMP_WORDS[COMP_CWORD]}
+    local reply=()
+    local i=0
+
+    while [ "$d" != "/" ]
+    do
+        reply[$i]="$(basename "$d")"
+        d="$(dirname "$d")"
+    done
+
+}
+
+#complete -F _cdk_complete cdk
 
 #----------------------------------------
 # Other miscellaneous utilities
