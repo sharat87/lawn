@@ -1,0 +1,25 @@
+# Keep sensitive information away from repository files
+source ~/Dropbox/Private/mutt-details
+
+set spoolfile = "+/INBOX"
+set postponed = "+/Drafts"
+set record = "+/Sent Items"
+
+set query_command = "python ~/dotfiles/mail/address-book.py '%s'"
+
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+set certificate_file = ~/.mutt/certificates
+
+set history = 5000
+set history_file = ~/.mutt/history
+set save_history = 5000
+
+set beep_new = yes
+set smart_wrap
+
+auto_view text/html
+
+bind index L bottom-page
+
+source ~/dotfiles/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc

@@ -13,7 +13,10 @@ put () {
     DOTFILES="$(cd `dirname $0` && pwd)"
 
     dln tmux.conf
-    dln offlineimap.conf ~/.offlineimaprc
+
+    dln mail/offlineimap.conf ~/.offlineimaprc
+    dln mutt/muttrc ~/.muttrc
+
     dln fabricrc
     dln toprc
 
@@ -41,6 +44,12 @@ put () {
         rm -Rf hg/hgshelve
     fi
     hg clone https://sharat87@bitbucket.org/tksoh/hgshelve hg/hgshelve
+
+    if [ -d mutt/solarized-colors ]
+    then
+        rm -Rf mutt/solarized-colors
+    fi
+    git clone git://github.com/altercation/mutt-colors-solarized.git mutt/solarized-colors
 
 }
 
@@ -82,7 +91,10 @@ reget () {
     # Update my mercurial plugins
     (cd hg/hg-prompt/ && hg fetch)
     (cd hg/hgshelve/ && hg fetch)
-    
+
+    # Misc. updates
+    (cd mutt/solarized-colors && git pull)
+
     # Download oh-my-zsh and set it up
     if [ -d "shell/oh-my-zsh" ]
     then
