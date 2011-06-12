@@ -1,2 +1,6 @@
 shell/oh-my-zsh
+mutt/solarized-colors
 _originals
+
+syntax: glob
+*.pyc
