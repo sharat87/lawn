@@ -33,6 +33,8 @@ put () {
 
     echo Finished setting up links
 
+    # TODO: Create a better way to manage these sub repos
+
     if [ -d hg/hg-prompt ]
     then
         rm -Rf hg/hg-prompt
@@ -50,6 +52,12 @@ put () {
         rm -Rf mutt/solarized-colors
     fi
     git clone git://github.com/altercation/mutt-colors-solarized.git mutt/solarized-colors
+
+    if [ -d mail/offlineimap ]
+    then
+        rm -Rf mail/offlineimap
+    fi
+    git clone git://github.com/nicolas33/offlineimap.git mail/offlineimap
 
 }
 
@@ -94,6 +102,7 @@ reget () {
 
     # Misc. updates
     (cd mutt/solarized-colors && git pull)
+    (cd mail/offlineimap && git pull)
 
     # Download oh-my-zsh and set it up
     if [ -d "shell/oh-my-zsh" ]

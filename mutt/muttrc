@@ -1,5 +1,5 @@
 # Keep sensitive information away from repository files
-source ~/Dropbox/Private/mutt-details
+source ~/dotfiles/mutt/read-creds|
 
 set spoolfile = "+/INBOX"
 set postponed = "+/Drafts"
