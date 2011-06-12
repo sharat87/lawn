@@ -1,15 +1,4 @@
 #!/bin/bash
 
-if tmux attach
-then
-    true
-else
-    tmux
-fi
-
-# if tmux has
-# then
-#     tmux "$@" attach
-# else
-#     tmux "$@"
-# fi
+tmux-setup main
+tmux attach-session -t main
