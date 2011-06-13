@@ -18,6 +18,8 @@ set save_history = 5000
 set beep_new = yes
 set smart_wrap
 
+set header
+
 auto_view text/html
 
 bind index L bottom-page
