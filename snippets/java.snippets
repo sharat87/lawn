@@ -76,3 +76,9 @@ snippet cos
 	static public final String ${1:var} = "${2}";${3}
 snippet as
 	assert ${1:test} : "${2:Failure message}";${3}
+snippet hf
+	static {
+		Log.system("HOTFIX", "${5:`Filename()`}.java: " +
+				"\n HF_${1:version you are fixing}_${2:upcoming freeze with this fix}_${6:`strftime("%Y%m%d")`}_HD${3:XXX}_CAL-${4:XXX}", null);${7}
+	}
+	
