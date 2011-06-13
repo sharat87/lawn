@@ -41,4 +41,7 @@ alias tm='top -o vsize' # memory
 
 alias sp='rlwrap sqlplus'
 
+alias t='python ~/.t.py --task-dir ~/Dropbox/t --list default'
+alias b='python ~/.t.py --task-dir . --list todo'
+
 # vim: se ft=sh :
