@@ -1,1 +1,4 @@
 .svn
+
+syntax: glob
+*.pyc
