@@ -95,7 +95,14 @@ reget () {
     # Stuff that make command line more fun!
     (cd shell/custom-configs
         wget --no-check-certificate -O sjl-z.sh https://github.com/sjl/z-zsh/raw/master/z.sh
-        wget --no-check-certificate -O zsh-syntax-highlighting.zsh https://github.com/nicoulaj/zsh-syntax-highlighting/raw/master/zsh-syntax-highlighting.zsh
+    )
+    (cd shell/oh-my-zsh/plugins
+        if [ -d zsh-syntax-highlighting ]
+        then
+            (cd zsh-syntax-highlighting && git pull)
+        else
+            git clone git://github.com/nicoulaj/zsh-syntax-highlighting.git
+        fi
     )
 
     # Update my mercurial plugins
