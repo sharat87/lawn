@@ -2,7 +2,7 @@
 username = Shrikant-Sharat <shrikantsharat.k@gmail.com>
 ssh = ssh -C
 editor = vim
-ignore = ~/.hgignore
+ignore = ~/dotfiles/hg/hgignore
 
 [extensions]
 bookmarks =
