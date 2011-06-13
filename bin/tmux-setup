@@ -1,5 +1,15 @@
 #!/bin/bash
 
+choose () {
+
+    echo "ls"
+
+    #recipe=$(dialog --stdout --menu "Select recipe to open" 20 80 18 "main" "Main work recipe" "tag2" "item2")
+
+    #echo "You chose $recipe"
+
+}
+
 main() {
 
     session_name=main
@@ -23,7 +33,7 @@ __main__ () {
     ses="$1"
 
     # Check if the session is already available
-    if [ "$(tmux list-sessions | grep -c "^$ses:")" = "0" ]
+    if [ "$(tmux list-sessions | grep -c "^$ses:")" == "0" ]
     then
         # Setup the session
         $ses "$@"
