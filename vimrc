@@ -217,12 +217,12 @@ nnoremap Y y$
 nnoremap ZZ :wa<CR>:x<CR>
 nnoremap <silent> Q :wa<CR>:x<CR>
 
-" Use `,` as the leader, and space for the default functionality of `;` and
+" Use `,` as the leader, and <Tab> for the default functionality of `;` and
 " `,`
-nnoremap <Space> ;
-nnoremap <S-Space> ,
-vnoremap <Space> ;
-vnoremap <S-Space> ,
+nnoremap <Tab> ;
+nnoremap <S-Tab> ,
+vnoremap <Tab> ;
+vnoremap <S-Tab> ,
 let mapleader = ','
 
 " Open a new line without leaving insert mode
@@ -239,9 +239,8 @@ nnoremap ' `
 vnoremap ' `
 
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
-" Use <Tab> to toggle to alternate buffer
-" Original: VIM Tips wiki
-nnoremap <silent> <Tab> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
+" Use <Space> to toggle to alternate buffer
+nnoremap <silent> <Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
 inoremap <silent> <C-CR> <C-[>
