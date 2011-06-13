@@ -15,6 +15,10 @@ set history = 5000
 set history_file = ~/.mutt/history
 set save_history = 5000
 
+set signature = ~/dotfiles/mutt/signature
+set sig_on_top
+unset sig_dashes
+
 set beep_new = yes
 set smart_wrap
 
