@@ -180,7 +180,7 @@ set omnifunc=syntaxcomplete#Complete
 " Characters used to show invisibles with `list`
 " Other possible tab chars: ›‣⁍
 set listchars=tab:›\ ,trail:∙
-"set list
+set list
 
 " Use blowfish encryption by default
 if has('&cryptmethod')
