@@ -39,29 +39,12 @@ def up():
 
     # TODO: Create a better way to manage these sub repos
 
-    if os.path.isdir('hg/hg-prompt'):
-        with lcd('hg/hg-prompt'):
-            local('hg fetch')
-    else:
-        local('hg clone http://bitbucket.org/sjl/hg-prompt hg/hg-prompt')
+    repo('http://bitbucket.org/sjl/hg-prompt', 'hg/hg-prompt')
+    repo('https://sharat87@bitbucket.org/tksoh/hgshelve', 'hg/hg-shelve')
 
-    if os.path.isdir('hg/hg-shelve'):
-        with lcd('hg/hg-shelve'):
-            local('hg fetch')
-    else:
-        local('hg clone https://sharat87@bitbucket.org/tksoh/hgshelve hg/hg-shelve')
+    repo('git://github.com/altercation/mutt-colors-solarized.git', 'mutt/solarized-colors')
 
-    if os.path.isdir('mutt/solarized-colors'):
-        with lcd('mutt/solarized-colors'):
-            local('git pull')
-    else:
-        local('git clone git://github.com/altercation/mutt-colors-solarized.git mutt/solarized-colors')
-
-    if os.path.isdir('mail/offlineimap'):
-        with lcd('mail/offlineimap'):
-            local('git pull')
-    else:
-        local('git clone git://github.com/nicolas33/offlineimap.git mail/offlineimap')
+    repo('git://github.com/nicolas33/offlineimap.git', 'mail/offlineimap')
 
     print 'Finished cloning/upping repositories'
 
@@ -78,18 +61,10 @@ def up():
         wget('https://github.com/sjl/z-zsh/raw/master/z.sh', 'sjl-z.sh')
 
     with lcd('shell/oh-my-zsh/plugins'):
-        if os.path.isdir('zsh-syntax-highlighting'):
-            with lcd('zsh-syntax-highlighting'):
-                local('git pull')
-        else:
-            local('git clone git://github.com/nicoulaj/zsh-syntax-highlighting.git')
+        repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git')
 
     # Download oh-my-zsh and set it up
-    if os.path.isdir('shell/oh-my-zsh'):
-        with lcd('shell/oh-my-zsh'):
-            local('git pull')
-    else:
-        local('git clone git@github.com:sharat87/oh-my-zsh.git')
+    repo('git clone git@github.com:sharat87/oh-my-zsh.git', 'shell/oh-my-zsh')
 
     with lcd('shell/oh-my-zsh'):
         local('rm -Rfv custom')
@@ -105,6 +80,27 @@ def dln(src, dst=None):
         local('mv "' + dst + '" _originals')
 
     local('ln -s "' + os.path.abspath(src) + '" "' + dst + '"')
+
+def repo(url, dst=None, dvcs=None):
+
+    if dst is None:
+        dst = os.path.basename(url)
+        if dst.endswith('.git'):
+            dst = dst[:-4]
+
+    dst = os.path.abspath(os.path.expanduser(dst))
+
+    if dvcs is None:
+        if 'github' in url:
+            dvcs = 'git'
+        else:
+            dvcs = 'hg'
+
+    if os.path.isdir(dst):
+        with lcd(dst):
+            local(dvcs + (' fetch' if dvcs == 'hg' else ' pull'))
+    else:
+        local(dvcs + ' clone "' + url + '"' + ('' if dst is None else ' "' + dst + '"'))
 
 def wget(url, dst=None):
     if dst is None:
