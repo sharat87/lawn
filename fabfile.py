@@ -60,11 +60,11 @@ def up():
     with lcd('shell/custom-configs'):
         wget('https://github.com/sjl/z-zsh/raw/master/z.sh', 'sjl-z.sh')
 
-    with lcd('shell/oh-my-zsh/plugins'):
-        repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git')
-
     # Download oh-my-zsh and set it up
     repo('git clone git@github.com:sharat87/oh-my-zsh.git', 'shell/oh-my-zsh')
+
+    with lcd('shell/oh-my-zsh/plugins'):
+        repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git')
 
     with lcd('shell/oh-my-zsh'):
         local('rm -Rfv custom')
