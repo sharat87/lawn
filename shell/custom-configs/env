@@ -2,7 +2,7 @@ export skip_global_compinit=1
 
 export EDITOR='vim'
 export PATH=/var/lib/gems/1.8/bin/:$PATH
-export PATH=~/bin:$PATH
+export PATH=~/bin:~/dotfiles/bin:$PATH
 
 # Add all under ~/apps/*/bin directories to path
 export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH

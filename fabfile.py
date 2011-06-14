@@ -48,7 +48,7 @@ def up():
 
     print 'Finished cloning/upping repositories'
 
-    with lcd('bin'):
+    with lcd('~/bin'):
         wget('http://betterthangrep.com/ack-standalone', 'ack')
         wget('http://stackp.online.fr/wp-content/uploads/droopy')
         wget('https://github.com/technomancy/leiningen/raw/stable/bin/lein')
