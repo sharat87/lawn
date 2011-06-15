@@ -1,18 +1,8 @@
 #!/bin/bash
 
-choose () {
+ws_work () {
 
-    echo "ls"
-
-    #recipe=$(dialog --stdout --menu "Select recipe to open" 20 80 18 "main" "Main work recipe" "tag2" "item2")
-
-    #echo "You chose $recipe"
-
-}
-
-main() {
-
-    session_name=main
+    session_name=work
 
     tmux new-session -d -n "daemons" -s "$session_name" \
         "zsh -c '/home/sharat/apps/python-3.2/bin/python3 ~/labs/chrome/power-user/server/main.py'"
@@ -22,7 +12,61 @@ main() {
 
 }
 
-__main__ () {
+ws_blank () {
+
+    session_name=blank
+
+    tmux new-session -d -s "$session_name"
+
+}
+
+# Choose a workspace from the available ones
+choose () {
+
+    local ws="$(dialog --stdout --menu "Select workspace to open (Cancel to quit)" 20 60 18 \
+        "main" "Main work workspace" \
+        "blank" "Empty workspace" \
+        )"
+
+    echo "$ws"
+
+}
+
+# Ensure that a workspace with given name exists
+workspace () {
+
+    local ws=$1
+
+    # Check if the session is already available
+    if [ "$(tmux list-sessions | grep -c "^$ws:")" == "0" ]
+    then
+        # Setup the session
+        ws_$ws "$@"
+    fi
+
+}
+
+#Ask the user for a workspace and load it
+startup () {
+
+    while true
+    do
+        local ws=`choose`
+
+        if [ -z "$ws" ]
+        then
+            break
+        else
+            workspace $ws
+            tmux attach-session -t $ws
+        fi
+
+    done
+
+}
+
+# Sub-command dispatcher
+main () {
 
     # Get the session name
     if [ "$#" == "0" ]
@@ -30,14 +74,10 @@ __main__ () {
         echo 'No command given'
         exit 1
     fi
-    ses="$1"
+    cmd="$1"
 
-    # Check if the session is already available
-    if [ "$(tmux list-sessions | grep -c "^$ses:")" == "0" ]
-    then
-        # Setup the session
-        $ses "$@"
-    fi
+    $cmd "$@"
+
 }
 
-__main__ "$@" 2>&1 >~/.logs/tmux-setup
+main "$@" 2>&1 >~/.logs/tmux-setup

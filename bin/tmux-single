@@ -1,4 +1,0 @@
-#!/bin/bash
-
-tmux-setup main
-tmux attach-session -t main
