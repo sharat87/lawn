@@ -32,6 +32,7 @@ def up():
     dln('hg/hgrc', '~/.hgrc')
 
     dln('shell/zsh', '~/.zshrc')
+    dln('shell/custom-configs/env', '~/.zshenv')
 
     dln('shell/bash', '~/.bashrc')
 
