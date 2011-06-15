@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 ws_work () {
 
@@ -24,7 +24,7 @@ ws_blank () {
 choose () {
 
     local ws="$(dialog --stdout --menu "Select workspace to open (Cancel to quit)" 20 60 18 \
-        "main" "Main work workspace" \
+        "work" "Main work workspace" \
         "blank" "Empty workspace" \
         )"
 
@@ -38,7 +38,7 @@ workspace () {
     local ws=$1
 
     # Check if the session is already available
-    if [ "$(tmux list-sessions | grep -c "^$ws:")" == "0" ]
+    if [[ "$(tmux list-sessions | grep -c "^$ws:")" == "0" ]]
     then
         # Setup the session
         ws_$ws "$@"
@@ -69,7 +69,7 @@ startup () {
 main () {
 
     # Get the session name
-    if [ "$#" == "0" ]
+    if [[ "$#" == "0" ]]
     then
         echo 'No command given'
         exit 1
