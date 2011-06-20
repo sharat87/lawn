@@ -23,7 +23,14 @@ ws_blank () {
 # Choose a workspace from the available ones
 choose () {
 
-    local ws="$(dialog --stdout --menu "Select workspace to open (Cancel to quit)" 20 60 18 \
+    if [[ "$(date +%a)" == "Sun" || "$(date +%a)" == "Sat" ]]
+    then
+        default_item=blank
+    else
+        default_item=work
+    fi
+
+    local ws="$(dialog --default-item "$default_item" --stdout --menu "Select workspace to open (Cancel to quit)" 20 60 18 \
         "work" "Main work workspace" \
         "blank" "Empty workspace" \
         )"
