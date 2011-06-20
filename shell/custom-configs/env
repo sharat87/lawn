@@ -36,7 +36,9 @@ export PIP_DOWNLOAD_CACHE=~/.pip/cache
 #    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
 
 # Load RVM function
-# rvm_prefix=~/apps/rvm
-# [[ -s "$rvm_prefix/.rvm/scripts/rvm" ]] && source "$rvm_prefix/.rvm/scripts/rvm"
+[[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
+
+# Load virtualenvwrapper
+source /usr/local/bin/virtualenvwrapper.sh
 
 # vim: se ft=sh :
