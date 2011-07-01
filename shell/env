@@ -1,3 +1,5 @@
+# _start_time=$(date +%s.%N)
+
 export skip_global_compinit=1
 
 export EDITOR='vim'
@@ -39,6 +41,7 @@ export PIP_DOWNLOAD_CACHE=~/.pip/cache
 [[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
 
 # Load virtualenvwrapper
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
+source ~/virtualenvwrapper.sh
 
 # vim: se ft=sh :
