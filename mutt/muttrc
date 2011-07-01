@@ -19,14 +19,39 @@ set signature = ~/dotfiles/mutt/signature
 set sig_on_top
 unset sig_dashes
 
+set include = yes
+
+set index_format = "%Z %[%d %b] %-20.20L %s"
+
 set beep_new = yes
 set smart_wrap
 
 set header
 
+set mail_check = 2
+
 auto_view text/html
 
+bind index O tag-prefix
+bind generic \; enter-command
+bind pager \; enter-command
+
 bind index L bottom-page
+bind index o display-message
+bind index \cj sync-mailbox # enter key
+bind pager \cj sync-mailbox
+
+bind attach i exit
+bind attach o view-attach
+
+bind index $ last-entry
+bind index ^ first-entry
+bind index 0 first-entry
+
+bind index \cu half-up
+bind index \cd half-down
+bind pager - half-up
+bind pager <Space> half-down
 
 macro index ,s s=INBOX.saas<space><enter><enter> "Move mail to saas directory"
 
