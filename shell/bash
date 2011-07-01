@@ -4,7 +4,7 @@
 
 parent=~/dotfiles
 source $parent/shell/custom-configs/aliases
-source $parent/shell/custom-configs/env
+source $parent/shell/env
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
