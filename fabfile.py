@@ -5,6 +5,7 @@ from fabric.api import *
 import os
 from fabric.contrib.console import confirm
 
+@task
 def up():
 
     if os.path.exists('_originals'):
@@ -32,7 +33,7 @@ def up():
     dln('hg/hgrc', '~/.hgrc')
 
     dln('shell/zsh', '~/.zshrc')
-    dln('shell/custom-configs/env', '~/.zshenv')
+    dln('shell/env', '~/.zshenv')
 
     dln('shell/bash', '~/.bashrc')
 
@@ -64,8 +65,7 @@ def up():
     # Download oh-my-zsh and set it up
     repo('git clone git@github.com:sharat87/oh-my-zsh.git', 'shell/oh-my-zsh')
 
-    with lcd('shell/oh-my-zsh/plugins'):
-        repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git')
+    repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git', 'shell/oh-my-zsh/plugins/zsh-syntax-highlighting')
 
     with lcd('shell/oh-my-zsh'):
         local('rm -Rfv custom')
