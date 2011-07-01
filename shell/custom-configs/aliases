@@ -41,6 +41,10 @@ alias tm='top -o vsize' # memory
 
 alias sp='rlwrap sqlplus'
 
+alias f='find'
+alias ff='find -type f -name'
+alias fd='find -type d -name'
+
 alias t='python ~/.t.py --task-dir ~/Dropbox/t --list default'
 alias b='python ~/.t.py --task-dir . --list todo'
 
