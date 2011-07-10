@@ -49,7 +49,7 @@ if has('gui_running')
         if s:qui_os() == "win"
             set guifont=Consolas:h14:cANSI
         else
-            set guifont=Inconsolata\ Medium\ 15
+            set guifont=Monaco\ Medium\ 13
         endif
 
         set guioptions+=b " enable horizontal scrollbar
@@ -387,6 +387,13 @@ py from math import *
 " Only define it when not defined already.
 command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
 
+" Sudo write
+if executable('sudo') && executable('tee')
+  command! W
+        \ execute 'w !sudo tee % > /dev/null' |
+        \ setlocal nomodified
+endif
+
 " }}}
 
 " Plugins {{{
@@ -459,7 +466,6 @@ let g:looks.tasty = { ':colorscheme': 'tango', '&guifont': 'Droid Sans Mono 14',
 let g:looks.tasty._map = 't'
 let g:looks.cped = {
             \ ':colorscheme': 'mac_classic',
-            \ '&guifont': 'Monaco 12',
             \ '&cursorline': 0
             \ }
 
