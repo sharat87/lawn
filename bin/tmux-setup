@@ -6,8 +6,8 @@ ws_work () {
 
     tmux new-session -d -n "daemons" -s "$session_name" \
         "zsh -c '/home/sharat/apps/python-3.2/bin/python3 ~/labs/chrome/power-user/server/main.py'"
-    #tmux split-window -v "zsh -c 'python ~/dotfiles/mail/offlineimap/offlineimap.py'"
-    #tmux new-window -a -n "mutt" "zsh -c mutt"
+    tmux split-window -v "zsh -c 'python ~/dotfiles/mail/offlineimap/offlineimap.py'"
+    tmux new-window -a -n "mutt" "zsh -c mutt"
     #tmux new-window -a -n "irssi" "zsh -c 'irssi --nick sharat87'"
     tmux new-window -a
 
