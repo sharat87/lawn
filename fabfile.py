@@ -5,7 +5,7 @@ from fabric.api import *
 import os
 from fabric.contrib.console import confirm
 
-@task
+@task(default=True)
 def up():
 
     if os.path.exists('_originals'):
