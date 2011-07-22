@@ -23,6 +23,8 @@ set include = yes
 
 set index_format = "%Z %[%d %b] %-20.20L %s"
 
+set delete = yes
+
 set beep_new = yes
 set smart_wrap
 
@@ -41,8 +43,11 @@ bind index o display-message
 bind index \cj sync-mailbox # enter key
 bind pager \cj sync-mailbox
 
+bind compose o view-attach
 bind attach i exit
 bind attach o view-attach
+bind browser i exit
+bind browser o select-entry
 
 bind index $ last-entry
 bind index ^ first-entry
