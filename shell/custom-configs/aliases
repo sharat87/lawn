@@ -41,7 +41,8 @@ alias tm='top -o vsize' # memory
 
 alias sp='rlwrap sqlplus'
 
-alias f='find'
+alias f='fab'
+
 alias ff='find -type f -name'
 alias fd='find -type d -name'
 
