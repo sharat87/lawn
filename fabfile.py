@@ -4,6 +4,8 @@
 from fabric.api import *
 import os
 from fabric.contrib.console import confirm
+from repo_cmds import get_repo_cmd, wget_cmd
+from parex import TaskManager
 
 @task(default=True)
 def up():
@@ -41,31 +43,40 @@ def up():
 
     # TODO: Create a better way to manage these sub repos
 
-    repo('http://bitbucket.org/sjl/hg-prompt', 'hg/hg-prompt')
-    repo('https://sharat87@bitbucket.org/tksoh/hgshelve', 'hg/hg-shelve')
+    t = TaskManager()
+    cmds = {}
 
-    repo('git://github.com/altercation/mutt-colors-solarized.git', 'mutt/solarized-colors')
+    @t.on_process_done
+    def on_done(pid, data):
+        print '-' * 70, cmds[pid], pid
+        print data.getvalue() if data else None
 
-    repo('git://github.com/nicolas33/offlineimap.git', 'mail/offlineimap')
+    update_entries = (
+        'repo | http://bitbucket.org/sjl/hg-prompt                           | hg/hg-prompt',
+        'repo | https://sharat87@bitbucket.org/tksoh/hgshelve                | hg/hg-shelve',
+        'repo | git://github.com/altercation/mutt-colors-solarized.git       | mutt/solarized-colors',
+        'repo | git://github.com/nicolas33/offlineimap.git                   | mail/offlineimap',
+        'wget | http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
+        'wget | https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
+        'wget | http://releases.clojure-cake.org/cake                        | ~/bin/cake',
+        'wget | https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
+        'wget | https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
+        'repo | git clone git@github.com:sharat87/oh-my-zsh.git              | shell/oh-my-zsh',
+        'repo | git://github.com/nicoulaj/zsh-syntax-highlighting.git        | shell/oh-my-zsh/plugins/zsh-syntax-highlighting',
+    )
 
-    print 'Finished cloning/upping repositories'
+    for entry in update_entries:
+        method, url, dst = (e.strip() for e in entry.split('|'))
+        cmd_fn = {
+            'repo': get_repo_cmd,
+            'wget': wget_cmd,
+        }[method]
+        name, cmd = cmd_fn(url, dst=dst)
+        pid = t.execute(cmd)
+        cmds[pid] = name
 
-    with lcd('~/bin'):
-        wget('http://betterthangrep.com/ack-standalone', 'ack')
-        wget('http://stackp.online.fr/wp-content/uploads/droopy')
-        wget('https://github.com/technomancy/leiningen/raw/stable/bin/lein')
-        wget('http://releases.clojure-cake.org/cake')
-
-    wget('https://bitbucket.org/sjl/t/raw/tip/t.py', os.path.expanduser('~/.t.py'))
-
-    # Stuff that make command line more fun!
-    with lcd('shell/custom-configs'):
-        wget('https://github.com/sjl/z-zsh/raw/master/z.sh', 'sjl-z.sh')
-
-    # Download oh-my-zsh and set it up
-    repo('git clone git@github.com:sharat87/oh-my-zsh.git', 'shell/oh-my-zsh')
-
-    repo('git://github.com/nicoulaj/zsh-syntax-highlighting.git', 'shell/oh-my-zsh/plugins/zsh-syntax-highlighting')
+    t.wait()
+    print 'Finished'
 
     with lcd('shell/oh-my-zsh'):
         local('rm -Rfv custom')
@@ -81,30 +92,3 @@ def dln(src, dst=None):
         local('mv "' + dst + '" _originals')
 
     local('ln -s "' + os.path.abspath(src) + '" "' + dst + '"')
-
-def repo(url, dst=None, dvcs=None):
-
-    if dst is None:
-        dst = os.path.basename(url)
-        if dst.endswith('.git'):
-            dst = dst[:-4]
-
-    dst = os.path.abspath(os.path.expanduser(dst))
-
-    if dvcs is None:
-        if 'github' in url:
-            dvcs = 'git'
-        else:
-            dvcs = 'hg'
-
-    if os.path.isdir(dst):
-        with lcd(dst):
-            local(dvcs + (' fetch' if dvcs == 'hg' else ' pull'))
-    else:
-        local(dvcs + ' clone "' + url + '"' + ('' if dst is None else ' "' + dst + '"'))
-
-def wget(url, dst=None):
-    if dst is None:
-        dst = os.path.basename(url)
-
-    local('wget --no-check-certificate -O "' + dst + '" "' + url + '"')
