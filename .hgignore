@@ -1,4 +1,5 @@
 shell/oh-my-zsh
+shell/custom-configs/plugins
 mutt/solarized-colors
 mail/offlineimap
 _originals

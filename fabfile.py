@@ -3,6 +3,7 @@
 
 from fabric.api import *
 import os
+import os.path as p
 from fabric.contrib.console import confirm
 from repo_cmds import get_repo_cmd, wget_cmd
 from parex import TaskManager
@@ -39,6 +40,9 @@ def up():
 
     dln('shell/bash', '~/.bashrc')
 
+    if not p.exists('shell/custom-configs/plugins'):
+        local('mkdir -p shell/custom-configs/plugins')
+
     print 'Finished setting up links'
 
     # TODO: Create a better way to manage these sub repos
@@ -62,7 +66,7 @@ def up():
         'wget | https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
         'wget | https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
         'repo | git clone git@github.com:sharat87/oh-my-zsh.git              | shell/oh-my-zsh',
-        'repo | git://github.com/nicoulaj/zsh-syntax-highlighting.git        | shell/oh-my-zsh/plugins/zsh-syntax-highlighting',
+        'repo | git://github.com/nicoulaj/zsh-syntax-highlighting.git        | shell/custom-configs/plugins/zsh-syntax-highlighting',
     )
 
     for entry in update_entries:
