@@ -49,4 +49,9 @@ alias fd='find -type d -name'
 alias t='python ~/.t.py --task-dir ~/Dropbox/t --list default'
 alias b='python ~/.t.py --task-dir . --list todo'
 
+# ants and ants and ants and ants!
+alias ant4="PATH=~/apps/javas/j2sdk1.4.2_19/bin/:$PATH r ant "
+alias ant5="PATH=~/apps/javas/jdk1.5.0_22/bin/:$PATH; r ant "
+alias ant6="PATH=~/apps/javas/jdk1.6.0_22/bin/:$PATH; r ant "
+
 # vim: se ft=sh :

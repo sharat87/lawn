@@ -105,17 +105,4 @@ _cdk_complete () {
 
 #complete -F _cdk_complete cdk
 
-#----------------------------------------
-# Other miscellaneous utilities
-#----------------------------------------
-
-# ants and ants and ants and ants!
-ant5 () {
-    (export PATH=~/apps/javas/jdk1.5.0_22/bin/:$PATH; r ant "$@")
-}
-
-ant6 () {
-    (export PATH=~/apps/javas/jdk1.6.0_22/bin/:$PATH; r ant "$@")
-}
-
 # vim: se ft=sh :
