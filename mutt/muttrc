@@ -5,7 +5,16 @@ set spoolfile = "+/INBOX"
 set postponed = "+/Drafts"
 set record = "+/Sent Items"
 
+# Generated list of all addresses in my corporate ldap server
+source ~/.mutt/ldap-aliases.mutt
+
 set query_command = "python ~/dotfiles/mail/address-book.py '%s'"
+set display_filter = ~/dotfiles/mutt/display-filter
+
+set forward_format = "Fwd: %s"
+
+# Don't show me the meta directories when changing mailboxes
+set mask = '!^\.[^.]|.cmeta$|.index$|.index.data$"
 
 set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
@@ -34,30 +43,40 @@ set mail_check = 2
 
 auto_view text/html
 
-bind index O tag-prefix
+bind index,browser O tag-prefix
 bind generic \; enter-command
 bind pager \; enter-command
 
+bind index $ sort-mailbox
+bind browser $ sort
+
 bind index L bottom-page
 bind index o display-message
-bind index \cj sync-mailbox # enter key
-bind pager \cj sync-mailbox
+bind index,pager \cj sync-mailbox # enter key
 
-bind compose o view-attach
-bind attach i exit
-bind attach o view-attach
-bind browser i exit
-bind browser o select-entry
+bind alias,browser o select-entry
+bind attach,compose o view-attach
+bind alias,browser,attach,compose i exit
 
-bind index $ last-entry
-bind index ^ first-entry
-bind index 0 first-entry
+bind index gg first-entry
+bind index G last-entry
+bind pager gg top
+bind pager G bottom
+bind pager <Up> previous-line
+bind pager <Down> next-line
 
-bind index \cu half-up
-bind index \cd half-down
-bind pager - half-up
-bind pager <Space> half-down
+# Half-up is not exactly half, it needs one more previous-line
+bind index,pager,browser \cu half-up
+bind index,pager,browser \cd half-down
 
-macro index ,s s=INBOX.saas<space><enter><enter> "Move mail to saas directory"
+bind index,pager gr reply
+bind index,pager r group-reply
+
+#bind index,pager ,l refresh
+
+macro index,pager ,d ":unset wait_key\n|~/Dropbox/Private/open-hd-from-mail\n:set wait_key\n"
+
+macro index,pager gi "<change-folder>=INBOX<enter>" "Open Inbox"
+macro index,pager gs "<change-folder>=Sent<quote-char> Items<enter>" "Open Sent Items"
 
 source ~/dotfiles/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc
