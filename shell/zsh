@@ -16,5 +16,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+# wohwohwohowhohohoho!
+fortune -s -n 300 | cowsay | lolcat
+
 # _end_time=$(date +%s.%N)
 # echo "Total time: $(($_end_time - $_start_time)) sec(s)"
