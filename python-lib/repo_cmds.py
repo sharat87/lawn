@@ -25,13 +25,14 @@ def get_repo_cmd(url, dst=None, dvcs=None, cwd=''):
         else:
             dvcs = 'hg'
 
+    cmd = ''
     if p.isdir(dst) and force_clone:
-        local('rm -Rf ' + dst)
+        cmd = 'rm -Rf ' + dst + ' && '
 
-    if p.isdir(dst):
-        cmd = 'cd ' + dst + '&& ' + dvcs + (' fetch' if dvcs == 'hg' else ' pull')
+    if not force_clone and p.isdir(dst):
+        cmd += 'cd ' + dst + ' && ' + dvcs + (' fetch' if dvcs == 'hg' else ' pull')
     else:
-        cmd = dvcs + ' clone "' + url + '"' + ('' if dst is None else ' "' + dst + '"')
+        cmd += dvcs + ' clone "' + url + '"' + ('' if dst is None else ' "' + dst + '"')
 
     return p.basename(dst), cmd
 
