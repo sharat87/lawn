@@ -74,6 +74,7 @@ def up():
 
     for entry in update_entries:
         method, url, dst = (e.strip() for e in entry.split('|'))
+        dst = p.expanduser(dst)
         cmd_fn = {
             'repo': get_repo_cmd,
             'wget': wget_cmd,
