@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+from __future__ import print_function
+
+import subprocess as sp
+from datetime import datetime as dt
+
+tmux_cmd = ['tmux', '-2']
+
+class Tmux(object):
+
+    def __init__(self):
+        self.cmds = []
+
+    @staticmethod
+    def list_sessions():
+        try:
+            ls_output = sp.check_output(tmux_cmd + ['list-sessions'])
+        except sp.CalledProcessError as err:
+            return []
+        else:
+            return ls_output.splitlines()
+
+    @staticmethod
+    def attach_session(ws_name):
+        sp.call(tmux_cmd + ['attach-session', '-t', ws_name])
+
+    def apply(self):
+        for cmd in self.cmds:
+            sp.call(cmd)
+
+    @staticmethod
+    def _mk_action(action):
+        def action_fn(self, *args):
+            cmd = tmux_cmd + [action] + list(args)
+            self.cmds.append(cmd)
+        return action_fn
+
+# Add tmux sub-commands (actions) as methods to the Tmux class
+TMUX_ACTIONS = 'new-session new-window split-window'.split()
+for action in TMUX_ACTIONS:
+    setattr(Tmux, action.replace('-', '_'), Tmux._mk_action(action))
+
+workspaces = {}
+def tmux_workspace(workspace_fn):
+    workspaces[workspace_fn.__name__] = workspace_fn
+
+@tmux_workspace
+def work(sname, tmux):
+
+    # Daemons
+    tmux.new_session('-d', '-n', 'daemons', '-s', sname,
+            '/home/sharat/apps/python-3.2/bin/python3 ~/labs/chrome/power-user/server/main.py')
+    #tmux.split_window('-v',
+    #        '/home/sharat/apps/python-2.7/bin/python2.7 ~/dotfiles/mail/offlineimap/offlineimap.py')
+
+    # Apps
+    #tmux.new_window('-a', '-n', 'mutt', 'zsh -c mutt')
+    tmux.new_window('-a', '-n', 'vimwiki', 'vim "+se noswapfile" ~/calypso/vnotes/index.wiki')
+    #tmux.new_window('-a', '-n', 'irssi', 'irssi --nick sharat87')
+
+    # And an empty shell
+    tmux.new_window('-a')
+
+@tmux_workspace
+def _blank(sname, tmux):
+    tmux.new_session('-d', '-s', sname)
+
+# Choose a workspace from the available ones
+def ask_workspace():
+
+    # Default open blank session on weekends
+    default_ws = 'home' if dt.today().isoweekday() in (6, 7) else 'work'
+
+    print('Available workspaces:')
+    for ws in workspaces:
+        if ws.startswith('_'): continue
+        print('\t', ws, sep='')
+
+    try:
+        ws = raw_input('Workspace please (send EOF/C-d to exit) [{default}]: '.format(default=default_ws)) or default_ws
+    except EOFError as err:
+        return None
+
+    return ws
+
+def has_workspace(workspace_name):
+    sessions = list(s.split(':', 1)[0] for s in Tmux.list_sessions())
+    return workspace_name in sessions
+
+# Ensure that a workspace with given name exists
+def mk_workspace(workspace_name):
+
+    if has_workspace(workspace_name):
+        # print('workspace exists')
+        return
+
+    workspace_fn = workspaces.get(workspace_name, workspaces['_blank'])
+    tmux = Tmux()
+    workspace_fn(workspace_name, tmux)
+
+    # tmux.show_cmds()
+    tmux.apply()
+
+#Ask the user for a workspace and load it
+def main():
+
+    print('Hello there!')
+
+    while True:
+        print()
+        ws = ask_workspace()
+
+        if ws is None:
+            print('Good day!')
+            break
+
+        mk_workspace(ws)
+        Tmux.attach_session(ws)
+
+if __name__ == '__main__':
+    main()
