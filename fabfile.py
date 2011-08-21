@@ -66,7 +66,7 @@ def up():
         'wget | https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
         'wget | https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
         'repo | git clone git@github.com:sharat87/oh-my-zsh.git              | shell/oh-my-zsh',
-        'repo | git://github.com/nicoulaj/zsh-syntax-highlighting.git        | shell/custom-configs/plugins/zsh-syntax-highlighting',
+        'repo | https://github.com/zsh-users/zsh-syntax-highlighting.git     | shell/custom-configs/plugins/zsh-syntax-highlighting',
     )
 
     for entry in update_entries:
