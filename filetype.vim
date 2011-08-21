@@ -37,7 +37,7 @@ autocmd Syntax make setlocal noet sts=0 ts=4 sw=4
 
 autocmd FileType python setlocal cpt-=i
 
-autocmd FileType yaml setlocal sts=2 ts=2 sw=2
+autocmd FileType yaml setlocal ai sts=2 ts=2 sw=2
 
 autocmd FileType ruby,coffee setlocal sts=2 ts=2 sw=2
 
