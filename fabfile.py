@@ -70,6 +70,15 @@ git://github.com/tpope/vim-afterimage.git
 # Adds a command ":Pythondo", which is rather like ":perldo" or" ":rubydo".
 git://github.com/vim-scripts/pythondo.git
 
+# Changes Vim working directory to project root (identified by presence of DVCS directory).
+git://github.com/airblade/vim-rooter.git
+
+# wisely add "end" in ruby, endfunction/endif/more in vim script, etc
+git://github.com/tpope/vim-endwise.git
+
+# Highlight colors in css files
+git://github.com/skammer/vim-css-color.git
+
 '''.splitlines() if r.strip() and not r.startswith('#'))
 
 @task(default=True)
