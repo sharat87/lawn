@@ -48,7 +48,7 @@ if has('gui_running')
         if s:qui_os() == "win"
             set guifont=Consolas:h14:cANSI
         else
-            set guifont=Monaco\ Medium\ 13
+            set guifont=Lucida\ Sans\ Typewriter\ 13
         endif
 
         set guioptions+=b " enable horizontal scrollbar
@@ -63,9 +63,11 @@ if has('gui_running')
 endif
 
 " set the default colorscheme
-let g:solarized_termcolors = 16
+set t_Co=256
+" let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
 let g:solarized_bold = 0
+let g:solarized_italic = 0
 let g:solarized_visibility = 'low'
 set bg=dark
 colorscheme solarized
@@ -90,7 +92,7 @@ if has('autocmd')
     " Clear the autocmd's in the group
     autocmd!
 
-    autocmd BufRead,BufNewFile **/knolskape/**/* setlocal noet ts=4 sw=4 sts=0 list
+    autocmd CursorHold *.wiki silent! wa
 
     " when editing a file, jump to the last known cursor position
     " Don't do it when the position id invalid or when inside an event handler
@@ -109,6 +111,10 @@ set tabstop=4 " Displayed size of a tab character
 set softtabstop=4 " No. of spaces that make up a single indent
 set shiftwidth=4 " No. of display space to be shifted per indent
 set expandtab " Use spaces instead of tabs to indent
+
+" Make horizontal scrolling less horrible (via @stevelosh)
+set sidescroll=1
+set sidescrolloff=10
 
 " turn on syntax highlighting
 syntax on
@@ -156,7 +162,7 @@ set nowrap
 set nostartofline
 
 " enable line numbers
-set number
+" set number
 
 " show the cursor position all the time
 set ruler
@@ -213,15 +219,24 @@ set title
 
 " Maps that make more sense
 nnoremap Y y$
-nnoremap ZZ :wa<CR>:x<CR>
+nnoremap <silent> ZZ :wa<CR>:x<CR>
 nnoremap <silent> Q :wa<CR>:x<CR>
+nnoremap j gj
+nnoremap k gk
+
+" Fix linewise visual selection of various text objects
+nnoremap VV V
+nnoremap Vit vitVkoj
+nnoremap Vat vatV
+nnoremap Vab vabV
+nnoremap VaB vaBV
 
 " Use `,` as the leader, and <Tab> for the default functionality of `;` and
 " `,`
-nnoremap <Tab> ;
-nnoremap <S-Tab> ,
-vnoremap <Tab> ;
-vnoremap <S-Tab> ,
+nnoremap <Space> ;
+nnoremap <S-Space> ,
+vnoremap <Space> ;
+vnoremap <S-Space> ,
 let mapleader = ','
 
 " Open a new line without leaving insert mode
@@ -239,12 +254,14 @@ vnoremap ' `
 
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
 " Use <Space> to toggle to alternate buffer
-nnoremap <silent> <Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
+nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
 inoremap <silent> <C-CR> <C-[>
 
 " Save all modified buffers
+" nnoremap <silent> <BackSpace> :wa<CR>
+" vnoremap <silent> <BackSpace> :wa<CR>
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 nnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
 vnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
@@ -402,7 +419,9 @@ call togglebg#map('<F5>')
 
 " Plugin options/utils/extensions/tails/appendices
 
-nnoremap <Leader>b :FufBuffer<CR>
+" FuzzyFinder craziness
+nnoremap <Leader>zf :FufFile<CR>
+nnoremap <Leader>zb :FufBuffer<CR>
 
 " Command-T launcher
 " nnoremap <silent> <Leader>f :CommandT<CR>
@@ -415,6 +434,12 @@ let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
 
 " Map to open a session
 nnoremap <Leader>e :SessionOpen<Space>
+
+" UltiSnips preferences
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 
 " Themes for use with looks.vim
 let g:looks = {}
@@ -433,12 +458,15 @@ let g:looks.cped = {
             \ '&cursorline': 0
             \ }
 
-let g:classpathed_look = 'cped'
+" let g:classpathed_look = 'cped'
 
 " Conque-shell options
 let g:ConqueTerm_CWInsert = 1 " Use <C-W> in insert mode as if it were hit in normal mode
 let g:ConqueTerm_TERM = 'vt100' " The terminal type Conque identifies itself as, to the shell
 let g:ConqueTerm_Syntax = 'conque'
+
+" VCSCommand preferences
+let g:VCSCommandMapPrefix = '<Leader>v'
 
 " vimwiki settings
 let g:vimwiki_hl_cb_checked = 1
@@ -447,7 +475,7 @@ let g:vimwiki_use_mouse = 1
 let g:vimwiki_browsers = ['/usr/bin/google-chrome']
 let nested_syntaxes = { 'python': 'python' }
 let g:vimwiki_list = [
-    \ { 'path': '~/knolskape/vnotes', 'nested_syntaxes': nested_syntaxes }
+    \ { 'path': '~/calypso/vnotes', 'nested_syntaxes': nested_syntaxes }
     \]
 
 " VimClojure preferences
