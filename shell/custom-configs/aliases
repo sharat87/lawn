@@ -19,6 +19,9 @@ alias lnv='ln -v'
 # `so` means `source` in vim :)
 alias so='source'
 
+# Hate typing `gnone-open`. Just hate it. Nothing personal.
+alias o='gnome-open'
+
 # alias sagi='sudo apt-get install'
 # alias sagu='sudo apt-get update'
 # alias sagui='sudo apt-get update && sudo apt-get install'
