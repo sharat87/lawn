@@ -30,6 +30,9 @@ def up():
     dln('fabricrc')
     dln('toprc')
 
+    dln('web/js', '~/.js')
+    dln('web/css', '~/.css')
+
     dln('git/config', '~/.gitconfig')
     dln('git/ignore', '~/.gitignore')
 
