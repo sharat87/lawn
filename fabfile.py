@@ -23,7 +23,6 @@ git://github.com/vim-scripts/AutoClose.git
 git://github.com/michaeljsmith/vim-indent-object.git
 git://github.com/vim-scripts/matchit.zip.git
 git://github.com/tpope/vim-repeat.git
-git://github.com/tomtom/tcomment_vim.git
 git://github.com/tpope/vim-unimpaired.git
 git://github.com/vim-scripts/ZoomWin.git
 git://github.com/vim-scripts/ManPageView.git
@@ -34,10 +33,10 @@ git://github.com/vim-scripts/Mark.git
 git://github.com/vim-scripts/MarkLines.git
 git://github.com/kchmck/vim-coffee-script.git
 git://github.com/godlygeek/tabular.git
-git://github.com/vim-scripts/Conque-Shell.git
+# git://github.com/vim-scripts/Conque-Shell.git
 git://github.com/vim-scripts/vimwiki.git
 git://github.com/scrooloose/nerdtree.git
-git://github.com/tpope/vim-ragtag.git
+#git://github.com/tpope/vim-ragtag.git
 https://bitbucket.org/sjl/gundo.vim
 git://github.com/Lokaltog/vim-easymotion.git
 
@@ -47,8 +46,12 @@ git://github.com/vim-scripts/UltiSnips.git
 
 git://github.com/vim-scripts/FuzzyFinder.git
 
+# git://github.com/tomtom/tcomment_vim.git
 # dependency for the previous one
-git://github.com/vim-scripts/L9.git
+# git://github.com/vim-scripts/L9.git
+
+git://github.com/tpope/vim-commentary.git
+
 
 #git://github.com/vim-scripts/cvsmenu.vim-updated.git
 git://github.com/vim-scripts/vcscommand.vim.git
@@ -56,7 +59,7 @@ git://github.com/vim-scripts/vcscommand.vim.git
 # https://sharat87@github.com/sharat87/sessionman.vim.git
 git://github.com/sharat87/sessionman.vim.git
 
-https://bitbucket.org/sharat87/vim-looks
+#https://bitbucket.org/sharat87/vim-looks
 
 # have to force clone this one
 https://bitbucket.org/kotarak/vimclojure force-clone
@@ -68,16 +71,22 @@ git://github.com/ujihisa/quickrun.git
 git://github.com/tpope/vim-afterimage.git
 
 # Adds a command ":Pythondo", which is rather like ":perldo" or" ":rubydo".
-git://github.com/vim-scripts/pythondo.git
+#git://github.com/vim-scripts/pythondo.git
 
 # Changes Vim working directory to project root (identified by presence of DVCS directory).
-git://github.com/airblade/vim-rooter.git
+#git://github.com/airblade/vim-rooter.git
 
 # wisely add "end" in ruby, endfunction/endif/more in vim script, etc
 git://github.com/tpope/vim-endwise.git
 
 # Highlight colors in css files
 git://github.com/skammer/vim-css-color.git
+
+# Syntax checking hacks for vim
+git://github.com/scrooloose/syntastic.git
+
+# on the fly Python checking in Vim with PyFlakes
+git://github.com/kevinw/pyflakes-vim.git with-submodules
 
 '''.splitlines() if r.strip() and not r.startswith('#'))
 
@@ -117,10 +126,6 @@ def up():
             local('make -f make_gcc.mak')
 
         print(co.yellow('Finished'))
-
-    for pid, data in t.data.items():
-        plugin = procs[pid]
-        print(co.green(plugin), co.blue('@' + str(pid)), data.getvalue().strip())
 
     clean_unused_plugins(procs.values())
 
