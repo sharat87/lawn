@@ -29,7 +29,6 @@ git://github.com/vim-scripts/ManPageView.git
 git://github.com/tpope/vim-markdown.git
 git://github.com/ehamberg/vim-cute-python.git
 git://github.com/pangloss/vim-javascript.git
-git://github.com/vim-scripts/Mark.git
 git://github.com/vim-scripts/MarkLines.git
 git://github.com/kchmck/vim-coffee-script.git
 git://github.com/godlygeek/tabular.git
@@ -45,6 +44,10 @@ git://github.com/vim-scripts/UltiSnips.git
 #git@github.com:sharat87/snipmate.vim.git
 
 git://github.com/vim-scripts/FuzzyFinder.git
+
+# Highlight several words in different colors simultaneously. (#1238 continued)
+#git://github.com/vim-scripts/Mark.git
+git://github.com/vim-scripts/Mark--Karkat.git
 
 # git://github.com/tomtom/tcomment_vim.git
 # dependency for the previous one
