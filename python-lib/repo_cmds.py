@@ -12,6 +12,11 @@ def get_repo_cmd(url, dst=None, dvcs=None, cwd=''):
         url = url.replace('force-clone', '').strip()
         force_clone = True
 
+    with_submodules = False
+    if 'with-submodules' in url:
+        url = url.replace('with-submodules', '').strip()
+        with_submodules = True
+
     if dst is None:
         dst = os.path.basename(url)
         if dst.endswith('.git'):
@@ -33,6 +38,9 @@ def get_repo_cmd(url, dst=None, dvcs=None, cwd=''):
         cmd += 'cd ' + dst + ' && ' + dvcs + (' fetch' if dvcs == 'hg' else ' pull')
     else:
         cmd += dvcs + ' clone "' + url + '"' + ('' if dst is None else ' "' + dst + '"')
+
+    if with_submodules:
+        cmd += ' && git submodule init && git submodule update'
 
     return p.basename(dst), cmd
 
