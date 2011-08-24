@@ -15,7 +15,7 @@ extdiff =
 # mq =
 # pager =
 progress =
-hggit =
+# hggit =
 
 hgshelve = ~/dotfiles/hg/hg-shelve/hgshelve.py
 prompt = ~/dotfiles/hg/hg-prompt/prompt.py
