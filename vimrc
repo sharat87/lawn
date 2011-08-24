@@ -427,6 +427,9 @@ call togglebg#map('<F5>')
 
 " Plugin options/utils/extensions/tails/appendices
 
+" Syntastic preferences
+let g:syntastic_enable_signs=1
+
 " FuzzyFinder craziness
 nnoremap <Leader>zf :FufFile<CR>
 nnoremap <Leader>zb :FufBuffer<CR>
