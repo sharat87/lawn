@@ -1,7 +1,5 @@
 syntax: glob
 bundle
 bundle-local
-baks
-swap
-undo
+tmp
 sessions

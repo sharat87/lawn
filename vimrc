@@ -142,14 +142,14 @@ set incsearch
 
 " location where all the backups go
 if s:qui_os() != "win"
-    set backupdir=~/.vimbaks
+    set backupdir=$VIMFILES/tmp/baks
 endif
 
 " Keep swap files in one location
-set directory=$VIMFILES/swap//,.
+set directory=$VIMFILES/tmp/swap//,.
 
 " Store undofiles (persistent-undo)
-set undodir=$VIMFILES/undo//,.
+set undodir=$VIMFILES/tmp/undo//,.
 set undofile
 
 " lines to save from command line history
@@ -301,8 +301,16 @@ noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
 " * and # to work in visual mode, but search for the selected text
-vnoremap * y/<C-R>"<CR>
-vnoremap # y?<C-R>"<CR>
+" Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
+function! s:VSetSearch()
+  let temp=@@
+  norm! gvy
+  let @/='\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@=temp
+endfunction
+
+vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
+vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
 " Replace consecutive blank lines with a single blank line
 nnoremap <silent> <Leader>xx :call <SID>PurgeExtraBlankLines()<CR>
