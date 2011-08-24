@@ -50,8 +50,9 @@ git://github.com/vim-scripts/FuzzyFinder.git
 git://github.com/vim-scripts/Mark--Karkat.git
 
 # git://github.com/tomtom/tcomment_vim.git
+
 # dependency for the previous one
-# git://github.com/vim-scripts/L9.git
+git://github.com/vim-scripts/L9.git
 
 git://github.com/tpope/vim-commentary.git
 
