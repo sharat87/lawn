@@ -60,6 +60,25 @@ sagu () {
     notify-send "apt-get" "Update finished"
 }
 
+#----------------------------------------
+# Version control utils
+#----------------------------------------
+
+power-svn () {
+    if [[ $1 == "diff" ]]; then
+        svn "$@" | colordiff
+    elif [[ $1 == "log" ]]; then
+        svn "$@" | discoball '^r\d+ \| ([-_a-z]+) \|'
+    elif [[ $1 == "st" || $1 == "status" ]]; then
+        svn "$@" | discoball '^\S'
+    elif [[ $1 == "info" ]]; then
+        svn "$@" | discoball -g '^[a-zA-Z ]*:'
+    else
+        svn "$@"
+    fi
+    notify-send "Subversion $1 finished"
+}
+
 ccv () {
     if cvs -d ':extssh:cvs:/usr/local/cvs' "$@"
     then
@@ -70,6 +89,20 @@ ccv () {
 }
 
 alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \$3; next } { print }'"
+
+#----------------------------------------
+# Miscellaneous
+#----------------------------------------
+
+# My default tasks
+t () {
+    python ~/.t.py --task-dir ~/Dropbox --list tasks "$@" | discoball '\+\S+'
+}
+
+# Project specific bugs/todos
+b () {
+    python ~/.t.py --task-dir . --list todo | discoball '\+\S+'
+}
 
 cdk () {
 

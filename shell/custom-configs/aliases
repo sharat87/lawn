@@ -32,6 +32,9 @@ alias v='vim'
 # Event two is too much sometimes :)
 alias h='hg'
 
+# Because just svn wouldn't cut it!
+alias s='power-svn'
+
 alias ipy='ipython'
 alias py='bpython'
 
@@ -50,9 +53,6 @@ alias f='fab'
 
 alias ff='find -type f -name'
 alias fd='find -type d -name'
-
-alias t='python ~/.t.py --task-dir ~/Dropbox --list tasks'
-alias b='python ~/.t.py --task-dir . --list todo'
 
 # ants and ants and ants and ants!
 alias ant4="PATH=~/apps/javas/j2sdk1.4.2_19/bin/:$PATH r ant "
