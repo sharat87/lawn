@@ -41,8 +41,6 @@ alias pbpaste='xsel --clipboard --output'
 # Command to quickly edit the aliases file
 alias eal='vim ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
 
-alias t='python ~/desk/sjl-t/t.py --task-dir ~ --list tasks'
-
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 
@@ -53,7 +51,7 @@ alias f='fab'
 alias ff='find -type f -name'
 alias fd='find -type d -name'
 
-alias t='python ~/.t.py --task-dir ~/Dropbox/t --list default'
+alias t='python ~/.t.py --task-dir ~/Dropbox --list tasks'
 alias b='python ~/.t.py --task-dir . --list todo'
 
 # ants and ants and ants and ants!
