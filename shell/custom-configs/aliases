@@ -29,7 +29,11 @@ alias o='gnome-open'
 alias g='gvim'
 alias v='vim'
 
-alias py='ipython'
+# Event two is too much sometimes :)
+alias h='hg'
+
+alias ipy='ipython'
+alias py='bpython'
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
