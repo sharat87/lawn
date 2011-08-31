@@ -2,15 +2,10 @@
 
 export skip_global_compinit=1
 
-export EDITOR='vim'
-export PATH=/var/lib/gems/1.8/bin/:$PATH
-export PATH=~/bin:~/dotfiles/bin:$PATH
-
-# Add all under ~/apps/*/bin directories to path
-export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
-
 # Fix swing components not being shown under compiz
 # export AWT_TOOLKIT=MToolkit
+
+export EDITOR='vim'
 
 # Oracle variables
 export ORACLE_BASE=/u01/app/oracle
@@ -19,6 +14,25 @@ export ORACLE_SID=orcl
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib
 export PATH=$ORACLE_HOME/bin:$PATH
 # export EDITOR=/usr/bin/vi
+
+# Load RVM function
+[[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
+
+# Load virtualenvwrapper
+if [ -d $HOME/apps/python-2.7 ]
+then
+    export VIRTUALENVWRAPPER_PYTHON=$HOME/apps/python-2.7/bin/python
+fi
+export VIRTUAL_ENV_DISABLE_PROMPT=a-non-empty-string
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=--no-site-packages\ --distribute
+source /usr/local/bin/virtualenvwrapper.sh
+# source ~/virtualenvwrapper.sh
+
+# Add all under ~/apps/*/bin directories to path
+export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
+
+# Home bin and dotfiles' bin
+export PATH=~/bin:~/dotfiles/bin:$PATH
 
 # Most used svn repo url
 export s=svn+ssh://scm/usr/local/svn
@@ -37,18 +51,5 @@ export PYTHONPATH=~/dotfiles/python-lib
 #    vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
 #    -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
 #    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
-
-# Load RVM function
-[[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
-
-# Load virtualenvwrapper
-if [ -d $HOME/apps/python-2.7 ]
-then
-    export VIRTUALENVWRAPPER_PYTHON=$HOME/apps/python-2.7/bin/python
-fi
-export VIRTUAL_ENV_DISABLE_PROMPT=a-non-empty-string
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=--no-site-packages\ --distribute
-source /usr/local/bin/virtualenvwrapper.sh
-# source ~/virtualenvwrapper.sh
 
 # vim: se ft=sh :
