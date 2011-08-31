@@ -1,0 +1,106 @@
+body * {
+    font-family: 'Lucida Sans' ;
+}
+
+img[src='http://ycombinator.com/images/y18.gif'] {
+    display: none;
+    position: relative;
+    top: 4.2em;
+    right: 3em;
+    height: 36px ;
+    width: 36px ;
+}
+
+a[href=news] {
+    margin-right: 2em;
+    margin-left: -2.25em;
+    font-family: 'Lucida Sans';
+    font-size: 1.4em;
+    font-weight: normal;
+    color: #333 ;
+}
+
+a:link, span.comment > font {
+    color: #222 ;
+}
+
+td.title[align=right] {
+    padding: .2em;
+    font-weight: 200;
+}
+
+td.default div {
+    word-spacing: -2px;
+}
+
+span.pagetop {
+    color: #bbb ;
+    font-size: .8em ;
+}
+
+td.title {
+    font-size: 1.1em;
+}
+
+td.subtext {
+    padding-bottom: 5px;
+}
+
+td[bgcolor] {
+    background-color: #fff;
+    padding: 4px;
+}
+
+body > center > table {
+    background-color: white;
+    width: 90%;
+}
+
+form > br {
+    display: none;
+}
+
+form > input, form > textarea {
+    float: left;
+}
+
+textarea:focus {
+    min-height: 140px;
+}
+
+form > textarea {
+    height: 20px;
+    -webkit-transition: height 1s linear;
+}
+
+code {
+    font-family: Inconsolata ;
+    font-size: 1.2em;
+}
+
+pre {
+    background-color: #e3e3e3;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+form[method="get"] {
+    position: absolute;
+    top: 12px;
+    right: 140px;
+}
+
+form[method="get"] > input {
+    border: thin solid gray;
+    border-radius: 10px;
+    padding: 2px 7px;
+}
+
+form[method="get"] > input:focus {
+    outline: none;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 255, .4) inset;
+}
+
+
