@@ -137,8 +137,15 @@ if s:first_time
     set hlsearch
 endif
 
+" Show the matched character for an annoyingly long time period
+set showmatch
+set matchtime=3
+
 " do incremental search
 set incsearch
+
+" blank lines piss me off when doing block selections!
+set virtualedit=block
 
 " location where all the backups go
 if s:qui_os() != "win"
@@ -207,7 +214,7 @@ endif
 
 " My status line rules!
 set laststatus=2
-set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%b\ %l/%L\|%c%V\ %P
+set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%l/%L\|%c%V\ %b\ %P
 
 " My title line rules too!!
 set title
@@ -247,6 +254,10 @@ nnoremap <Up> <C-y>
 nnoremap <Down> <C-e>
 vnoremap <Up> <C-y>
 vnoremap <Down> <C-e>
+inoremap <Up> <C-o><C-y>
+inoremap <Down> <C-o><C-e>
+inoremap <Left> <C-d>
+inoremap <Right> <C-t>
 
 " Make ' act as ` which has the saner behavior
 nnoremap ' `
