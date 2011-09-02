@@ -30,6 +30,9 @@ autocmd BufRead,BufNewFile *.log setfiletype log4j
 autocmd BufRead,BufNewFile *_SQL_*.log,*_REQUEST_*.log,*_CLIENTREQUEST_*.log,*_WORKFLOW_*.log
     \ setfiletype elog
 
+" Cram test files
+autocmd BufRead,BufNewFile *.t set filetype=cram
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File type specific preferences
 
