@@ -1,3 +1,5 @@
+_start_time=$(date +%s.%N)
+
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/dotfiles/shell/oh-my-zsh
 
@@ -10,14 +12,22 @@ export DISABLE_AUTO_UPDATE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(lein zsh-syntax-highlighting)
+plugins=(pip fabric lein zsh-syntax-highlighting)
 
+_omz_start_time=$(date +%s.%N)
 source $ZSH/oh-my-zsh.sh
+_omz_end_time=$(date +%s.%N)
 
 # Customize to your needs...
 
-# wohwohwohowhohohoho!
-fortune -s -n 300 | cowsay | lolcat
+# red dots to be displayed while waiting for completion
+COMPLETION_WAITING_DOTS=true
 
-# _end_time=$(date +%s.%N)
-# echo "Total time: $(($_end_time - $_start_time)) sec(s)"
+# wohwohwohowhohohoho!
+# fortune -s -n 300 | cowsay | lolcat
+
+echo
+echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time
+
+_end_time=$(date +%s.%N)
+echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time
