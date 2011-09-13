@@ -1,2 +1,2 @@
 #!/bin/sh
-rlwrap java -cp "$HOME/apps/rhino1_7R3/js.jar:$CLASSPATH" org.mozilla.javascript.tools.shell.Main "$@"
+rlwrap -C js java -cp "$HOME/apps/rhino1_7R3/js.jar:$CLASSPATH" org.mozilla.javascript.tools.shell.Main "$@"
