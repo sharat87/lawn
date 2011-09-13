@@ -56,7 +56,8 @@ def work(sname, tmux):
     #        '/home/sharat/apps/python-2.7/bin/python2.7 ~/dotfiles/mail/offlineimap/offlineimap.py')
 
     # Apps
-    #tmux.new_window('-a', '-n', 'mutt', 'zsh -c mutt')
+    tmux.new_window('-a', '-n', 'mutt', 'zsh -c mutt')
+    # tmux.new_window('-a', '-n', 'vmail', 'cd ~/.cmail; zsh -c vmail')
     tmux.new_window('-a', '-n', 'vimwiki', 'vim "+se noswapfile" ~/calypso/vnotes/index.wiki')
     #tmux.new_window('-a', '-n', 'irssi', 'irssi --nick sharat87')
 
