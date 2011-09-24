@@ -1,3 +1,8 @@
+body, tr, td[bgcolor] {
+    background-color: #EEE;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
 body * {
     font-family: 'Lucida Sans' ;
 }
@@ -47,12 +52,10 @@ td.subtext {
 }
 
 td[bgcolor] {
-    background-color: #fff;
     padding: 4px;
 }
 
 body > center > table {
-    background-color: white;
     width: 90%;
 }
 
@@ -74,16 +77,16 @@ form > textarea {
 }
 
 code {
-    font-family: Inconsolata ;
-    font-size: 1.2em;
+    font-family: "Lucida Sans Typewriter";
 }
 
 pre {
-    background-color: #e3e3e3;
+    background-color: #DDD;
     margin-left: 12px;
     margin-right: 12px;
     padding-left: 0;
     padding-right: 0;
+    -moz-border-radius: 2px;
 }
 
 form[method="get"] {
