@@ -2,6 +2,7 @@
 
 if [[ ! -z $SHARAT_ENV_DONE ]]; then
     echo skipping env, as it is already loaded
+    source /usr/local/bin/virtualenvwrapper.sh
     return
 fi
 
