@@ -52,13 +52,13 @@ def work(sname, tmux):
     # Daemons
     tmux.new_session('-d', '-n', 'daemons', '-s', sname,
             '/home/sharat/apps/python-3.2/bin/python3 ~/labs/chrome/power-user/server/main.py')
-    #tmux.split_window('-v',
-    #        '/home/sharat/apps/python-2.7/bin/python2.7 ~/dotfiles/mail/offlineimap/offlineimap.py')
+    tmux.split_window('-v',
+            '/home/sharat/apps/python-2.7/bin/python2.7 ~/dotfiles/mail/offlineimap/offlineimap.py')
 
     # Apps
     tmux.new_window('-a', '-n', 'mutt', 'zsh -c mutt')
     # tmux.new_window('-a', '-n', 'vmail', 'cd ~/.cmail; zsh -c vmail')
-    tmux.new_window('-a', '-n', 'vimwiki', 'vim "+se noswapfile" ~/calypso/vnotes/index.wiki')
+    #tmux.new_window('-a', '-n', 'vimwiki', 'vim "+se noswapfile" ~/calypso/vnotes/index.wiki')
     #tmux.new_window('-a', '-n', 'irssi', 'irssi --nick sharat87')
 
     # And an empty shell
