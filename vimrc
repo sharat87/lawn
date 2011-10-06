@@ -48,14 +48,14 @@ if has('gui_running')
         if s:qui_os() == "win"
             set guifont=Consolas:h14:cANSI
         else
-            set guifont=Lucida\ Sans\ Typewriter\ 13
+            set guifont=Ubuntu\ Mono\ 17
         endif
 
         set guioptions+=b " enable horizontal scrollbar
         set guioptions-=T " remove toolbar
         set guioptions-=t " remove tearoff from menus
         set guioptions-=e " Do not use a gui tab bar
-        " set guioptions+=c " user console like dialogs instead of GUI ones
+        set guioptions+=c " user console like dialogs instead of GUI ones
 
         set lines=30 columns=100
 
@@ -111,6 +111,7 @@ set tabstop=4 " Displayed size of a tab character
 set softtabstop=4 " No. of spaces that make up a single indent
 set shiftwidth=4 " No. of display space to be shifted per indent
 set expandtab " Use spaces instead of tabs to indent
+set shiftround " Round off the indent to *n* shiftwidths
 
 " Make horizontal scrolling less horrible (via @stevelosh)
 set sidescroll=1
@@ -220,6 +221,13 @@ set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%l/%L\|%c%V\ %b\ %P
 set title
 "set titlestring=\{%{\ g:LAST_SESSION\ }\}+\ %m\ %f\ %h\ -\ GVIM
 
+" Vim seems to be opening a new shell when run external commands,
+" This is sourcing my env file again, and hence re-constructing my $PATH
+" That means of course, my virtualenv is now lost, as the env adds my custom
+" built python's bin unto the top of the PATH!
+" The env file will see this variable and quit without changing anything.
+" let $DONT_ENV = 'true'
+
 " }}}
 
 " Mappings {{{
@@ -244,7 +252,10 @@ nnoremap <Space> ;
 nnoremap <S-Space> ,
 vnoremap <Space> ;
 vnoremap <S-Space> ,
+
+" Leaders ahoy!
 let mapleader = ','
+let maplocalleader = '\'
 
 " Open a new line without leaving insert mode
 inoremap <silent> <S-CR> <C-[>
@@ -438,6 +449,11 @@ call togglebg#map('<F5>')
 
 " Plugin options/utils/extensions/tails/appendices
 
+" Commentary
+nmap <leader>cc <Plug>CommentaryLine
+nmap <leader>c  <Plug>Commentary
+xmap <leader>c  <Plug>Commentary
+
 " Syntastic preferences
 let g:syntastic_enable_signs=1
 
@@ -501,7 +517,13 @@ let g:vimwiki_list = [
     \]
 
 " VimClojure preferences
+" Colorful matching parentheses
 let vimclojure#ParenRainbow = 1
+" Special indenting rules for def* and with-* forms
+let vimclojure#FuzzyIndent = 1
+" Je wanty le nailgun
+let vimclojure#WantNailgun = 1
+let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
 
 " Ragtag preferences
 inoremap <M-o>       <Esc>o
@@ -517,7 +539,7 @@ let g:quickrun_config = { '_': {} }
 let g:quickrun_config.tcl = { 'command': 'tclsh' }
 
 " let g:quickrun_config._.exec = 'time %c %s %a'
-" let g:quickrun_config._.runmode = 'async:remote:vimproc'
+let g:quickrun_config._.runmode = 'async:vimproc'
 let g:quickrun_config._.running_mark = '{RandomRunningVerb()}'
 " A function that gives a random verb-y string to display when a program is
 " running. Just for fun :)

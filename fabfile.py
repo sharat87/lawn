@@ -19,7 +19,6 @@ git://github.com/altercation/vim-colors-solarized.git
 git://github.com/tpope/vim-surround.git
 git://github.com/tpope/vim-abolish.git
 git://github.com/mileszs/ack.vim.git
-git://github.com/vim-scripts/AutoClose.git
 git://github.com/michaeljsmith/vim-indent-object.git
 git://github.com/vim-scripts/matchit.zip.git
 git://github.com/tpope/vim-repeat.git
@@ -29,7 +28,6 @@ git://github.com/vim-scripts/ManPageView.git
 git://github.com/tpope/vim-markdown.git
 git://github.com/ehamberg/vim-cute-python.git
 git://github.com/pangloss/vim-javascript.git
-git://github.com/vim-scripts/MarkLines.git
 git://github.com/kchmck/vim-coffee-script.git
 git://github.com/godlygeek/tabular.git
 # git://github.com/vim-scripts/Conque-Shell.git
@@ -39,29 +37,30 @@ git://github.com/scrooloose/nerdtree.git
 https://bitbucket.org/sjl/gundo.vim
 git://github.com/Lokaltog/vim-easymotion.git
 
+# F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
+#git://github.com/vim-scripts/AutoClose.git
+git://github.com/Raimondi/delimitMate.git
+
 # This one's original repo is bzr based
 git://github.com/vim-scripts/UltiSnips.git
 #git@github.com:sharat87/snipmate.vim.git
 
 git://github.com/vim-scripts/FuzzyFinder.git
+# dependency for the previous one
+git://github.com/vim-scripts/L9.git
 
 # Highlight several words in different colors simultaneously. (#1238 continued)
 #git://github.com/vim-scripts/Mark.git
 git://github.com/vim-scripts/Mark--Karkat.git
 
-# git://github.com/tomtom/tcomment_vim.git
-
-# dependency for the previous one
-git://github.com/vim-scripts/L9.git
-
+# tpope's tiny little commenting plugin
 git://github.com/tpope/vim-commentary.git
 
-
-#git://github.com/vim-scripts/cvsmenu.vim-updated.git
+# Obligatory vcs utils
 git://github.com/vim-scripts/vcscommand.vim.git
 
 # https://sharat87@github.com/sharat87/sessionman.vim.git
-git://github.com/sharat87/sessionman.vim.git
+# git://github.com/sharat87/sessionman.vim.git
 
 #https://bitbucket.org/sharat87/vim-looks
 
@@ -74,20 +73,14 @@ git://github.com/ujihisa/quickrun.git
 # Converts PNG and GIF icons to XPM with ImageMagick when edited in vim
 git://github.com/tpope/vim-afterimage.git
 
-# Adds a command ":Pythondo", which is rather like ":perldo" or" ":rubydo".
-#git://github.com/vim-scripts/pythondo.git
-
-# Changes Vim working directory to project root (identified by presence of DVCS directory).
-#git://github.com/airblade/vim-rooter.git
-
 # wisely add "end" in ruby, endfunction/endif/more in vim script, etc
 git://github.com/tpope/vim-endwise.git
 
-# Highlight colors in css files
-git://github.com/skammer/vim-css-color.git
-
 # Syntax checking hacks for vim
 git://github.com/scrooloose/syntastic.git
+
+# A vim plugin to perform diffs on blocks of code
+git://github.com/AndrewRadev/linediff.vim.git
 
 # on the fly Python checking in Vim with PyFlakes
 git://github.com/kevinw/pyflakes-vim.git with-submodules
