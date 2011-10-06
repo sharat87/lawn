@@ -1,9 +1,9 @@
 # Keep sensitive information away from repository files
 source ~/dotfiles/mutt/read-creds|
 
-set spoolfile = "+/INBOX"
-set postponed = "+/Drafts"
-set record = "+/Sent Items"
+set spoolfile = "+/inbox"
+set postponed = "+/drafts"
+set record = "+/sent"
 
 # Generated list of all addresses in my corporate ldap server
 source ~/.mutt/ldap-aliases.mutt
@@ -43,6 +43,8 @@ set mail_check = 2
 
 auto_view text/html
 
+bind index <BackTab> previous-new-then-unread
+
 bind index,browser O tag-prefix
 bind generic \; enter-command
 bind pager \; enter-command
@@ -74,9 +76,11 @@ bind index,pager r group-reply
 
 #bind index,pager ,l refresh
 
-macro index,pager ,d ":unset wait_key\n|~/Dropbox/Private/open-hd-from-mail\n:set wait_key\n"
+macro index,pager ,d ":unset wait_key\n|~/Dropbox/Private/open-hd-from-mail\n:set wait_key\n" "Open desc page from mail"
+macro index,pager ,k ":unset wait_key\n|~/Dropbox/Private/add-email-to-tasks\n:set wait_key\n" "Add this email as a task"
 
-macro index,pager gi "<change-folder>=INBOX<enter>" "Open Inbox"
-macro index,pager gs "<change-folder>=Sent<quote-char> Items<enter>" "Open Sent Items"
+macro index,pager gi "<change-folder>=inbox<enter>" "Open Inbox"
+macro index,pager gd "<change-folder>=drafts<enter>" "Open Drafts"
+macro index,pager gs "<change-folder>=sent<enter>" "Open Sent Mail"
 
 source ~/dotfiles/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc
