@@ -7,9 +7,14 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-alias ll='ls -AlFh'
-alias la='ls -A'
-alias l='ls -CF'
+alias ls='ls --color=auto --classify'
+alias ll='ls -l --almost-all --classify --human-readable'
+alias la='ls --almost-all'
+alias l=ls
+
+alias le=less
+
+alias gr='grep --perl-regex'
 
 alias rmv='rm -v'
 alias mvv='mv -v'
@@ -22,6 +27,7 @@ alias so='source'
 # Hate typing `gnone-open`. Just hate it. Nothing personal.
 alias o='gnome-open'
 
+alias a='sudo aptitude'
 # alias sagi='sudo apt-get install'
 # alias sagu='sudo apt-get update'
 # alias sagui='sudo apt-get update && sudo apt-get install'
@@ -29,11 +35,13 @@ alias o='gnome-open'
 alias g='gvim'
 alias v='vim'
 
-# Event two is too much sometimes :)
-alias h='hg'
+# svn shortys
+alias sst='s st'
+alias sci='s ci'
+alias sup='s up'
 
-# Because just svn wouldn't cut it!
-alias s='power-svn'
+# Even two is too much sometimes :)
+alias h='hg'
 
 alias ipy='ipython'
 alias py='bpython'
@@ -45,6 +53,7 @@ alias pbpaste='xsel --clipboard --output'
 # Command to quickly edit the aliases file
 alias eal='vim ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
 
+alias ht=htop
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 

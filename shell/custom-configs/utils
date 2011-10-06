@@ -5,8 +5,9 @@ ec () {
     notify-send "EasyTether" "Connection established"
 }
 
+# Extract any archive
 ex () {
-    if [ -f $1 ] ; then
+    if [[ -f $1 ]]; then
         case $1 in
             *.tar.bz2)   tar xjf $1;;
             *.tar.gz)    tar xzf $1;;
@@ -41,30 +42,63 @@ ca () {
 }
 
 #----------------------------------------
-# apt-get utilities
+# aptitude utilities
 #----------------------------------------
 
 # install command
-sagi () {
-    if sudo apt-get install "$@"
-    then
-        notify-send "apg-get" "$1 installation finished"
+ai () {
+    if sudo aptitude install "$@"; then
+        notify-send "aptitude" "$1 installation finished"
     else
-        notify-send "apt-get" "Error installing $1"
+        notify-send "aptitude" "Error installing $1"
     fi
 }
 
+compdef "_a install" ai
+
+# purge command
+ap () {
+    if sudo aptitude purge "$@"; then
+        notify-send "aptitude" "$1 installation finished"
+    else
+        notify-send "aptitude" "Error installing $1"
+    fi
+}
+
+compdef "_a purge" ap
+
+# remove command (ar is the archive command)
+ad () {
+    if sudo aptitude remove "$@"; then
+        notify-send "aptitude" "$1 installation finished"
+    else
+        notify-send "aptitude" "Error installing $1"
+    fi
+}
+
+compdef "_a remove" ad
+
 # update command
-sagu () {
-    sudo apt-get update "$@"
-    notify-send "apt-get" "Update finished"
+au () {
+    sudo aptitude update "$@"
+    notify-send "aptitude" "Update finished"
+}
+
+compdef "_a update" au
+
+_a () {
+    words=( aptitude $1 $words[2,-1] )
+    (( CURRENT++ ))
+    shift
+    _aptitude "$@"
 }
 
 #----------------------------------------
 # Version control utils
 #----------------------------------------
 
-power-svn () {
+# Because just svn wouldn't cut it!
+s () {
     if [[ $1 == "diff" ]]; then
         svn "$@" | colordiff
     elif [[ $1 == "log" ]]; then
@@ -79,7 +113,7 @@ power-svn () {
     notify-send "Subversion $1 finished"
 }
 
-ccv () {
+cv () {
     if cvs -d ':extssh:cvs:/usr/local/cvs' "$@"
     then
         notify-send "CVS Success" "CVS $1 exited successfully"
@@ -94,6 +128,11 @@ alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \
 # Miscellaneous
 #----------------------------------------
 
+# Open a mail in mutt for a given message-id
+mutt-open-mail-id () {
+    mutt -e "push l~i$1\no"
+}
+
 # My default tasks
 t () {
     python ~/.t.py --task-dir ~/Dropbox --list tasks "$@" | discoball '\+\S+'
@@ -104,38 +143,73 @@ b () {
     python ~/.t.py --task-dir . --list todo | discoball '\+\S+'
 }
 
-cdk () {
+# My work tasks
+k () {
+    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" | discoball '\+\S+' 'mail:'
+}
 
-    if [ -z "$1" ]
-    then
-        echo "Please give a dirname"
+# Take the message-id from the task and display the message
+km () {
+    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work | sed -n "s/^$1 - .*mail://p")"
+    if [[ -z $mail_id ]]; then
+        echo No task with that id or the task has no attached mail.
+        return 1
+    else
+        mutt-open-mail-id "$mail_id"
+    fi
+}
+
+# cd to an ancestral directory
+cu () {
+
+    if [[ -z $1 ]]; then
+        echo Please give a dirname
+        return 1
     fi
 
     local d="$(dirname "$(pwd)")"
 
-    while [ "$(basename "$d")" != "$1" ] && [ "$d" != "/" ]
-    do
+    while [[ "$(basename "$d")" != $1 ]] && [[ $d != "/" ]]; do
         d="$(dirname "$d")"
     done
 
-    cd "$d"
+    if [[ $d == "/" ]]; then
+        echo \"$1\" is not present in current path
+    else
+        cd "$d"
+    fi
 
 }
 
-_cdk_complete () {
-    local d="$(dirname "$(pwd)")"
-    local cword=${COMP_WORDS[COMP_CWORD]}
-    local reply=()
-    local i=0
-
-    while [ "$d" != "/" ]
-    do
-        reply[$i]="$(basename "$d")"
-        d="$(dirname "$d")"
-    done
-
+_cu () {
+    compadd $(dirname "$PWD" | tr / \\n)
 }
 
-#complete -F _cdk_complete cdk
+compdef _cu cu
+
+# Pick java version intelligently for compiling
+anti () {
+
+    if pwd | grep -q release; then
+        local version=9999
+    else
+        local version="$(pwd | grep -o --perl-regex 'rel\K\d+')"
+    fi
+
+    local len=$(( $(echo $version | wc -c) - 1 ))
+
+    if (( $len > 4 )); then
+        version=${version%??}
+    fi
+
+    if (( $version >= 1200 )); then
+        ant6 "$@"
+    elif (( $version >= 900 )); then
+        ant5 "$@"
+    else
+        ant4 "$@"
+    fi
+
+}
 
 # vim: se ft=sh :
