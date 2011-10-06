@@ -1,0 +1,12 @@
+#ad_leaderboard, #sidebar {
+    display: none;
+}
+
+#column {
+    margin: 0;
+    max-width: none;
+}
+
+#authorbox {
+    max-width: none;
+}
