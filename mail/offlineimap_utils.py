@@ -16,3 +16,9 @@ def read_host():
 
 def read_port():
     return creds.get('cmail', 'imap-port')
+
+def read_gmail_user():
+    return creds.get('cmail', 'gusername')
+
+def read_gmail_pass():
+    return creds.get('cmail', 'gpassword')

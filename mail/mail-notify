@@ -2,11 +2,14 @@
 
 import subprocess as sp
 import os
+import sys
+
+MAIL_FOLDER = sys.argv[1]
 
 def new_mail_count(maildir):
-    return len(os.listdir(os.path.join(os.path.expanduser('~/Mail/Calypso'), maildir, 'new')))
+    return len(os.listdir(os.path.join(os.path.expanduser('~/Mail/' + MAIL_FOLDER), maildir, 'new')))
 
-maildirs = 'INBOX'.split()
+maildirs = ['inbox']
 
 total_new_mail_count = sum(map(new_mail_count, maildirs))
 
