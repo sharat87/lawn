@@ -1,10 +1,11 @@
-body, tr, td[bgcolor] {
-    background-color: #EEE;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+body, tr, td {
+    background-color: #DDD;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, .4);
+    color: #333;
 }
 
 body * {
-    font-family: 'Lucida Sans' ;
+    font-family: "Lucida Sans";
 }
 
 img[src='http://ycombinator.com/images/y18.gif'] {
@@ -22,11 +23,11 @@ a[href=news] {
     font-family: 'Lucida Sans';
     font-size: 1.4em;
     font-weight: normal;
-    color: #333 ;
+    color: #333;
 }
 
 a:link, span.comment > font {
-    color: #222 ;
+    color: #222;
 }
 
 td.title[align=right] {
@@ -39,12 +40,21 @@ td.default div {
 }
 
 span.pagetop {
-    color: #bbb ;
-    font-size: .8em ;
+    color: #BBB;
+    font-size: .8em;
+}
+
+span.pagetop a {
+    text-transform: capitalize;
+}
+
+span.pagetop a:hover {
+    text-decoration: underline;
 }
 
 td.title {
     font-size: 1.1em;
+    color: black;
 }
 
 td.subtext {
@@ -106,4 +116,6 @@ form[method="get"] > input:focus {
     -webkit-box-shadow: 0 0 6px rgba(0, 0, 255, .4) inset;
 }
 
-
+body > center > table > tbody > tr:nth-child(2) {
+    display: none;
+}
