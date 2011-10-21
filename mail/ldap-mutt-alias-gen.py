@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
 
-import sys, os, ldap
+import os, ldap
 from ConfigParser import SafeConfigParser
 
 creds = SafeConfigParser()
