@@ -48,7 +48,7 @@ if has('gui_running')
         if s:qui_os() == "win"
             set guifont=Consolas:h14:cANSI
         else
-            set guifont=Ubuntu\ Mono\ 17
+            set guifont=Ubuntu\ Mono\ 18
         endif
 
         set guioptions+=b " enable horizontal scrollbar
@@ -63,12 +63,14 @@ if has('gui_running')
 endif
 
 " set the default colorscheme
+" Colors are not as good with these 256 thingies turned on
 set t_Co=256
-" let g:solarized_termcolors = 256
+let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
 let g:solarized_bold = 0
 let g:solarized_italic = 0
 let g:solarized_visibility = 'low'
+let g:solarized_hitrail = 1
 set bg=dark
 colorscheme solarized
 
@@ -215,7 +217,7 @@ endif
 
 " My status line rules!
 set laststatus=2
-set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=%l/%L\|%c%V\ %b\ %P
+" set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=L%l/%L\ C%c%V\ =%b\ @%P
 
 " My title line rules too!!
 set title
@@ -234,8 +236,7 @@ set title
 
 " Maps that make more sense
 nnoremap Y y$
-nnoremap <silent> ZZ :wa<CR>:x<CR>
-nnoremap <silent> Q :wa<CR>:x<CR>
+nnoremap <silent> Q :wqa<CR>
 nnoremap j gj
 nnoremap k gk
 
@@ -246,7 +247,7 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-" Use `,` as the leader, and <Tab> for the default functionality of `;` and
+" Use `,` as the leader, and <Space> for the default functionality of `;` and
 " `,`
 nnoremap <Space> ;
 nnoremap <S-Space> ,
@@ -321,6 +322,39 @@ vnoremap ; :
 " F1 is goddamn close to <ESC>. I don't want to see help with F1.
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
+
+" Open a scratch pad with markdown
+" Utility func.
+fun <SID>IsTabEmpty()
+
+    " Remember which window we're in at the moment
+    let initial_win_num = winnr()
+
+    let win_count = 0
+    " Add the length of the file name on to count:
+    " this will be 0 if there is no file name
+    windo let win_count += len(expand('%'))
+
+    " Go back to the initial window
+    exe "normal " . initial_win_num . ""
+
+    " Check count
+    if win_count == 0
+        " Tab page is empty
+        return 1
+    else
+        return 0
+    endif
+
+endfun
+function! s:OpenScratchPad()
+    if !<SID>IsTabEmpty()
+        silent tabnew
+    endif
+    e /tmp/msg
+    se ft=markdown spell wrap
+endfunction
+nnoremap <Leader>s :call <SID>OpenScratchPad()<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -455,7 +489,8 @@ nmap <leader>c  <Plug>Commentary
 xmap <leader>c  <Plug>Commentary
 
 " Syntastic preferences
-let g:syntastic_enable_signs=1
+let g:syntastic_enable_signs = 1
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 " FuzzyFinder craziness
 nnoremap <Leader>zf :FufFile<CR>
@@ -532,6 +567,13 @@ let g:ragtag_global_maps = 1
 
 " Gundo Toggle
 nnoremap <F10> :GundoToggle<CR>
+
+" Statline options
+let g:statline_filename_relative=1
+
+" Google scribe auto-turn on
+autocmd filetype vimwiki,markdown,mail,svn,hgcommit,gitcommit
+    \ setlocal completefunc=googlescribe#Complete
 
 " Quickrun settings
 let g:quickrun_config = { '_': {} }

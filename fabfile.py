@@ -24,7 +24,6 @@ git://github.com/vim-scripts/matchit.zip.git
 git://github.com/tpope/vim-repeat.git
 git://github.com/tpope/vim-unimpaired.git
 git://github.com/vim-scripts/ZoomWin.git
-git://github.com/vim-scripts/ManPageView.git
 git://github.com/tpope/vim-markdown.git
 git://github.com/ehamberg/vim-cute-python.git
 git://github.com/pangloss/vim-javascript.git
@@ -67,8 +66,8 @@ git://github.com/vim-scripts/vcscommand.vim.git
 # have to force clone this one
 https://bitbucket.org/kotarak/vimclojure force-clone
 
-git://github.com/Shougo/vimproc.git
-git://github.com/ujihisa/quickrun.git
+# git://github.com/Shougo/vimproc.git
+# git://github.com/ujihisa/quickrun.git
 
 # Converts PNG and GIF icons to XPM with ImageMagick when edited in vim
 git://github.com/tpope/vim-afterimage.git
@@ -84,6 +83,19 @@ git://github.com/AndrewRadev/linediff.vim.git
 
 # on the fly Python checking in Vim with PyFlakes
 git://github.com/kevinw/pyflakes-vim.git with-submodules
+
+# Keystroke saving with Vim and Google Scribe
+git://github.com/dubenstein/vim-google-scribe.git
+
+# Add useful informations to Vim statusline
+https://github.com/millermedeiros/vim-statline.git
+
+# Python command :Pyd
+git://github.com/vim-scripts/pythondo.git
+
+# The douchebag maintainer of this plugin couldn't keep it as it was and removed the plugin
+# Have to checkout git version 4b79c381c3f35e8a61d68cd9e7be9682fb32cfac for a working version
+git://github.com/vim-scripts/ManPageView.git
 
 '''.splitlines() if r.strip() and not r.startswith('#'))
 
@@ -119,8 +131,8 @@ def up():
         with lcd('vimclojure'):
             local('cp -R vim/* .')
 
-        with lcd('vimproc'):
-            local('make -f make_gcc.mak')
+        # with lcd('vimproc'):
+        #     local('make -f make_gcc.mak')
 
         print(co.yellow('Finished'))
 

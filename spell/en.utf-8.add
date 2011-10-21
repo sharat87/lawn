@@ -21,3 +21,6 @@ CLASSPATH
 DataServer
 Workflow
 changeset
+MainEntry
+webstart
+AppStarter
