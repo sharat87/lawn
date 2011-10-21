@@ -41,6 +41,13 @@ ca () {
     cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
 }
 
+# Update vimfiles and dotfiles
+lawn-files-update () {
+    (cd ~/dotfiles && f)
+    (cd ~/vimfiles && f)
+    notify-send "lawn-mowing finished"
+}
+
 #----------------------------------------
 # aptitude utilities
 #----------------------------------------
@@ -186,30 +193,5 @@ _cu () {
 }
 
 compdef _cu cu
-
-# Pick java version intelligently for compiling
-anti () {
-
-    if pwd | grep -q release; then
-        local version=9999
-    else
-        local version="$(pwd | grep -o --perl-regex 'rel\K\d+')"
-    fi
-
-    local len=$(( $(echo $version | wc -c) - 1 ))
-
-    if (( $len > 4 )); then
-        version=${version%??}
-    fi
-
-    if (( $version >= 1200 )); then
-        ant6 "$@"
-    elif (( $version >= 900 )); then
-        ant5 "$@"
-    else
-        ant4 "$@"
-    fi
-
-}
 
 # vim: se ft=sh :
