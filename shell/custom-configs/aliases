@@ -7,12 +7,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-alias ls='ls --color=auto --classify'
 alias ll='ls -l --almost-all --classify --human-readable'
 alias la='ls --almost-all'
-alias l=ls
+alias l='ls --classify'
 
 alias le=less
+
+alias xg='xargs -I%'
 
 alias gr='grep --perl-regex'
 
@@ -37,8 +38,15 @@ alias v='vim'
 
 # svn shortys
 alias sst='s st'
+alias sdi='s diff'
 alias sci='s ci'
+alias sco='s co'
 alias sup='s up'
+alias sxp='s export'
+alias slo='s log'
+alias sre='s revert'
+alias sbl='s blame'
+alias ssw='s switch'
 
 # Even two is too much sometimes :)
 alias h='hg'
@@ -65,8 +73,8 @@ alias ff='find -type f -name'
 alias fd='find -type d -name'
 
 # ants and ants and ants and ants!
-alias ant4="PATH=~/apps/javas/j2sdk1.4.2_19/bin/:$PATH r ant "
-alias ant5="PATH=~/apps/javas/jdk1.5.0_22/bin/:$PATH; r ant "
-alias ant6="PATH=~/apps/javas/jdk1.6.0_22/bin/:$PATH; r ant "
+alias ant4="PATH=$JAVA_4_HOME:$PATH r ant "
+alias ant5="PATH=$JAVA_5_HOME:$PATH r ant "
+alias ant6="PATH=$JAVA_6_HOME:$PATH r ant "
 
 # vim: se ft=sh :

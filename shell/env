@@ -41,10 +41,15 @@ export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
 export PATH=~/bin:~/dotfiles/bin:$PATH
 
 # Most used svn repo url
-export s=svn+ssh://scm/usr/local/svn
+export s=svn+ssh://scm.calypso.com/usr/local/svn
 
 export PIP_DOWNLOAD_CACHE=~/.pip/cache
 export PYTHONPATH=~/dotfiles/python-lib
+
+# Java home directories
+export JAVA_4_HOME=$HOME/apps/javas/j2sdk1.4.2_19
+export JAVA_5_HOME=$HOME/apps/javas/jdk1.5.0_22
+export JAVA_6_HOME=$HOME/apps/javas/jdk1.6.0_22
 
 #export HISTIGNORE="&:[bf]g:exit:logout"
 
