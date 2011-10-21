@@ -26,8 +26,8 @@ COMPLETION_WAITING_DOTS=true
 # wohwohwohowhohohoho!
 # fortune -s -n 300 | cowsay | lolcat
 
-echo
-echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time
+echo >> ~/.zsh-profiling-info
+echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
 
 _end_time=$(date +%s.%N)
-echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time
+echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
