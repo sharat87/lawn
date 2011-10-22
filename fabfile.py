@@ -44,10 +44,6 @@ git://github.com/Raimondi/delimitMate.git
 git://github.com/vim-scripts/UltiSnips.git
 #git@github.com:sharat87/snipmate.vim.git
 
-git://github.com/vim-scripts/FuzzyFinder.git
-# dependency for the previous one
-git://github.com/vim-scripts/L9.git
-
 # Highlight several words in different colors simultaneously. (#1238 continued)
 #git://github.com/vim-scripts/Mark.git
 git://github.com/vim-scripts/Mark--Karkat.git
@@ -96,6 +92,9 @@ git://github.com/vim-scripts/pythondo.git
 # The douchebag maintainer of this plugin couldn't keep it as it was and removed the plugin
 # Have to checkout git version 4b79c381c3f35e8a61d68cd9e7be9682fb32cfac for a working version
 git://github.com/vim-scripts/ManPageView.git
+
+# Fuzzy file, buffer and MRU file finder with regexp support.
+git://github.com/kien/ctrlp.vim.git
 
 '''.splitlines() if r.strip() and not r.startswith('#'))
 

@@ -184,7 +184,7 @@ set showcmd
 set wildmenu
 
 " Ignore these files when autocompleting
-set wildignore=*.o,*.object,*.so,*.class
+set wildignore=*.o,*.object,*.so,*.class,*/.hg/*,*/.svn/*,*/.git/*
 
 " Use / instead of \ in file name completion among other places
 set shellslash
