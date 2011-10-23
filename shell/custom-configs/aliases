@@ -69,8 +69,9 @@ alias sp='rlwrap sqlplus'
 
 alias f='fab'
 
-alias ff='find -type f -name'
-alias fd='find -type d -name'
+alias fn=find
+alias ff='find -type f -iname'
+alias fd='find -type d -iname'
 
 # ants and ants and ants and ants!
 alias ant4="PATH=$JAVA_4_HOME:$PATH r ant "
