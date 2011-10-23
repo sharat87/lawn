@@ -91,7 +91,7 @@ git://github.com/vim-scripts/pythondo.git
 
 # The douchebag maintainer of this plugin couldn't keep it as it was and removed the plugin
 # Have to checkout git version 4b79c381c3f35e8a61d68cd9e7be9682fb32cfac for a working version
-git://github.com/vim-scripts/ManPageView.git
+# git://github.com/vim-scripts/ManPageView.git
 
 # Fuzzy file, buffer and MRU file finder with regexp support.
 git://github.com/kien/ctrlp.vim.git
