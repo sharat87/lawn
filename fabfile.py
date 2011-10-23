@@ -34,7 +34,6 @@ git://github.com/vim-scripts/vimwiki.git
 git://github.com/scrooloose/nerdtree.git
 #git://github.com/tpope/vim-ragtag.git
 https://bitbucket.org/sjl/gundo.vim
-git://github.com/Lokaltog/vim-easymotion.git
 
 # F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
 #git://github.com/vim-scripts/AutoClose.git
