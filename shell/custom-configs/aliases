@@ -37,6 +37,7 @@ alias g='gvim'
 alias v='vim'
 
 # svn shortys
+alias sin='s info'
 alias sst='s st'
 alias sdi='s diff'
 alias sci='s ci'
