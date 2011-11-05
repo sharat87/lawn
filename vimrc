@@ -1,5 +1,5 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
-" Used On: (G)Vim 7.3 and 7.2 on Ubuntu Maverick, Karmic and Lucid, and Windows 7
+" Used On: (G)Vim 7.3 and 7.2 on Ubuntu Natty(current), Maverick, Karmic and Lucid, and Windows 7
 " Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 fdm=marker :
 
 " Use Vim settings, rather then Vi settings (much better!).
@@ -48,7 +48,7 @@ if has('gui_running')
         if s:qui_os() == "win"
             set guifont=Consolas:h14:cANSI
         else
-            set guifont=Ubuntu\ Mono\ 18
+            set guifont=Inconsolata-g\ Medium\ 16
         endif
 
         set guioptions+=b " enable horizontal scrollbar
@@ -56,6 +56,7 @@ if has('gui_running')
         set guioptions-=t " remove tearoff from menus
         set guioptions-=e " Do not use a gui tab bar
         set guioptions+=c " user console like dialogs instead of GUI ones
+        set guioptions-=m " user console like dialogs instead of GUI ones
 
         set lines=30 columns=100
 
@@ -184,7 +185,7 @@ set showcmd
 set wildmenu
 
 " Ignore these files when autocompleting
-set wildignore=*.o,*.object,*.so,*.class,*/.hg/*,*/.svn/*,*/.git/*
+set wildignore=*.pyc,*.o,*.class,*/.hg/*,*/.svn/*,*/.git/*
 
 " Use / instead of \ in file name completion among other places
 set shellslash
@@ -347,14 +348,20 @@ fun <SID>IsTabEmpty()
     endif
 
 endfun
-function! s:OpenScratchPad()
+function! s:OpenScratchPad(start_new)
     if !<SID>IsTabEmpty()
         silent tabnew
     endif
-    e /tmp/msg
-    se ft=markdown spell wrap
+    e ~/.msgs
+    se ft=markdown spell wrap nolist
+    nnoremap <Leader>l ggO--<CR>Shrikant<CR><CR><ESC>100i-<ESC>o<ESC>ggO<ESC>O
+    if a:start_new
+        normal ,l
+        startinsert
+    endif
 endfunction
-nnoremap <Leader>s :call <SID>OpenScratchPad()<CR>
+nnoremap <Leader>s :call <SID>OpenScratchPad(1)<CR>
+nnoremap <Leader>S :call <SID>OpenScratchPad(0)<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -500,6 +507,11 @@ nnoremap <Leader>zb :FufBuffer<CR>
 " nnoremap <silent> <Leader>f :CommandT<CR>
 " nnoremap <Leader>F :CommandTFlush<CR><CR><Leader>f
 
+" CtrlP settings
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_root_markers = ['.hg', 'fabfile.py', 'ant.xml']
+
 " Convenience map for toggling NerdTree window
 nnoremap <silent> <F4> :NERDTreeToggle<CR>
 " Set the location of bookmarks for nerdtree
@@ -557,8 +569,8 @@ let vimclojure#ParenRainbow = 1
 " Special indenting rules for def* and with-* forms
 let vimclojure#FuzzyIndent = 1
 " Je wanty le nailgun
-let vimclojure#WantNailgun = 1
-let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
+" let vimclojure#WantNailgun = 1
+" let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
 
 " Ragtag preferences
 inoremap <M-o>       <Esc>o

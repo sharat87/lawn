@@ -19,7 +19,6 @@ git://github.com/altercation/vim-colors-solarized.git
 git://github.com/tpope/vim-surround.git
 git://github.com/tpope/vim-abolish.git
 git://github.com/mileszs/ack.vim.git
-git://github.com/michaeljsmith/vim-indent-object.git
 git://github.com/vim-scripts/matchit.zip.git
 git://github.com/tpope/vim-repeat.git
 git://github.com/tpope/vim-unimpaired.git
@@ -29,11 +28,15 @@ git://github.com/ehamberg/vim-cute-python.git
 git://github.com/pangloss/vim-javascript.git
 git://github.com/kchmck/vim-coffee-script.git
 git://github.com/godlygeek/tabular.git
-# git://github.com/vim-scripts/Conque-Shell.git
-git://github.com/vim-scripts/vimwiki.git
+git://github.com/vim-scripts/Conque-Shell.git
 git://github.com/scrooloose/nerdtree.git
 #git://github.com/tpope/vim-ragtag.git
 https://bitbucket.org/sjl/gundo.vim
+
+# Just reST might be what I need instead of vimwiki.
+# Way too many bindings degined by vimwiki.
+# git://github.com/vim-scripts/vimwiki.git
+git://github.com/vim-scripts/rest.vim.git
 
 # F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
 #git://github.com/vim-scripts/AutoClose.git
@@ -94,6 +97,14 @@ git://github.com/vim-scripts/pythondo.git
 
 # Fuzzy file, buffer and MRU file finder with regexp support.
 git://github.com/kien/ctrlp.vim.git
+
+## Super text object additions
+git://github.com/michaeljsmith/vim-indent-object.git
+# A vim script to provide CamelCase motion through words.
+git://github.com/bkad/CamelCaseMotion.git
+
+# Yay twitter
+git://github.com/vim-scripts/TwitVim.git
 
 '''.splitlines() if r.strip() and not r.startswith('#'))
 
