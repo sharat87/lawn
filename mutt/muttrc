@@ -60,10 +60,11 @@ bind alias,browser o select-entry
 bind attach,compose o view-attach
 bind alias,browser,attach,compose i exit
 
-bind index gg first-entry
-bind index G last-entry
+bind index,browser gg first-entry
+bind index,browser G last-entry
 bind pager gg top
 bind pager G bottom
+
 bind pager <Up> previous-line
 bind pager <Down> next-line
 
@@ -82,5 +83,13 @@ macro index,pager ,k ":unset wait_key\n|~/Dropbox/Private/add-email-to-tasks\n:s
 macro index,pager gi "<change-folder>=inbox<enter>" "Open Inbox"
 macro index,pager gd "<change-folder>=drafts<enter>" "Open Drafts"
 macro index,pager gs "<change-folder>=sent<enter>" "Open Sent Mail"
+
+# Notmuch search
+macro index g/ \
+    ":unset wait_key\n|~/bin/mutt-notmuch --prompt search\n<change-folder-readonly>~/.cache/mutt_results\n" \
+    "search mail using notmuch"
+macro index gt \
+    ":unset wait_key\n|~/bin/mutt-notmuch thread\n<change-folder-readonly>~/.cache/mutt_results\n:set wait_key\n" \
+    "search and reconstruct owning thread (using notmuch)"
 
 source ~/dotfiles/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc
