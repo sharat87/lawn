@@ -37,6 +37,14 @@ r () {
     fi
 }
 
+# Rerun a command continuously. Tip by @climagic
+rr () {
+    while true; do
+        $1
+        sleep ${2:-1}
+    done
+}
+
 ca () {
     cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
 }
@@ -137,7 +145,7 @@ alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \
 
 # Open a mail in mutt for a given message-id
 mutt-open-mail-id () {
-    mutt -e "push l~i$1\no"
+    mutt -e "push /~i$1\no"
 }
 
 # My default tasks
@@ -152,12 +160,12 @@ b () {
 
 # My work tasks
 k () {
-    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" | discoball '\+\S+' 'mail:'
+    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" | discoball '^\S+\s+-' '\+\S+' 'mail:'
 }
 
 # Take the message-id from the task and display the message
 km () {
-    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work | sed -n "s/^$1 - .*mail://p")"
+    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work | sed -n "s/^$1\s\+- .*mail://p")"
     if [[ -z $mail_id ]]; then
         echo No task with that id or the task has no attached mail.
         return 1
@@ -193,5 +201,16 @@ _cu () {
 }
 
 compdef _cu cu
+
+copy-path () {
+    local apath=
+    if [[ -d "$1" ]]; then
+        apath=$(cd "$1" && pwd)
+    elif [[ -f "$1" ]]; then
+        apath="$PWD/$1"
+    fi
+    echo -n $apath | pbcopy
+    echo $apath
+}
 
 # vim: se ft=sh :
