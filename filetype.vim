@@ -1,55 +1,46 @@
-augroup ftdetect-user
-autocmd!
+aug ftdetect-user
+au!
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File type detection logic
 
-" Objective J
-autocmd BufRead,BufNewFile *.j setfiletype objj
-
 " Less Stylesheets
-autocmd BufRead,BufNewFile *.less setfiletype less
-
-" Markdown
-autocmd BufRead,BufNewFile *.mkd setfiletype mkd
-
-" Flex/Flash related
-autocmd BufRead,BufNewFile *.mxml setfiletype mxml
-autocmd BufRead,BufNewFile *.as setfiletype actionscript
+au BufRead,BufNewFile *.less setf less
 
 " Clojure
-autocmd BufRead,BufNewFile *.clj setfiletype clojure
+au BufRead,BufNewFile *.clj,*.cljs setf clojure
 
 " GNUPlot
-autocmd BufRead,BufNewFile *.plt setfiletype gnuplot
+au BufRead,BufNewFile *.plt,*.gnuplot setf gnuplot
 
 " log4j log files
-autocmd BufRead,BufNewFile *.log setfiletype log4j
+au BufRead,BufNewFile *.log setf log4j
 
 " Pipe separated log files
-autocmd BufRead,BufNewFile *_SQL_*.log,*_REQUEST_*.log,*_CLIENTREQUEST_*.log,*_WORKFLOW_*.log
-    \ setfiletype elog
+au BufRead,BufNewFile *_{SQL,REQUEST,CLIENTREQUEST,WORKFLOW}_*.log setf elog
 
 " Cram test files
-autocmd BufRead,BufNewFile *.t set filetype=cram
+au BufRead,BufNewFile *.t setf cram
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File type specific preferences
 
-autocmd FileType mail setlocal spell
+au FileType qf setl cursorline
 
-autocmd Syntax make setlocal noet sts=0 ts=4 sw=4
+au FileType mail setl spell
 
-autocmd FileType python setlocal cpt-=i
+au FileType make setl noet sts=0 ts=4 sw=4
 
-autocmd FileType ruby,coffee,yaml,haskell setlocal sts=2 ts=2 sw=2
+au FileType python setl cpt-=i
 
-autocmd FileType yaml,haskell setlocal ai
+au FileType ruby,coffee setl sts=2 ts=2 sw=2
 
-autocmd FileType vimwiki setlocal et ts=8 sw=2 sts=2 nolist spell
-autocmd FileType conque_term setlocal nolist
+au FileType yaml,haskell setl ai et sts=2 ts=2 sw=2
 
-autocmd FileType help nnoremap <buffer> <silent> q :q<CR>
-autocmd FileType man nnoremap <buffer> <silent> q :q<CR>
+au FileType sh setl isk+=-,!,?
 
-augroup END
+au FileType conque_term setl nolist
+
+au FileType help,man nnoremap <buffer> <silent> q :q<CR>
+
+aug END

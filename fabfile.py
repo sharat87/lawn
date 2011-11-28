@@ -7,13 +7,9 @@ import os, os.path as p
 from repo_cmds import get_repo_cmd
 from parex import TaskManager
 
-# Some nice plugins not included
-# - Command-T
-
 PLUGIN_REPOS = (r.strip() for r in '''
 
 git://github.com/tpope/vim-pathogen.git
-
 git://github.com/altercation/vim-colors-solarized.git
 
 git://github.com/tpope/vim-surround.git
@@ -27,27 +23,32 @@ git://github.com/tpope/vim-markdown.git
 git://github.com/ehamberg/vim-cute-python.git
 git://github.com/pangloss/vim-javascript.git
 git://github.com/kchmck/vim-coffee-script.git
+
+# Align stuff in a powerful way
 git://github.com/godlygeek/tabular.git
-git://github.com/vim-scripts/Conque-Shell.git
+
+# A file browser in vim for nerds
 git://github.com/scrooloose/nerdtree.git
-#git://github.com/tpope/vim-ragtag.git
+
+# Awesome cool undo tree visualization
 https://bitbucket.org/sjl/gundo.vim
 
-# Just reST might be what I need instead of vimwiki.
-# Way too many bindings degined by vimwiki.
-# git://github.com/vim-scripts/vimwiki.git
-git://github.com/vim-scripts/rest.vim.git
-
 # F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
-#git://github.com/vim-scripts/AutoClose.git
-git://github.com/Raimondi/delimitMate.git
+# git://github.com/vim-scripts/AutoClose.git
+# git://github.com/Raimondi/delimitMate.git
+# https://github.com/Townk/vim-autoclose.git
+# https://github.com/vim-scripts/ClosePairs.git
+https://github.com/vim-scripts/simple-pairs.git
+# https://github.com/vim-scripts/Auto-Pairs.git
+
+# Keystroke saving with Vim and Google Scribe
+# git://github.com/dubenstein/vim-google-scribe.git
 
 # This one's original repo is bzr based
 git://github.com/vim-scripts/UltiSnips.git
 #git@github.com:sharat87/snipmate.vim.git
 
 # Highlight several words in different colors simultaneously. (#1238 continued)
-#git://github.com/vim-scripts/Mark.git
 git://github.com/vim-scripts/Mark--Karkat.git
 
 # tpope's tiny little commenting plugin
@@ -55,11 +56,6 @@ git://github.com/tpope/vim-commentary.git
 
 # Obligatory vcs utils
 git://github.com/vim-scripts/vcscommand.vim.git
-
-# https://sharat87@github.com/sharat87/sessionman.vim.git
-# git://github.com/sharat87/sessionman.vim.git
-
-#https://bitbucket.org/sharat87/vim-looks
 
 # have to force clone this one
 https://bitbucket.org/kotarak/vimclojure force-clone
@@ -82,9 +78,6 @@ git://github.com/AndrewRadev/linediff.vim.git
 # on the fly Python checking in Vim with PyFlakes
 git://github.com/kevinw/pyflakes-vim.git with-submodules
 
-# Keystroke saving with Vim and Google Scribe
-git://github.com/dubenstein/vim-google-scribe.git
-
 # Add useful informations to Vim statusline
 https://github.com/millermedeiros/vim-statline.git
 
@@ -98,13 +91,48 @@ git://github.com/vim-scripts/pythondo.git
 # Fuzzy file, buffer and MRU file finder with regexp support.
 git://github.com/kien/ctrlp.vim.git
 
-## Super text object additions
+# Super text object additions
 git://github.com/michaeljsmith/vim-indent-object.git
+
 # A vim script to provide CamelCase motion through words.
 git://github.com/bkad/CamelCaseMotion.git
 
-# Yay twitter
-git://github.com/vim-scripts/TwitVim.git
+# Check for forgotten attachments when writing a mail
+git://github.com/chrisbra/CheckAttach.git
+
+# Vim syntax file for mustache and handlebars(?)
+https://github.com/juvenn/mustache.vim.git
+
+# Show relation to search pattern matches in range or buffer.
+https://github.com/vim-scripts/SearchPosition.git
+
+# a quick notetaking plugin
+https://github.com/fmoralesc/vim-pad.git
+
+# Load plugins individually - cut down start-up time.
+https://github.com/jceb/vim-ipi.git
+
+# HTML5 Syntax File
+# https://github.com/vim-scripts/HTML5-Syntax-File.git
+
+# HTML5 omnicomplete and syntax
+https://github.com/othree/html5.vim.git
+
+# A plug-in for the Vim text editor that provides
+# context-sensitive documentation for Python source code.
+https://github.com/xolox/vim-pyref.git
+
+# pydoc integration for the best text editor on earth
+# https://github.com/fs111/pydoc.vim.git
+
+# Python Omni Completion
+https://github.com/vim-scripts/pythoncomplete.git
+
+# vim plugin to interact with the simplenote service
+# https://github.com/mrtazz/simplenote.vim.git
+
+# Run interactive commands inside a Vim buffer
+https://github.com/vim-scripts/Conque-Shell.git
 
 '''.splitlines() if r.strip() and not r.startswith('#'))
 
@@ -114,7 +142,16 @@ def up():
     if not p.exists('bundle'):
         os.mkdir('bundle')
 
-    repos = map(lambda r: get_repo_cmd(r, cwd='bundle'), PLUGIN_REPOS)
+    if not p.exists('ipi'):
+        os.mkdir('ipi')
+
+    repos = []
+    for repo in PLUGIN_REPOS:
+        cwd = 'bundle'
+        if ' deferred' in repo:
+            cwd = 'ipi'
+            repo = repo.replace(' deferred', '')
+        repos.append(get_repo_cmd(repo, cwd=cwd))
 
     procs = {}
 
@@ -137,11 +174,9 @@ def up():
     with lcd('bundle'):
         print(co.blue('Running custom commands'))
 
-        with lcd('vimclojure'):
-            local('cp -R vim/* .')
-
-        # with lcd('vimproc'):
-        #     local('make -f make_gcc.mak')
+        if p.isdir('bundle/vimclojure'):
+            with lcd('vimclojure'):
+                local('cp -R vim/* .')
 
         print(co.yellow('Finished'))
 

@@ -34,6 +34,7 @@ set rtp+=$VIMFILES/bundle/vim-pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#runtime_append_all_bundles('bundle-local')
 call pathogen#helptags()
+call ipi#inspect()
 
 set path=./**
 
@@ -239,7 +240,15 @@ set title
 nnoremap Y y$
 nnoremap <silent> Q :wqa<CR>
 nnoremap j gj
+nnoremap gj j
 nnoremap k gk
+nnoremap gk k
+
+" Maps that apply on line can use the `.` key
+nnoremap d. dd
+nnoremap y. yy
+nnoremap c. cc
+nnoremap g. gg
 
 " Fix linewise visual selection of various text objects
 nnoremap VV V
@@ -276,27 +285,27 @@ inoremap <Right> <C-t>
 nnoremap ' `
 vnoremap ' `
 
+" ` is easier to reach than <C-w>
+nnoremap ` <C-w>
+
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
 " Use <Space> to toggle to alternate buffer
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
-inoremap <silent> <C-CR> <C-[>
+inoremap <silent> <C-o> <ESC>
+inoremap <ESC> <C-o>:echoerr 'Use <C-o> instead'<CR>
 
 " Save all modified buffers
-" nnoremap <silent> <BackSpace> :wa<CR>
-" vnoremap <silent> <BackSpace> :wa<CR>
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
-nnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
 vnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
-vnoremap <silent> <S-CR> :call <SID>SuperEnterKey()<CR>
 fun! <SID>SuperEnterKey()
     if &buftype == 'quickfix'
         .cc
     elseif expand('%') != ''
         wa
-    elseif &modified
-        echoerr "No filename"
+    " elseif &modified
+    "     echoerr "No filename"
     endif
 endfun
 
@@ -326,7 +335,7 @@ inoremap <F1> <Nop>
 
 " Open a scratch pad with markdown
 " Utility func.
-fun <SID>IsTabEmpty()
+fun! <SID>IsTabEmpty()
 
     " Remember which window we're in at the moment
     let initial_win_num = winnr()
@@ -348,7 +357,7 @@ fun <SID>IsTabEmpty()
     endif
 
 endfun
-function! s:OpenScratchPad(start_new)
+fun! s:OpenScratchPad(start_new)
     if !<SID>IsTabEmpty()
         silent tabnew
     endif
@@ -360,12 +369,12 @@ function! s:OpenScratchPad(start_new)
         startinsert
     endif
 endfunction
-nnoremap <Leader>s :call <SID>OpenScratchPad(1)<CR>
-nnoremap <Leader>S :call <SID>OpenScratchPad(0)<CR>
+nnoremap <Leader>d :call <SID>OpenScratchPad(1)<CR>
+nnoremap <Leader>D :call <SID>OpenScratchPad(0)<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
-function! s:VSetSearch()
+fun! s:VSetSearch()
   let temp=@@
   norm! gvy
   let @/='\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
@@ -499,23 +508,30 @@ xmap <leader>c  <Plug>Commentary
 let g:syntastic_enable_signs = 1
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
-" FuzzyFinder craziness
-nnoremap <Leader>zf :FufFile<CR>
-nnoremap <Leader>zb :FufBuffer<CR>
-
-" Command-T launcher
-" nnoremap <silent> <Leader>f :CommandT<CR>
-" nnoremap <Leader>F :CommandTFlush<CR><CR><Leader>f
+" PyRef options
+let g:pyref_mapping = 'gK'
 
 " CtrlP settings
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_map = '<Leader>f'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_root_markers = ['.hg', 'fabfile.py', 'ant.xml']
+let g:ctrlp_prompt_mappings = {
+  \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
+  \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
+  \ 'PrtHistory(-1)':       ['<c-n>'],
+  \ 'PrtHistory(1)':        ['<c-p>'],
+  \ 'ToggleFocus()':        ['<c-tab>'],
+  \ }
 
+" NerdTree
 " Convenience map for toggling NerdTree window
 nnoremap <silent> <F4> :NERDTreeToggle<CR>
 " Set the location of bookmarks for nerdtree
 let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
+autocmd FileType nerdtree setlocal nolist
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 
 " Map to open a session
 nnoremap <Leader>e :SessionOpen<Space>
@@ -563,6 +579,16 @@ let g:vimwiki_list = [
     \ { 'path': '~/calypso/vnotes', 'nested_syntaxes': nested_syntaxes }
     \]
 
+" vim-pad settings
+let g:pad_dir = '~/pad'
+let g:pad_use_default_mappings = 0
+nmap <Leader>l <Plug>ListPads
+nmap <Leader>o <Plug>OpenPad
+nmap <Leader>s <Plug>SearchPads
+
+" simplenote credentials
+so ~/.simplenoterc
+
 " VimClojure preferences
 " Colorful matching parentheses
 let vimclojure#ParenRainbow = 1
@@ -571,11 +597,6 @@ let vimclojure#FuzzyIndent = 1
 " Je wanty le nailgun
 " let vimclojure#WantNailgun = 1
 " let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
-
-" Ragtag preferences
-inoremap <M-o>       <Esc>o
-inoremap <C-j>       <Down>
-let g:ragtag_global_maps = 1
 
 " Gundo Toggle
 nnoremap <F10> :GundoToggle<CR>
