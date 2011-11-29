@@ -3,3 +3,5 @@ bundle
 bundle-local
 tmp
 sessions
+nerdtree-bookmarks
+.netrwhist
