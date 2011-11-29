@@ -38,6 +38,9 @@ set beep_new = yes
 set smart_wrap
 
 set header
+set edit_headers
+
+set editor = 'vim "+normal }jzt"'
 
 set mail_check = 2
 
