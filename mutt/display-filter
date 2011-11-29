@@ -1,11 +1,9 @@
 #!/bin/bash
 
-while IFS= read -r line
-do
-    if [[ "$line" == Date:* ]]
-    then
-        echo -n "Date: "
-        date -d "${line#Date: }" "+%a %b %e %l:%M %p %Z %Y"
+while IFS= read -r line; do
+    if [[ "$line" == Date:* ]]; then
+        d="${line#Date: }"
+        echo "Recieved: $(dtime "$d") ago ($(date -d "$d" "+%a %b %e %l:%M %p %Z %Y"))"
     else
         echo "$line"
     fi
