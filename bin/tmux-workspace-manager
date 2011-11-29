@@ -17,7 +17,7 @@ class Tmux(object):
     def list_sessions():
         try:
             ls_output = sp.check_output(tmux_cmd + ['list-sessions'])
-        except sp.CalledProcessError as err:
+        except sp.CalledProcessError:
             return []
         else:
             return ls_output.splitlines()
@@ -78,6 +78,10 @@ def ask_workspace():
     for ws in workspaces:
         if ws.startswith('_'): continue
         print('\t', ws, sep='')
+
+    # print('Running workspaces:')
+    # for ws in Tmux.list_sessions():
+    #     print('\t', ws, sep='')
 
     try:
         ws = raw_input('Workspace please (send EOF/C-d to exit) [{default}]: '.format(default=default_ws)) or default_ws
