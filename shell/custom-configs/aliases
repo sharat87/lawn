@@ -1,6 +1,6 @@
 # enable color support
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if [[ -x /usr/bin/dircolors ]]; then
+    [[ -r ~/.dircolors ]] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -15,7 +15,8 @@ alias le=less
 
 alias xg='xargs -I%'
 
-alias gr='grep --perl-regex'
+alias gr='grep '
+alias grp='grep --perl-regex'
 
 alias rmv='rm -v'
 alias mvv='mv -v'
@@ -60,11 +61,9 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
 # Command to quickly edit the aliases file
-alias eal='vim ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
+alias eal='v ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
 
 alias ht=htop
-alias tu='top -o cpu' # cpu
-alias tm='top -o vsize' # memory
 
 alias sp='rlwrap sqlplus'
 
@@ -73,6 +72,12 @@ alias f='fab'
 alias fn=find
 alias ff='find -type f -iname'
 alias fd='find -type d -iname'
+
+# Aliases for my task manager
+alias t.f='t -f'
+alias t.r='t -r'
+alias k.f='k -f'
+alias k.r='k -r'
 
 # ants and ants and ants and ants!
 alias ant4="PATH=$JAVA_4_HOME:$PATH r ant "
