@@ -2,7 +2,7 @@
 username = Shrikant-Sharat <shrikantsharat.k@gmail.com>
 ssh = ssh -C
 editor = vim
-ignore = ~/dotfiles/hg/hgignore
+ignore = ~/lawn/hg/hgignore
 
 [extensions]
 bookmarks =
@@ -16,9 +16,9 @@ extdiff =
 # pager =
 progress =
 
-hgshelve = ~/dotfiles/hg/hg-shelve/hgshelve.py
-prompt = ~/dotfiles/hg/hg-prompt/prompt.py
-# notify = ~/dotfiles/hg/notify.py
+hgshelve = ~/lawn/hg/hg-shelve/hgshelve.py
+prompt = ~/lawn/hg/hg-prompt/prompt.py
+# notify = ~/lawn/hg/notify.py
 
 [alias]
 clog = glog --style compact

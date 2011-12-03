@@ -25,6 +25,11 @@ if !exists('$VIMFILES')
     endif
 endif
 
+" Define my lawn's temp directory
+if !exists('$LAWN_TMP')
+    let $LAWN_TMP = $HOME . '/lawn/tmp'
+endif
+
 " Is vimrc running for the first time. e.g., not run with `source`
 let s:first_time = !exists('g:vimrc_done')
 let g:vimrc_done = 1
@@ -154,14 +159,14 @@ set virtualedit=block
 
 " location where all the backups go
 if s:qui_os() != "win"
-    set backupdir=$VIMFILES/tmp/baks
+    set backupdir=$LAWN_TMP/baks
 endif
 
 " Keep swap files in one location
-set directory=$VIMFILES/tmp/swap//,.
+set directory=$LAWN_TMP/swap//,.
 
 " Store undofiles (persistent-undo)
-set undodir=$VIMFILES/tmp/undo//,.
+set undodir=$LAWN_TMP/undo//,.
 set undofile
 
 " lines to save from command line history
