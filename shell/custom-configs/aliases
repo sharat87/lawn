@@ -1,0 +1,87 @@
+# enable color support
+if [[ -x /usr/bin/dircolors ]]; then
+    [[ -r ~/.dircolors ]] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias ll='ls -l --almost-all --classify --human-readable'
+alias la='ls --almost-all'
+alias l='ls --classify'
+
+alias le=less
+
+alias xg='xargs -I%'
+
+alias gr='grep '
+alias grp='grep --perl-regex'
+
+alias rmv='rm -v'
+alias mvv='mv -v'
+alias cpv='cp -v'
+alias lnv='ln -v'
+
+# `so` means `source` in vim :)
+alias so='source'
+
+# Hate typing `gnone-open`. Just hate it. Nothing personal.
+alias o='gnome-open'
+
+alias a='sudo aptitude'
+# alias sagi='sudo apt-get install'
+# alias sagu='sudo apt-get update'
+# alias sagui='sudo apt-get update && sudo apt-get install'
+
+alias g='gvim'
+alias v='vim'
+
+# svn shortys
+alias sin='s info'
+alias sst='s st'
+alias sdi='s diff'
+alias sci='s ci'
+alias sco='s co'
+alias sup='s up'
+alias sxp='s export'
+alias slo='s log'
+alias sre='s revert'
+alias sbl='s blame'
+alias ssw='s switch'
+
+# Even two is too much sometimes :)
+alias h='hg'
+
+alias ipy='ipython'
+alias py='bpython'
+alias pipr='pip install -r requirements.txt'
+
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
+# Command to quickly edit the aliases file
+alias eal='v ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
+
+alias ht=htop
+
+alias sp='rlwrap sqlplus'
+
+alias f='fab'
+
+alias fn=find
+alias ff='find -type f -iname'
+alias fd='find -type d -iname'
+
+# Aliases for my task manager
+alias t.f='t -f'
+alias t.r='t -r'
+alias k.f='k -f'
+alias k.r='k -r'
+
+# ants and ants and ants and ants!
+alias ant4="PATH=$JAVA_4_HOME:$PATH r ant "
+alias ant5="PATH=$JAVA_5_HOME:$PATH r ant "
+alias ant6="PATH=$JAVA_6_HOME:$PATH r ant "
+
+# vim: se ft=sh :

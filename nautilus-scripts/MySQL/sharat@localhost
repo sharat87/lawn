@@ -1,0 +1,23 @@
+#!/bin/bash
+
+hostname="localhost"
+username="sharat"
+password="amul"
+
+for uri in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+do
+    tables=`awk '/^-- (Table structure for|Definition of) table / {printf("TRUE " $NF " ")}' $uri`
+    drops=$(zenity --title="Restore MySQL Dump" --text="Dump $uri" --width=400 --height=300 --list --checklist --column Drop --column Database $tables)
+    if [ "$drops" != "" ]
+    then
+        resp=$(awk '/(Table structure for|Definition of) table / {stop=1} /(Table structure for|Definition of) table ('"$drops"')/ {stop=0} !stop {print}' $uri | mysql -h $hostname -u $username -p$password)
+        if [ "$resp" == "" ]
+        then
+            resp="Backup Restored from $uri!"
+        fi
+    else
+        resp="Nothing done with $uri!"
+    fi
+    zenity --info --text="$resp"
+done
+

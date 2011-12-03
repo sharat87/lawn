@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gvim -d $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+

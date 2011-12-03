@@ -1,0 +1,41 @@
+[ui]
+username = Shrikant-Sharat <shrikantsharat.k@gmail.com>
+ssh = ssh -C
+editor = vim
+ignore = ~/dotfiles/hg/hgignore
+
+[extensions]
+bookmarks =
+color =
+convert =
+fetch =
+graphlog =
+hgk =
+extdiff =
+# mq =
+# pager =
+progress =
+
+hgshelve = ~/dotfiles/hg/hg-shelve/hgshelve.py
+prompt = ~/dotfiles/hg/hg-prompt/prompt.py
+# notify = ~/dotfiles/hg/notify.py
+
+[alias]
+clog = glog --style compact
+slog = log --template '{rev}:{node|short} {desc|firstline}\n'
+
+[extdiff]
+cmd.meld =
+cmd.gvimdiff =
+
+[pager]
+pager = LESS='FSRX' less
+
+[merge-patterns]
+** = gvimmerge
+
+[merge-tools]
+gvimmerge.executable = gvim
+gvimmerge.args = -d $local $other
+gvimmerge.checkchanged = true
+gvimmerge.gui = true

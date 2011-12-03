@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#####
+# Picks the java version intelligently for compiling. Make sure JAVA_4_HOME env
+# variable points to the java home directory of jdk 1.4.  Similarly,
+# JAVA_5_HOME and JAVA_6_HOME also need to be set appropriately.
+#####
+
+# Get the version number, large number if in release
+if [[ $PWD = *release* ]]; then
+    version=9999
+else
+    version="$(pwd | grep -o --perl-regex 'rel\K\d+')"
+fi
+
+# If version number includes patch number too, strip it
+len=$(( $(echo $version | wc -c) - 1 ))
+if (( $len > 4 )); then
+    version=${version%??}
+fi
+
+# Decide on a java version based on the version number
+if (( $version >= 1200 )); then
+    jhome="$JAVA_6_HOME"
+elif (( $version >= 900 )); then
+    jhome="$JAVA_5_HOME"
+else
+    jhome="$JAVA_4_HOME"
+fi
+
+# Run ant with the appropriate java home
+echo Building with JAVA_HOME $jhome
+JAVA_HOME="$jhome" exec ant "$@"

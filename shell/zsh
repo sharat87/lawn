@@ -1,0 +1,33 @@
+_start_time=$(date +%s.%N)
+
+# Path to your oh-my-zsh configuration.
+export ZSH=$HOME/dotfiles/shell/oh-my-zsh
+
+# Set to the name theme to load.
+# Look in ~/.oh-my-zsh/themes/
+export ZSH_THEME="prose"
+
+# Comment this out to disable weekly auto-update checks
+export DISABLE_AUTO_UPDATE="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(pip fabric lein zsh-syntax-highlighting command-not-found svn vi-mode-disable)
+
+_omz_start_time=$(date +%s.%N)
+source $ZSH/oh-my-zsh.sh
+_omz_end_time=$(date +%s.%N)
+
+# Customize to your needs...
+
+# red dots to be displayed while waiting for completion
+COMPLETION_WAITING_DOTS=true
+
+# wohwohwohowhohohoho!
+# fortune -s -n 300 | cowsay | lolcat
+
+echo >> ~/.zsh-profiling-info
+echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
+
+_end_time=$(date +%s.%N)
+echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time >> ~/.zsh-profiling-info

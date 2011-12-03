@@ -1,0 +1,215 @@
+ec () {
+    easytether connect &
+    sleep 1s
+    sudo dhclient easytether0
+    notify-send "EasyTether" "Connection established"
+}
+
+# Extract any archive
+ex () {
+    if [[ ! -f $1 ]]; then
+        echo "'$1' is not a valid file."
+    fi
+    case $1 in
+        *.tar.bz2)   tar xjf $1;;
+        *.tar.gz)    tar xzf $1;;
+        *.bz2)       bunzip2 $1;;
+        *.rar)       rar x $1;;
+        *.gz)        gunzip $1;;
+        *.tar)       tar xf $1;;
+        *.tbz2)      tar xjf $1;;
+        *.tgz)       tar xzf $1;;
+        *.zip)       unzip $1;;
+        *.Z)         uncompress $1;;
+        *.7z)        7z x $1;;
+        *)           echo "'$1' cannot be extracted via extract()";;
+    esac
+}
+
+# Run a command and notify when done
+r () {
+    if $@
+    then
+        notify-send 'Shell' "$1 finished successfully"
+    else
+        notify-send 'Shell' "$1 has failed"
+    fi
+}
+
+# Rerun a command continuously. Tip by @climagic
+rr () {
+    while true; do
+        $1
+        sleep ${2:-1}
+    done
+}
+
+ca () {
+    cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
+}
+
+# Update vimfiles and dotfiles
+lawn-files-update () {
+    (cd ~/dotfiles && f)
+    (cd ~/vimfiles && f)
+    notify-send "lawn-mowing finished"
+}
+
+#----------------------------------------
+# aptitude utilities
+#----------------------------------------
+
+# install command
+ai () {
+    if sudo aptitude install "$@"; then
+        notify-send "aptitude" "$1 installation finished"
+    else
+        notify-send "aptitude" "Error installing $1"
+    fi
+}
+
+compdef "_a install" ai
+
+# purge command
+ap () {
+    if sudo aptitude purge "$@"; then
+        notify-send "aptitude" "$1 installation finished"
+    else
+        notify-send "aptitude" "Error installing $1"
+    fi
+}
+
+compdef "_a purge" ap
+
+# remove command (ar is the archive command)
+ad () {
+    if sudo aptitude remove "$@"; then
+        notify-send "aptitude" "$1 installation finished"
+    else
+        notify-send "aptitude" "Error installing $1"
+    fi
+}
+
+compdef "_a remove" ad
+
+# update command
+au () {
+    sudo aptitude update "$@"
+    notify-send "aptitude" "Update finished"
+}
+
+compdef "_a update" au
+
+_a () {
+    words=( aptitude $1 $words[2,-1] )
+    (( CURRENT++ ))
+    shift
+    _aptitude "$@"
+}
+
+#----------------------------------------
+# Version control utils
+#----------------------------------------
+
+# Because just svn wouldn't cut it!
+s () {
+    if [[ $1 == "diff" ]]; then
+        svn "$@" | colordiff
+    elif [[ $1 == "log" ]]; then
+        svn "$@" | discoball '^r\d+ \| ([-_a-z]+) \|'
+    elif [[ $1 == "st" || $1 == "status" ]]; then
+        svn "$@" | discoball '^\S'
+    elif [[ $1 == "info" ]]; then
+        svn "$@" | discoball -g '^[a-zA-Z ]*:'
+    else
+        svn "$@"
+    fi
+    notify-send "Subversion $1 finished"
+}
+
+cv () {
+    if cvs -d ':extssh:cvs:/usr/local/cvs' "$@"
+    then
+        notify-send "CVS Success" "CVS $1 exited successfully"
+    else
+        notify-send "CVS Failure" "CVS $1 seem to have failed"
+    fi
+}
+
+alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \$3; next } { print }'"
+
+#----------------------------------------
+# Miscellaneous
+#----------------------------------------
+
+# Open a mail in mutt for a given message-id
+mutt-open-mail-id () {
+    mutt -e "push /~i$1\no"
+}
+
+# My default tasks
+t () {
+    python ~/.t.py --task-dir ~/Dropbox --list tasks "$@" | discoball '\+\S+'
+}
+
+# Project specific bugs/todos
+b () {
+    python ~/.t.py --task-dir . --list todo | discoball '\+\S+'
+}
+
+# My work tasks
+k () {
+    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" | discoball '^\S+\s+-' '\+\S+' 'mail:'
+}
+
+# Take the message-id from the task and display the message
+km () {
+    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work | sed -n "s/^$1\s\+- .*mail://p")"
+    if [[ -z $mail_id ]]; then
+        echo No task with that id or the task has no attached mail.
+        return 1
+    else
+        mutt-open-mail-id "$mail_id"
+    fi
+}
+
+# cd to an ancestral directory
+cu () {
+
+    if [[ -z $1 ]]; then
+        echo Please give a dirname
+        return 1
+    fi
+
+    local d="$(dirname "$(pwd)")"
+
+    while [[ "$(basename "$d")" != $1 ]] && [[ $d != "/" ]]; do
+        d="$(dirname "$d")"
+    done
+
+    if [[ $d == "/" ]]; then
+        echo \"$1\" is not present in current path
+    else
+        cd "$d"
+    fi
+
+}
+
+_cu () {
+    compadd $(dirname "$PWD" | tr / \\n)
+}
+
+compdef _cu cu
+
+copy-path () {
+    local apath=
+    if [[ -d "$1" ]]; then
+        apath=$(cd "$1" && pwd)
+    elif [[ -f "$1" ]]; then
+        apath="$PWD/$1"
+    fi
+    echo -n $apath | pbcopy
+    echo $apath
+}
+
+# vim: se ft=sh :

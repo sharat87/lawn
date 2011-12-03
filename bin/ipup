@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+from glob import glob
+import sys, os, re
+
+if len(sys.argv) < 2:
+    raise SystemExit('Please give a new IP')
+
+ip = sys.argv[1]
+
+if ip.count('.') == 1:
+    ip = '192.168.' + ip
+
+for fname in glob(os.path.expanduser('~/Calypso/calypsouser.properties.*')):
+    content = None
+    with open(fname) as f:
+        content = f.read()
+        content = re.sub(r'DBURL=jdbc\\:oracle\\:thin\\:@\d{2,3}\.\d{1,3}\.[\.\d]+?\\:1521\\:orcl',
+                r'DBURL=jdbc\:oracle\:thin\:@' + ip + '\:1521\:orcl',
+                content)
+    open(fname, 'w').write(content)

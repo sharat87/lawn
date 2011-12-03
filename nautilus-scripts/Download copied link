@@ -1,0 +1,7 @@
+#!/bin/bash
+
+link="$(xsel --clipboard --output)"
+dest="$(zenity --entry --text "Destination for: $link" --entry-text "$(basename "$link")")"
+
+# TODO: Display download progress via zenity
+wget -o "$dest" "$link"

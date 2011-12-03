@@ -1,7 +1,8 @@
 syntax: glob
-bundle
-bundle-local
+*.pyc
 tmp
-sessions
-nerdtree-bookmarks
-.netrwhist
+vim/bundle
+vim/bundle-local
+vim/sessions
+vim/nerdtree-bookmarks
+vim/.netrwhist

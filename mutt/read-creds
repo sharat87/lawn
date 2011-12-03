@@ -1,0 +1,28 @@
+#!/usr/bin/python
+#-*- coding:utf-8 -*-
+
+import os
+from ConfigParser import SafeConfigParser
+
+output = '''
+set realname = "{realname}"
+set from = "{address}"
+
+set mbox_type = Maildir
+set folder = "$HOME/Mail/sskcal"
+
+set smtp_url = "{smtp_server}"
+set smtp_pass = "{password}"
+'''
+
+creds = SafeConfigParser()
+creds.readfp(open(os.path.expanduser('~/Dropbox/Private/creds.ini')))
+
+print output.format(
+    realname=creds.get('cmail', 'fullname'),
+    address=creds.get('cmail', 'address'),
+    smtp_server=creds.get('cmail', 'smtp-server'),
+    password=creds.get('cmail', 'password'),
+    gusername=creds.get('cmail', 'gusername'),
+    gpassword=creds.get('cmail', 'gpassword')
+)
