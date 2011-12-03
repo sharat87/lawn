@@ -198,7 +198,6 @@ def up():
         'wget | https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
         'wget | http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
         'wget | https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
-        'wget | http://releases.clojure-cake.org/cake                        | ~/bin/cake',
         'wget | https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
         'wget | https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
         # 'repo | git clone git@github.com:sharat87/oh-my-zsh.git              | shell/oh-my-zsh',
