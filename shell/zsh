@@ -1,7 +1,8 @@
 _start_time=$(date +%s.%N)
 
 # Path to your oh-my-zsh configuration.
-export ZSH=$HOME/dotfiles/shell/oh-my-zsh
+export ZSH=$HOME/lawn/shell/oh-my-zsh
+export ZSH_CUSTOM=$HOME/lawn/shell/custom-configs
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
