@@ -1,2 +1,8 @@
 shell/oh-my-zsh = [git]git@github.com:sharat87/oh-my-zsh.git
 shell/custom-configs/plugins/zsh-syntax-highlighting = [git]https://github.com/zsh-users/zsh-syntax-highlighting.git
+
+hg/hg-prompt = ssh://hg@bitbucket.org/sjl/hg-prompt
+hg/hg-shelve = ssh://hg@bitbucket.org/tksoh/hgshelve
+
+mutt/solarized-colors = [git]git://github.com/altercation/mutt-colors-solarized.git
+mail/offlineimap = [git]git://github.com/nicolas33/offlineimap.git

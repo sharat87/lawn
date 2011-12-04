@@ -2,8 +2,6 @@ syntax: glob
 _originals
 *.pyc
 tmp
-mutt/solarized-colors
-mail/offlineimap
 vim/bundle
 vim/bundle-local
 vim/sessions

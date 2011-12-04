@@ -191,10 +191,6 @@ def up():
         print(data.getvalue() if data else None)
 
     update_entries = (
-        'repo | ssh://hg@bitbucket.org/sjl/hg-prompt                         | hg/hg-prompt',
-        'repo | ssh://hg@bitbucket.org/tksoh/hgshelve                        | hg/hg-shelve',
-        'repo | git://github.com/altercation/mutt-colors-solarized.git       | mutt/solarized-colors',
-        'repo | git://github.com/nicolas33/offlineimap.git                   | mail/offlineimap',
         'wget | https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
         'wget | http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
         'wget | https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',

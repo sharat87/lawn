@@ -1,2 +1,6 @@
+c4095c3519d61f97f78fd767c1f81c6b4f06df80 hg/hg-prompt
+244a50c40d93873006c875c5d2ae64fcbc987216 hg/hg-shelve
+464342e1dd416764598bd4e02b767310dac16371 mail/offlineimap
+3b23c55eb43849975656dd89e3f35dacd2b93e69 mutt/solarized-colors
 bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax-highlighting
 641e57e9ccb503d2633e6e799b370bd16db998d7 shell/oh-my-zsh
