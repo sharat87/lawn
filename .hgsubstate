@@ -19,7 +19,7 @@ b062c59e0283f470d1e5c2b1bd5c19ce6851d477 vim/bundle/linediff.vim
 ced6c409c9beeb0b4142d21906606bd194411d1d vim/bundle/matchit.zip
 9c119016faf2e3e6c9077cf8bb9a7df400c2c400 vim/bundle/mustache.vim
 30f6bcc30caf76bc1213f5c3d4001ba5d5fbe7fc vim/bundle/nerdtree
-0000000000000000000000000000000000000000 vim/bundle/pyflakes-vim
+634ddb795e46eae54578981b91b10a232c2735c2 vim/bundle/pyflakes-vim
 cf74ca3f94258eb9ebe1bc8345532c3eb443923d vim/bundle/pythoncomplete
 050982912e94adf07ff6c6a1df072215fe8ee394 vim/bundle/pythondo
 cb757ebc2acfff8d545a745bfe00c851ae090cc6 vim/bundle/simple-pairs
