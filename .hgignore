@@ -2,7 +2,6 @@ syntax: glob
 _originals
 *.pyc
 tmp
-vim/bundle
 vim/bundle-local
 vim/sessions
 vim/nerdtree-bookmarks
