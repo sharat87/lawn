@@ -37,14 +37,14 @@ source /usr/local/bin/virtualenvwrapper.sh
 # Add all under ~/apps/*/bin directories to path
 export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
 
-# Home bin and dotfiles' bin
-export PATH=~/bin:~/dotfiles/bin:$PATH
+# Home bin and lawn' bin
+export PATH=~/bin:~/lawn/bin:$PATH
 
 # Most used svn repo url
 export s=svn+ssh://scm.calypso.com/usr/local/svn
 
 export PIP_DOWNLOAD_CACHE=~/.pip/cache
-export PYTHONPATH=~/dotfiles/python-lib
+export PYTHONPATH=~/lawn/python-lib
 
 # Java home directories
 export JAVA_4_HOME=$HOME/apps/javas/j2sdk1.4.2_19

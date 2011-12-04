@@ -1,5 +1,5 @@
 # Keep sensitive information away from repository files
-source ~/dotfiles/mutt/read-creds|
+source ~/lawn/mutt/read-creds|
 
 set spoolfile = "+/inbox"
 set postponed = "+/drafts"
@@ -8,8 +8,8 @@ set record = "+/sent"
 # Generated list of all addresses in my corporate ldap server
 source ~/.mutt/ldap-aliases.mutt
 
-set query_command = "python ~/dotfiles/mail/address-book.py '%s'"
-set display_filter = ~/dotfiles/mutt/display-filter
+set query_command = "python ~/lawn/mail/address-book.py '%s'"
+set display_filter = ~/lawn/mutt/display-filter
 
 set forward_format = "Fwd: %s"
 
@@ -24,7 +24,7 @@ set history = 5000
 set history_file = ~/.mutt/history
 set save_history = 5000
 
-set signature = ~/dotfiles/mutt/signature
+set signature = ~/lawn/mutt/signature
 set sig_on_top
 unset sig_dashes
 
@@ -95,4 +95,4 @@ macro index gt \
     ":unset wait_key\n|~/bin/mutt-notmuch thread\n<change-folder-readonly>~/.cache/mutt_results\n:set wait_key\n" \
     "search and reconstruct owning thread (using notmuch)"
 
-source ~/dotfiles/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc
+source ~/lawn/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc

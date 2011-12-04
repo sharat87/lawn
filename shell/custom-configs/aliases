@@ -61,7 +61,7 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
 # Command to quickly edit the aliases file
-alias eal='v ~/dotfiles/shell/aliases && source ~/dotfiles/shell/aliases'
+alias eal='v ~/lawn/shell/aliases && source ~/lawn/shell/aliases'
 
 alias ht=htop
 

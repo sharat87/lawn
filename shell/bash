@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-parent=~/dotfiles
+parent=~/lawn
 source $parent/shell/custom-configs/aliases
 source $parent/shell/env
 

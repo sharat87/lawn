@@ -1,4 +1,4 @@
-parent=~/dotfiles
+parent=~/lawn
 export ZSH=$parent/shell/oh-my-zsh
 
 #----------------------------------------

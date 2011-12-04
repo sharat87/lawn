@@ -48,10 +48,9 @@ ca () {
     cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
 }
 
-# Update vimfiles and dotfiles
+# Update vimfiles and lawn
 lawn-files-update () {
-    (cd ~/dotfiles && f)
-    (cd ~/vimfiles && f)
+    (cd ~/lawn && f)
     notify-send "lawn-mowing finished"
 }
 
