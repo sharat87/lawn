@@ -1,1 +1,2 @@
 shell/oh-my-zsh = [git]git@github.com:sharat87/oh-my-zsh.git
+shell/custom-configs/plugins/zsh-syntax-highlighting = [git]https://github.com/zsh-users/zsh-syntax-highlighting.git
