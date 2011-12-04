@@ -191,21 +191,17 @@ def up():
         print(data.getvalue() if data else None)
 
     update_entries = (
-        'wget | https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
-        'wget | http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
-        'wget | https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
-        'wget | https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
-        'wget | https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
+        'https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
+        'http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
+        'https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
+        'https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
+        'https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
     )
 
     for entry in update_entries:
-        method, url, dst = (e.strip() for e in entry.split('|'))
+        url, dst = (e.strip() for e in entry.split('|'))
         dst = p.expanduser(dst)
-        cmd_fn = {
-            'repo': get_repo_cmd,
-            'wget': wget_cmd,
-        }[method]
-        name, cmd = cmd_fn(url, dst=dst)
+        name, cmd = wget_cmd(url, dst=dst)
         pid = t.execute(cmd)
         cmds[pid] = name
 
