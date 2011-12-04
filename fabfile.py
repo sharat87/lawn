@@ -29,6 +29,8 @@ def up():
     dln('fabricrc')
     dln('toprc')
 
+    dln('pentadactylrc')
+
     dln('web/js', '~/.js')
     dln('web/css', '~/.css')
 

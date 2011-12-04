@@ -1,0 +1,57 @@
+set titlestring='Mozilla Firefox | Pentadactyl'
+
+" Always open help in a new tab
+set newtab+=help
+
+" Yeah, the `hlsearch` analogue
+set hlfind
+noremap <Leader>h :noh<CR>
+
+" History of ex commands to remember
+set history=5000
+
+" C'mon!
+set mapleader=','
+
+" Only show the tabbar when there are more than 1 tab.
+set showtabline=multitab
+
+" Make the text bigger.
+highlight StatusLine -moz-appearance: none !important; font-weight: bold; background: transparent !important; border: 0px !important; min-height: 22px !important; text-shadow: none !important; font: normal 16px/1 'Menlo' !important; padding: 3px 0px 3px 5px !important;
+highlight CmdLine    padding: 1px !important; font: normal 16px 'Inconsolata-g' !important;
+highlight CmdOutput  font: normal 14px 'Inconsolata-g' !important;
+highlight CompItem   font: normal 14px 'Inconsolata-g' !important;
+
+" An itchy habit I have on vim
+nnoremap : ;
+nnoremap ; :
+
+" Oh please!
+nnoremap j 4j
+nnoremap k 4k
+
+" Next/Previous links in pages
+nnoremap < [[
+nnoremap > ]]
+
+" Invoke the tab group visualization thingy whatever you call it
+nnoremap ge <C-v><C-S-e>
+
+" Next/Previous tab with C-h and C-l, old tmux habit :)
+noremap <C-h> :tabp<CR>
+noremap <C-l> :tabn<CR>
+
+" Hotkeys for some awesome bookmarklets
+nnoremap e :open readable-light<CR>
+nnoremap E :open readable-light-narrow<CR>
+nnoremap <Leader>l :open read-later<CR>
+nnoremap <Leader>s :open pinboard-save<CR>
+
+" Google search keyword is `g`, not `google`
+nnoremap s :open g<Space>
+nnoremap S :tabopen g<Space>
+
+" Don't you look at my private parts!
+source ~/Dropbox/Private/pentadactylrc
+
+" vim: se ft=vim :
