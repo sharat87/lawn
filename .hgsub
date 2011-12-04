@@ -29,7 +29,7 @@ vim/bundle/tabular = [git]git://github.com/godlygeek/tabular.git
 vim/bundle/nerdtree = [git]git://github.com/scrooloose/nerdtree.git
 
 # Awesome cool undo tree visualization
-vim/bundle/gundo = https://bitbucket.org/sjl/gundo.vim
+vim/bundle/gundo = ssh://hg@bitbucket.org/sjl/gundo.vim
 
 # F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
 # vim/bundle/AutoClose = [git]git://github.com/vim-scripts/AutoClose.git
