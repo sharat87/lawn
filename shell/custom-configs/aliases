@@ -80,8 +80,8 @@ alias k.f='k -f'
 alias k.r='k -r'
 
 # ants and ants and ants and ants!
-alias ant4="PATH=$JAVA_4_HOME:$PATH r ant "
-alias ant5="PATH=$JAVA_5_HOME:$PATH r ant "
-alias ant6="PATH=$JAVA_6_HOME:$PATH r ant "
+alias ant4="PATH=$JAVA_4_HOME/bin:$PATH r ant "
+alias ant5="PATH=$JAVA_5_HOME/bin:$PATH r ant "
+alias ant6="PATH=$JAVA_6_HOME/bin:$PATH r ant "
 
 # vim: se ft=sh :
