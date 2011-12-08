@@ -36,7 +36,7 @@ vim/bundle/gundo = ssh://hg@bitbucket.org/sjl/gundo.vim
 # vim/bundle/delimitMate = [git]git://github.com/Raimondi/delimitMate.git
 # vim/bundle/vim-autoclose = [git]https://github.com/Townk/vim-autoclose.git
 # vim/bundle/ClosePairs = [git]https://github.com/vim-scripts/ClosePairs.git
-vim/bundle/simple-pairs = [git]https://github.com/vim-scripts/simple-pairs.git
+# vim/bundle/simple-pairs = [git]https://github.com/vim-scripts/simple-pairs.git
 # vim/bundle/Auto-Pairs = [git]https://github.com/vim-scripts/Auto-Pairs.git
 
 # Keystroke saving with Vim and Google Scribe
