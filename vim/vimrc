@@ -298,8 +298,13 @@ nnoremap ` <C-w>
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode
-inoremap <silent> <C-o> <ESC>
-inoremap <ESC> <C-o>:echoerr 'Use <C-o> instead'<CR>
+vnoremap <silent> <C-k> <ESC>
+inoremap <silent> <C-k> <ESC>
+inoremap <ESC> <C-o>:echoerr 'Use <C-k> instead'<CR>
+inoremap <silent> <C-y> <C-k>
+
+" Backspacing
+inoremap <silent> <C-o> <C-w>
 
 " Save all modified buffers
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>

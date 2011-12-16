@@ -10,6 +10,7 @@ f3c92a29a162045c2604212f51846f0d7f73d661 vim/bundle/Conque-Shell
 982daeb4fd43ec7590d3698ee3b879a0c532b107 vim/bundle/Mark--Karkat
 4b819945e41cd2cc3866dab31f84b94587168f22 vim/bundle/SearchPosition
 3cf7c3f08d20b3fee59065156ed69d3a59c7924e vim/bundle/UltiSnips
+35e21e4e572caba31aecbdb4371dab58a1dd41b9 vim/bundle/VimClojure
 e7ee18e2e7ed60509aa951cd34b57193fa14e5ab vim/bundle/ZoomWin
 9895285042a2fd5691b2f6582aa979e4d1bdffea vim/bundle/ack.vim
 af22f30e39018f85b60691ea3b0f4df591cfc048 vim/bundle/ctrlp.vim
