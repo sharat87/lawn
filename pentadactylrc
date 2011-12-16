@@ -27,8 +27,14 @@ nnoremap : ;
 nnoremap ; :
 
 " Oh please!
-nnoremap j 4j
-nnoremap k 4k
+nnoremap h       4<Left>
+nnoremap j       4<Down>
+nnoremap k       4<Up>
+nnoremap l       4<Right>
+nnoremap <Left>  4<Left>
+nnoremap <Down>  4<Down>
+nnoremap <Up>    4<Up>
+nnoremap <Right> 4<Right>
 
 " Next/Previous links in pages
 nnoremap < [[
