@@ -55,8 +55,8 @@ vim/bundle/vim-commentary = [git]git://github.com/tpope/vim-commentary.git
 # Obligatory vcs utils
 vim/bundle/vcscommand.vim = [git]git://github.com/vim-scripts/vcscommand.vim.git
 
-# have to force clone this one
-# https://bitbucket.org/kotarak/vimclojure force-clone
+# A filetype, syntax and indent plugin for Clojure
+vim/bundle/VimClojure = [git]git://github.com/vim-scripts/VimClojure.git
 
 # vim/bundle/vimproc = [git]git://github.com/Shougo/vimproc.git
 # vim/bundle/quickrun = [git]git://github.com/ujihisa/quickrun.git
