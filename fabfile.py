@@ -3,14 +3,17 @@
 
 from __future__ import print_function
 
-from fabric.api import task, local
+from fabric.api import task, local, lcd
 import os, os.path as p
 from fabric.contrib.console import confirm
 from repo_cmds import wget_cmd
 from parex import TaskManager
+from collections import namedtuple
+
+Subrepo = namedtuple('Subrepo', 'location vcs repo')
 
 @task(default=True)
-def up():
+def put():
 
     if os.path.exists('_originals'):
         print('_originals already exists. Delete it first, if you do not need it.')
@@ -75,6 +78,14 @@ def up():
     t.wait()
     print('Finished')
 
+@task
+def up():
+    subs = (parse_subrepo(line) for line in  open('.hgsub')
+            if not line.isspace() and not line.startswith('#'))
+
+    for sub in subs:
+        update_subrepo(sub)
+
 def dln(src, dst=None):
     if dst is None:
         dst = '~/.' + src
@@ -85,3 +96,28 @@ def dln(src, dst=None):
         local('mv "' + dst + '" _originals')
 
     local('ln -s "' + os.path.abspath(src) + '" "' + dst + '"')
+
+def parse_subrepo(line):
+    location, repo = line.split('=', 1)
+
+    location = location.strip()
+    repo = repo.strip()
+
+    if repo.startswith('['):
+        vcs, repo = repo[1:].split(']', 1)
+    else:
+        vcs = 'hg'
+
+    return Subrepo(location, vcs, repo)
+
+def update_subrepo(sub):
+    print(p.basename(sub.location))
+    with lcd(sub.location):
+        if sub.vcs == 'hg':
+            local('hg pull -u')
+        elif sub.vcs == 'git':
+            local('git pull')
+        elif sub.vcs == 'svn':
+            local('svn up')
+        else:
+            print('Unknown version control system:', sub.vcs)
