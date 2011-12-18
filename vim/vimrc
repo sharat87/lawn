@@ -300,7 +300,7 @@ nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : 
 " Easier way to go to normal mode
 vnoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
-inoremap <ESC> <C-o>:echoerr 'Use <C-k> instead'<CR>
+inoremap <ESC> <C-o>:echoerr 'Use C-k instead'<CR>
 inoremap <silent> <C-y> <C-k>
 
 " Backspacing
