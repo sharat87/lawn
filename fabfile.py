@@ -6,7 +6,6 @@ from __future__ import print_function
 from fabric.api import task, local, lcd
 import os, os.path as p
 from fabric.contrib.console import confirm
-from repo_cmds import wget_cmd
 from parex import TaskManager
 from collections import namedtuple
 
@@ -96,6 +95,14 @@ def dln(src, dst=None):
         local('mv "' + dst + '" _originals')
 
     local('ln -s "' + os.path.abspath(src) + '" "' + dst + '"')
+
+def wget_cmd(url, dst=None):
+    if dst is None:
+        dst = os.path.basename(url)
+
+    cmd = 'wget --no-check-certificate -O "' + dst + '" "' + url + '"'
+
+    return p.basename(dst), cmd
 
 def parse_subrepo(line):
     location, repo = line.split('=', 1)
