@@ -27,14 +27,20 @@ nnoremap : ;
 nnoremap ; :
 
 " Oh please!
-nnoremap h       4<Left>
-nnoremap j       4<Down>
-nnoremap k       4<Up>
-nnoremap l       4<Right>
-nnoremap <Left>  4<Left>
-nnoremap <Down>  4<Down>
-nnoremap <Up>    4<Up>
-nnoremap <Right> 4<Right>
+" Note: Not using 4<Left> here because 4 will be sent as a character and
+" google catches it to put it in the search bar. Pissing off, I know.
+nnoremap h       <Left><Left><Left><Left>
+nnoremap j       <Down><Down><Down><Down>
+nnoremap k       <Up><Up><Up><Up>
+nnoremap l       <Right><Right><Right><Right>
+nnoremap <Left>  <Left><Left><Left><Left>
+nnoremap <Down>  <Down><Down><Down><Down>
+nnoremap <Up>    <Up><Up><Up><Up>
+nnoremap <Right> <Right><Right><Right><Right>
+
+" More Scrolling
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
 
 " Next/Previous links in pages
 nnoremap < [[
@@ -52,6 +58,7 @@ nnoremap e :open readable-light<CR>
 nnoremap E :open readable-light-narrow<CR>
 nnoremap <Leader>l :open read-later<CR>
 nnoremap <Leader>s :open pinboard-save<CR>
+nnoremap <Leader>k :open to-kindle<CR>
 
 " Google search keyword is `g`, not `google`
 nnoremap s :open g<Space>
