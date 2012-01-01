@@ -101,8 +101,6 @@ if has('autocmd')
     " Clear the autocmd's in the group
     autocmd!
 
-    autocmd CursorHold *.wiki silent! wa
-
     " when editing a file, jump to the last known cursor position
     " Don't do it when the position id invalid or when inside an event handler
     " (happens when dropping a file on gvim)
@@ -256,11 +254,11 @@ nnoremap c. cc
 nnoremap g. gg
 
 " Fix linewise visual selection of various text objects
-nnoremap VV V
-nnoremap Vit vitVkoj
-nnoremap Vat vatV
-nnoremap Vab vabV
-nnoremap VaB vaBV
+nnoremap v. V
+nnoremap v.it vitVkoj
+nnoremap v.at vatV
+nnoremap v.ab vabV
+nnoremap v.aB vaBV
 
 " Use `,` as the leader, and <Space> for the default functionality of `;` and
 " `,`
@@ -339,9 +337,17 @@ nnoremap <silent> <Leader>h :noh<CR>
 nnoremap ; :
 vnoremap ; :
 
+" Repeating keys is not as awesome
+nnoremap <> <<
+nnoremap >< >>
+
 " F1 is goddamn close to <ESC>. I don't want to see help with F1.
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
+
+" Scrolling
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
 
 " Open a scratch pad with markdown
 " Utility func.
@@ -591,9 +597,11 @@ let g:vimwiki_list = [
 
 " vim-pad settings
 let g:pad_dir = '~/pad'
+let g:pad_window_height = 10
+let g:pad_highlighting_variant = 1 " Looks good with solarized
 let g:pad_use_default_mappings = 0
 nmap <Leader>l <Plug>ListPads
-nmap <Leader>o <Plug>OpenPad
+nmap <Leader>a <Plug>OpenPad
 nmap <Leader>s <Plug>SearchPads
 
 " simplenote credentials
