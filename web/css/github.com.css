@@ -1,4 +1,11 @@
+pre, code {
+    font-family: "Inconsolata-g", "Inconsolata", monospace !important;
+}
+
+#files pre {
+    font-size: 1.3em; !important;
+}
+
 #readme div.plain pre {
-    font-family: "Ubuntu Mono";
     font-size: 1.2em;
 }
