@@ -303,6 +303,7 @@ inoremap <silent> <C-y> <C-k>
 
 " Backspacing
 inoremap <silent> <C-o> <C-w>
+cnoremap <silent> <C-o> <C-w>
 
 " Save all modified buffers
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
@@ -542,7 +543,7 @@ let g:ctrlp_prompt_mappings = {
 
 " NerdTree
 " Convenience map for toggling NerdTree window
-nnoremap <silent> <F4> :NERDTreeToggle<CR>
+nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
 " Set the location of bookmarks for nerdtree
 let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
 autocmd FileType nerdtree setlocal nolist
@@ -617,7 +618,7 @@ let vimclojure#FuzzyIndent = 1
 " let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
 
 " Gundo Toggle
-nnoremap <F10> :GundoToggle<CR>
+nnoremap <F10> :silent! IP gundo<CR>:GundoToggle<CR>
 
 " Statline options
 let g:statline_filename_relative=1

@@ -3,7 +3,7 @@ c4095c3519d61f97f78fd767c1f81c6b4f06df80 hg/hg-prompt
 464342e1dd416764598bd4e02b767310dac16371 mail/offlineimap
 3b23c55eb43849975656dd89e3f35dacd2b93e69 mutt/solarized-colors
 bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax-highlighting
-93faaaba4fad02f0aece2efd21a4b630e4a3cca5 shell/oh-my-zsh
+70a910d4001159ae7b5fb8586ee00c064c9b0082 shell/oh-my-zsh
 224aa0955a522c59b1f9074199400a5da1a804ce vim/bundle/CamelCaseMotion
 e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
 f3c92a29a162045c2604212f51846f0d7f73d661 vim/bundle/Conque-Shell
@@ -14,12 +14,10 @@ f3c92a29a162045c2604212f51846f0d7f73d661 vim/bundle/Conque-Shell
 e7ee18e2e7ed60509aa951cd34b57193fa14e5ab vim/bundle/ZoomWin
 9895285042a2fd5691b2f6582aa979e4d1bdffea vim/bundle/ack.vim
 93637eade600d8e0b15aa00641ea9ca328aca995 vim/bundle/ctrlp.vim
-91190e67720f852c17602504d5225d4e675b6499 vim/bundle/gundo
 1870ae144f2aacda087820cc8c518314721fba9f vim/bundle/html5.vim
 9543eec44e5cb75b67f0e5eaf1377ca82ced7b90 vim/bundle/linediff.vim
 ced6c409c9beeb0b4142d21906606bd194411d1d vim/bundle/matchit.zip
 9c119016faf2e3e6c9077cf8bb9a7df400c2c400 vim/bundle/mustache.vim
-205367ab3f46dcc88b6ebb819a276e793a21e995 vim/bundle/nerdtree
 634ddb795e46eae54578981b91b10a232c2735c2 vim/bundle/pyflakes-vim
 cf74ca3f94258eb9ebe1bc8345532c3eb443923d vim/bundle/pythoncomplete
 050982912e94adf07ff6c6a1df072215fe8ee394 vim/bundle/pythondo
@@ -45,3 +43,5 @@ cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
 52eef03408f0df43b7a05484e2278a2acb777944 vim/bundle/vim-unimpaired
 0db7b49ebf86924573d340729e38c18bf78b0e89 vim/bundle/vimroom
+91190e67720f852c17602504d5225d4e675b6499 vim/ipi/gundo
+205367ab3f46dcc88b6ebb819a276e793a21e995 vim/ipi/nerdtree
