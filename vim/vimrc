@@ -627,6 +627,18 @@ let g:statline_filename_relative=1
 autocmd filetype vimwiki,markdown,mail,svn,hgcommit,gitcommit
     \ setlocal completefunc=googlescribe#Complete
 
+" TwitVim ahoy!
+let g:twitvim_browser_cmd = 'firefox'
+fun! <SID>TwitterLoad()
+    IP TwitVim
+    FriendsTwitter
+    wincmd k
+    wincmd H
+    setlocal winwidth=80
+    setlocal wrap
+endfun
+command! TwitterLoad call <SID>TwitterLoad()
+
 " Quickrun settings
 let g:quickrun_config = { '_': {} }
 
