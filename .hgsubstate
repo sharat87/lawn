@@ -42,7 +42,7 @@ cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 1670ba093f14564744455024d246bdcfafa64d17 vim/bundle/vim-statline
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
 52eef03408f0df43b7a05484e2278a2acb777944 vim/bundle/vim-unimpaired
-0db7b49ebf86924573d340729e38c18bf78b0e89 vim/bundle/vimroom
 bb804bd316eca441ddf56ac5d8fc04e5154d9927 vim/ipi/TwitVim
 91190e67720f852c17602504d5225d4e675b6499 vim/ipi/gundo
 205367ab3f46dcc88b6ebb819a276e793a21e995 vim/ipi/nerdtree
+0db7b49ebf86924573d340729e38c18bf78b0e89 vim/ipi/vimroom

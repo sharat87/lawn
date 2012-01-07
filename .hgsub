@@ -133,7 +133,7 @@ vim/bundle/pythoncomplete = [git]https://github.com/vim-scripts/pythoncomplete.g
 vim/bundle/Conque-Shell = [git]https://github.com/vim-scripts/Conque-Shell.git
 
 # Simulating a vaguely WriteRoom-like environment in Vim.
-vim/bundle/vimroom = [git]https://github.com/mikewest/vimroom.git
+vim/ipi/vimroom = [git]https://github.com/mikewest/vimroom.git
 
 # My fork of a Twitter client written in Vim script, by mortonfox.
 vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim

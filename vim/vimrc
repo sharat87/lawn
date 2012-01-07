@@ -644,6 +644,7 @@ command! TwitterLoad call <SID>TwitterLoad()
 " Vimroom awesomeness
 let s:vimroom_active = 0
 fun! <SID>VimroomLoad()
+    IP vimroom
     VimroomToggle
     if !s:vimroom_active
         " Activate
