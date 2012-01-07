@@ -636,6 +636,8 @@ fun! <SID>TwitterLoad()
     wincmd H
     setlocal winwidth=80
     setlocal wrap
+    setlocal linebreak
+    setlocal nolist
 endfun
 command! TwitterLoad call <SID>TwitterLoad()
 
