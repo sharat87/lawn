@@ -130,7 +130,7 @@ vim/bundle/pythoncomplete = [git]https://github.com/vim-scripts/pythoncomplete.g
 # vim/bundle/simplenote.vim = [git]https://github.com/mrtazz/simplenote.vim.git
 
 # Run interactive commands inside a Vim buffer
-vim/bundle/Conque-Shell = [git]https://github.com/vim-scripts/Conque-Shell.git
+vim/ipi/Conque-Shell = [git]https://github.com/vim-scripts/Conque-Shell.git
 
 # Simulating a vaguely WriteRoom-like environment in Vim.
 vim/ipi/vimroom = [git]https://github.com/mikewest/vimroom.git

@@ -6,7 +6,6 @@ bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax
 70a910d4001159ae7b5fb8586ee00c064c9b0082 shell/oh-my-zsh
 224aa0955a522c59b1f9074199400a5da1a804ce vim/bundle/CamelCaseMotion
 e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
-f3c92a29a162045c2604212f51846f0d7f73d661 vim/bundle/Conque-Shell
 982daeb4fd43ec7590d3698ee3b879a0c532b107 vim/bundle/Mark--Karkat
 4b819945e41cd2cc3866dab31f84b94587168f22 vim/bundle/SearchPosition
 3cf7c3f08d20b3fee59065156ed69d3a59c7924e vim/bundle/UltiSnips
@@ -42,6 +41,7 @@ cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 1670ba093f14564744455024d246bdcfafa64d17 vim/bundle/vim-statline
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
 52eef03408f0df43b7a05484e2278a2acb777944 vim/bundle/vim-unimpaired
+f3c92a29a162045c2604212f51846f0d7f73d661 vim/ipi/Conque-Shell
 bb804bd316eca441ddf56ac5d8fc04e5154d9927 vim/ipi/TwitVim
 91190e67720f852c17602504d5225d4e675b6499 vim/ipi/gundo
 205367ab3f46dcc88b6ebb819a276e793a21e995 vim/ipi/nerdtree
