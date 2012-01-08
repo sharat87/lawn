@@ -629,7 +629,12 @@ autocmd filetype vimwiki,markdown,mail,svn,hgcommit,gitcommit
 
 " TwitVim ahoy!
 let g:twitvim_browser_cmd = 'firefox'
+let g:twitvim_enable_python = 1
+let g:twitvim_api_root = "https://api.twitter.com/1"
 fun! <SID>TwitterLoad()
+    " The vim instance becomes pretty useless as a text editor after this.
+    nmap o <Plug>TwitvimLaunchURL
+    nmap u <Plug>TwitvimGetUserInfo
     IP TwitVim
     FriendsTwitter
     wincmd k
@@ -638,6 +643,8 @@ fun! <SID>TwitterLoad()
     setlocal wrap
     setlocal linebreak
     setlocal nolist
+    nnoremap <buffer> <HOME> gg
+    nnoremap <buffer> <END> G
 endfun
 command! TwitterLoad call <SID>TwitterLoad()
 
