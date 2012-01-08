@@ -38,6 +38,9 @@ nnoremap <Down>  <Down><Down><Down><Down>
 nnoremap <Up>    <Up><Up><Up><Up>
 nnoremap <Right> <Right><Right><Right><Right>
 
+" Exit
+nnoremap Q ZZ
+
 " More Scrolling
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
