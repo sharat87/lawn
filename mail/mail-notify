@@ -1,17 +1,49 @@
 #!/usr/bin/env python
+# encoding: utf-8
 
-import subprocess as sp
-import os
-import sys
+from __future__ import print_function
 
-MAIL_FOLDER = sys.argv[1]
+import os, os.path as p
+from mailbox import MaildirMessage
+import pynotify as notify
 
-def new_mail_count(maildir):
-    return len(os.listdir(os.path.join(os.path.expanduser('~/Mail/' + MAIL_FOLDER), maildir, 'new')))
+store_file = p.expanduser('~/.mail-alerts-cache')
 
-maildirs = ['inbox']
+loc = p.expanduser('~/Mail/sskcal/inbox/new')
 
-total_new_mail_count = sum(map(new_mail_count, maildirs))
+previous_keys = []
+if p.exists(store_file):
+    with open(store_file) as f:
+        previous_keys = [l.strip() for l in f
+                            if not l.isspace() and not l.startswith('#')]
 
-if total_new_mail_count != 0:
-    sp.call('notify-send "{count} New mail(s)"'.format(count=total_new_mail_count), shell=True)
+new_msgs = []
+current_keys = []
+
+for fname in os.listdir(loc):
+
+    with open(p.join(loc, fname)) as f:
+        msg = MaildirMessage(f.read())
+
+    key = '{Date} | {From} | {Subject}'.format(**msg)
+
+    if key not in previous_keys:
+        new_msgs.append(msg)
+
+    current_keys.append(key)
+
+with open(store_file, 'w') as f:
+    f.write('\n'.join(current_keys))
+
+if new_msgs:
+
+    notice_parts = []
+    for m in new_msgs:
+        notice_parts.append(' '.join(m['From'].split()[:2]) + '\n' + m['Subject'])
+
+    # Wouldn't let me have an empty line!
+    notice = '\n-\n'.join(notice_parts)
+
+    n = notify.Notification('{} new mail(s)'.format(len(new_msgs)),
+            notice, 'mail-unread')
+    n.show()
