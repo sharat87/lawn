@@ -25,7 +25,7 @@ for fname in os.listdir(loc):
     with open(p.join(loc, fname)) as f:
         msg = MaildirMessage(f.read())
 
-    key = '{Date} | {From} | {Subject}'.format(**msg)
+    key = ' | '.join([msg['Date'], msg['From'], msg['Subject'].replace('\n', ' ')])
 
     if key not in previous_keys:
         new_msgs.append(msg)
