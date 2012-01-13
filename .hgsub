@@ -46,9 +46,6 @@ vim/ipi/gundo = ssh://hg@bitbucket.org/sjl/gundo.vim
 vim/bundle/UltiSnips = [git]git://github.com/vim-scripts/UltiSnips.git
 #vim/bundle/snipmate.vim = [git]git@github.com:sharat87/snipmate.vim.git
 
-# Highlight several words in different colors simultaneously. (#1238 continued)
-vim/bundle/Mark--Karkat = [git]git://github.com/vim-scripts/Mark--Karkat.git
-
 # tpope's tiny little commenting plugin
 vim/bundle/vim-commentary = [git]git://github.com/tpope/vim-commentary.git
 
