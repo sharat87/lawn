@@ -620,9 +620,6 @@ let vimclojure#FuzzyIndent = 1
 " Gundo Toggle
 nnoremap <F10> :silent! IP gundo<CR>:GundoToggle<CR>
 
-" Statline options
-let g:statline_filename_relative=1
-
 " Google scribe auto-turn on
 autocmd filetype vimwiki,markdown,mail,svn,hgcommit,gitcommit
     \ setlocal completefunc=googlescribe#Complete
