@@ -12,7 +12,6 @@ e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
 d4497538ae397efdb0f684b3d3278e4c6ec8effd vim/bundle/VimClojure
 e7ee18e2e7ed60509aa951cd34b57193fa14e5ab vim/bundle/ZoomWin
 9895285042a2fd5691b2f6582aa979e4d1bdffea vim/bundle/ack.vim
-f04196941a2e11e36066ccc8486ea5fa7f6a82d0 vim/bundle/ctrlp.vim
 1870ae144f2aacda087820cc8c518314721fba9f vim/bundle/html5.vim
 9543eec44e5cb75b67f0e5eaf1377ca82ced7b90 vim/bundle/linediff.vim
 ced6c409c9beeb0b4142d21906606bd194411d1d vim/bundle/matchit.zip
@@ -41,6 +40,7 @@ ab64b4ddd0c184a528780b498a0b0a5b40248f7c vim/bundle/vim-pathogen
 cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
 52eef03408f0df43b7a05484e2278a2acb777944 vim/bundle/vim-unimpaired
+18686a82a2e4d015b877bf0b6867a269aa8a284f vim/ipi/Command-T
 f3c92a29a162045c2604212f51846f0d7f73d661 vim/ipi/Conque-Shell
 644c7a4314149488b3852dd6bfbf7fb94f1ee148 vim/ipi/TwitVim
 2a78f151df54b53874f0aa6a85cfdad6ead224ed vim/ipi/gundo

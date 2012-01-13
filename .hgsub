@@ -87,7 +87,8 @@ vim/bundle/pythondo = [git]git://github.com/vim-scripts/pythondo.git
 # vim/bundle/ManPageView = [git]git://github.com/vim-scripts/ManPageView.git
 
 # Fuzzy file, buffer and MRU file finder with regexp support.
-vim/bundle/ctrlp.vim = [git]git://github.com/kien/ctrlp.vim.git
+#vim/bundle/ctrlp.vim = [git]git://github.com/kien/ctrlp.vim.git
+vim/ipi/Command-T = [git]http://git.wincent.com/command-t.git
 
 # Super text object additions
 vim/bundle/vim-indent-object = [git]git://github.com/michaeljsmith/vim-indent-object.git
