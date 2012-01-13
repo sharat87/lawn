@@ -235,9 +235,15 @@ set title
 " The env file will see this variable and quit without changing anything.
 " let $DONT_ENV = 'true'
 
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
 " }}}
 
 " Mappings {{{
+
+" Quickly edit my vimrc
+nnoremap <Leader>ev :e $MYVIMRC<CR>
 
 " Maps that make more sense
 nnoremap Y y$
@@ -338,6 +344,13 @@ nnoremap <silent> <Leader>h :noh<CR>
 nnoremap ; :
 vnoremap ; :
 
+" Keep search matches in the middle of the window and pulse the line when
+" moving to them.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+vnoremap n nzzzv
+vnoremap N Nzzzv
+
 " Repeating keys is not as awesome
 nnoremap <> <<
 nnoremap >< >>
@@ -349,6 +362,13 @@ inoremap <F1> <Nop>
 " Scrolling
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
+
+" Open a Quickfix window for the last search.
+nnoremap <silent> <Leader>; :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
+
+" Ack for the last search.
+nnoremap <silent> <Leader>: :execute "Ack! '" .
+            \ substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Open a scratch pad with markdown
 " Utility func.
@@ -485,6 +505,17 @@ call <SID>ObMapper("'")
 
 " Next ""
 call <SID>ObMapper('"')
+
+" Highlight word (Taken from sjl's vimrc)
+nnoremap <silent> <Leader>ma :execute 'match InterestingWordA /\<<C-r><C-w>\>/'<CR>
+nnoremap <silent> <Leader>ms :execute '2match InterestingWordS /\<<C-r><C-w>\>/'<CR>
+nnoremap <silent> <Leader>md :execute '3match InterestingWordD /\<<C-r><C-w>\>/'<CR>
+nnoremap <silent> <Leader>Ma :execute 'match'<CR>
+nnoremap <silent> <Leader>Ms :execute '2match'<CR>
+nnoremap <silent> <Leader>Md :execute '3match'<CR>
+highlight InterestingWordA guifg=#000000 guibg=#FFA700
+highlight InterestingWordS guifg=#000000 guibg=#53FF00
+highlight InterestingWordD guifg=#000000 guibg=#FF74F8
 
 " }}}
 
