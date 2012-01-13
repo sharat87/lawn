@@ -16,6 +16,9 @@ set mapleader=','
 " Only show the tabbar when there are more than 1 tab.
 set showtabline=multitab
 
+" Open links only on hitting return
+set followhints=1
+
 " Make the text bigger.
 highlight StatusLine -moz-appearance: none !important; font-weight: bold; background: transparent !important; border: 0px !important; min-height: 22px !important; text-shadow: none !important; font: normal 16px/1 'Menlo' !important; padding: 3px 0px 3px 5px !important;
 highlight CmdLine    padding: 1px !important; font: normal 16px 'Inconsolata-g' !important;
@@ -23,7 +26,6 @@ highlight CmdOutput  font: normal 14px 'Inconsolata-g' !important;
 highlight CompItem   font: normal 14px 'Inconsolata-g' !important;
 
 " An itchy habit I have on vim
-nnoremap : ;
 nnoremap ; :
 
 " Oh please!
@@ -48,9 +50,6 @@ nnoremap <C-k> <C-u>
 " Next/Previous links in pages
 nnoremap < [[
 nnoremap > ]]
-
-" Invoke the tab group visualization thingy whatever you call it
-nnoremap ge <C-v><C-S-e>
 
 " Next/Previous tab with C-h and C-l, old tmux habit :)
 noremap <C-h> :tabp<CR>
