@@ -75,6 +75,9 @@ def put():
         cmds[pid] = name
 
     t.wait()
+
+    do_compilations()
+
     print('Finished')
 
 @task
@@ -128,3 +131,11 @@ def update_subrepo(sub):
             local('svn up')
         else:
             print('Unknown version control system:', sub.vcs)
+
+    do_compilations()
+
+def do_compilations():
+    if p.exists('vim/ipi/Command-T'):
+        with lcd('vim/ipi/Command-T/ruby/command-t'):
+            local('ruby extconf.rb')
+            local('make')
