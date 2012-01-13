@@ -77,7 +77,7 @@ vim/bundle/linediff.vim = [git]git://github.com/AndrewRadev/linediff.vim.git
 vim/bundle/pyflakes-vim = [git]git://github.com/kevinw/pyflakes-vim.git
 
 # Add useful informations to Vim statusline
-vim/bundle/vim-statline = [git]https://github.com/millermedeiros/vim-statline.git
+vim/bundle/vim-powerline = [git]https://github.com/Lokaltog/vim-powerline.git
 
 # Python command :Pyd
 vim/bundle/pythondo = [git]git://github.com/vim-scripts/pythondo.git

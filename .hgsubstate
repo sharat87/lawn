@@ -3,7 +3,7 @@ c4095c3519d61f97f78fd767c1f81c6b4f06df80 hg/hg-prompt
 464342e1dd416764598bd4e02b767310dac16371 mail/offlineimap
 3b23c55eb43849975656dd89e3f35dacd2b93e69 mutt/solarized-colors
 bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax-highlighting
-70a910d4001159ae7b5fb8586ee00c064c9b0082 shell/oh-my-zsh
+38dcb13a486944e5bf2f25ff44c7d6554b433e39 shell/oh-my-zsh
 224aa0955a522c59b1f9074199400a5da1a804ce vim/bundle/CamelCaseMotion
 e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
 982daeb4fd43ec7590d3698ee3b879a0c532b107 vim/bundle/Mark--Karkat
@@ -36,13 +36,13 @@ e66f9019b4eca05d7f5dfe38c742cf42e641e98d vim/bundle/vim-javascript
 fdc0f091c78cd9a474ac3e3cf40ba7d6933ef9da vim/bundle/vim-markdown
 8d1116d095fdacc845ffe66cd80693999d3fcb14 vim/bundle/vim-pad
 ab64b4ddd0c184a528780b498a0b0a5b40248f7c vim/bundle/vim-pathogen
+4df0cdc009e590c1d6ec32a2a3c12ff8deeb6f25 vim/bundle/vim-powerline
 11cba188ef71927e8594a4145fc8451ef692a54b vim/bundle/vim-pyref
 cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
-1670ba093f14564744455024d246bdcfafa64d17 vim/bundle/vim-statline
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
 52eef03408f0df43b7a05484e2278a2acb777944 vim/bundle/vim-unimpaired
 f3c92a29a162045c2604212f51846f0d7f73d661 vim/ipi/Conque-Shell
-d0cba2ad19d596a04877da139f9fba83abc868f0 vim/ipi/TwitVim
+644c7a4314149488b3852dd6bfbf7fb94f1ee148 vim/ipi/TwitVim
 2a78f151df54b53874f0aa6a85cfdad6ead224ed vim/ipi/gundo
 6b7c9aa5c84a8b1d513599fd236df5c0772ff8c8 vim/ipi/nerdtree
 df769eb51d1046a05c0d7c26798bc80d29f5dfff vim/ipi/vimroom
