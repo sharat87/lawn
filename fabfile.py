@@ -14,14 +14,14 @@ Subrepo = namedtuple('Subrepo', 'location vcs repo')
 @task(default=True)
 def put():
 
-    if os.path.exists('_originals'):
+    if p.exists('_originals'):
         print('_originals already exists. Delete it first, if you do not need it.')
         if confirm('Get rid of it?'):
             local('rm -Rf _originals')
         else:
             raise SystemExit(1)
-    else:
-        os.mkdir('_originals')
+
+    os.mkdir('_originals')
 
     dln('tmux.conf')
 
@@ -92,16 +92,16 @@ def dln(src, dst=None):
     if dst is None:
         dst = '~/.' + src
 
-    dst = os.path.expanduser(dst)
+    dst = p.expanduser(dst)
 
-    if os.path.exists(dst):
-        local('mv "' + dst + '" _originals')
+    if p.exists(dst):
+        local('mv "' + dst + '" _originals/')
 
-    local('ln -s "' + os.path.abspath(src) + '" "' + dst + '"')
+    local('ln -s "' + p.abspath(src) + '" "' + dst + '"')
 
 def wget_cmd(url, dst=None):
     if dst is None:
-        dst = os.path.basename(url)
+        dst = p.basename(url)
 
     cmd = 'wget --no-check-certificate -O "' + dst + '" "' + url + '"'
 
