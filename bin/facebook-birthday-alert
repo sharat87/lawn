@@ -1,0 +1,16 @@
+#!/bin/bash
+
+(
+
+echo '----------------------------------------------------------------------'
+date
+
+newborns="$(fbcmd friends '=bday' -csv -hdr=0 | cut -d, -f2)"
+
+if [[ ! -z "$newborns" ]]; then
+    notify-send 'Facebook buddy birthday(s)' "$newborns"
+fi
+
+echo
+
+) &>> ~/.facebook-birthday-alert.log
