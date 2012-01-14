@@ -242,6 +242,10 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Mappings {{{
 
+" Leaders ahoy!
+let mapleader = ','
+let maplocalleader = '\'
+
 " Quickly edit my vimrc
 nnoremap <Leader>ev :e $MYVIMRC<CR>
 
@@ -272,10 +276,6 @@ nnoremap <Space> ;
 nnoremap <S-Space> ,
 vnoremap <Space> ;
 vnoremap <S-Space> ,
-
-" Leaders ahoy!
-let mapleader = ','
-let maplocalleader = '\'
 
 " Open a new line without leaving insert mode
 inoremap <silent> <S-CR> <C-[>
