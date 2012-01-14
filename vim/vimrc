@@ -559,18 +559,15 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 " PyRef options
 let g:pyref_mapping = 'gK'
 
-" CtrlP settings
-let g:ctrlp_map = '<Leader>f'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_root_markers = ['.hg', 'fabfile.py', 'ant.xml']
-let g:ctrlp_prompt_mappings = {
-  \ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-  \ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
-  \ 'PrtHistory(-1)':       ['<c-n>'],
-  \ 'PrtHistory(1)':        ['<c-p>'],
-  \ 'ToggleFocus()':        ['<c-tab>'],
-  \ }
+" Command-T settings
+let g:CommandTMatchWindowReverse = 1
+fun! <SID>CommandTLoad(cmd)
+    IP Command-T
+    execute a:cmd
+endfun
+nnoremap <Leader>f :call <SID>CommandTLoad('CommandT')<CR>
+nnoremap <Leader>F :call <SID>CommandTLoad('CommandTBuffer')<CR>
+nnoremap <Leader><Leader>f :call <SID>CommandTLoad('CommandTFlush')<CR>
 
 " NerdTree
 " Convenience map for toggling NerdTree window
