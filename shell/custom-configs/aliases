@@ -37,6 +37,8 @@ alias a='sudo aptitude'
 alias g='gvim'
 alias v='vim'
 
+alias epoch='date +%s'
+
 # svn shortys
 alias sin='s info'
 alias sst='s st'

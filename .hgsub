@@ -103,7 +103,7 @@ vim/bundle/mustache.vim = [git]https://github.com/juvenn/mustache.vim.git
 vim/bundle/SearchPosition = [git]https://github.com/vim-scripts/SearchPosition.git
 
 # a quick notetaking plugin
-vim/bundle/vim-pad = [git]https://github.com/fmoralesc/vim-pad.git
+vim/ipi/vim-pad = [git]https://github.com/fmoralesc/vim-pad.git
 
 # Load plugins individually - cut down start-up time.
 vim/bundle/vim-ipi = [git]https://github.com/jceb/vim-ipi.git

@@ -32,7 +32,6 @@ b7b4d8791a50013b56c2d68b6c5708c808203b54 vim/bundle/tabular
 f28bb44a103ef6fe9d139b83bf84ce34d3bc1cfd vim/bundle/vim-ipi
 e66f9019b4eca05d7f5dfe38c742cf42e641e98d vim/bundle/vim-javascript
 fdc0f091c78cd9a474ac3e3cf40ba7d6933ef9da vim/bundle/vim-markdown
-8d1116d095fdacc845ffe66cd80693999d3fcb14 vim/bundle/vim-pad
 ab64b4ddd0c184a528780b498a0b0a5b40248f7c vim/bundle/vim-pathogen
 4df0cdc009e590c1d6ec32a2a3c12ff8deeb6f25 vim/bundle/vim-powerline
 11cba188ef71927e8594a4145fc8451ef692a54b vim/bundle/vim-pyref
@@ -44,4 +43,5 @@ f3c92a29a162045c2604212f51846f0d7f73d661 vim/ipi/Conque-Shell
 644c7a4314149488b3852dd6bfbf7fb94f1ee148 vim/ipi/TwitVim
 2a78f151df54b53874f0aa6a85cfdad6ead224ed vim/ipi/gundo
 6b7c9aa5c84a8b1d513599fd236df5c0772ff8c8 vim/ipi/nerdtree
+8d1116d095fdacc845ffe66cd80693999d3fcb14 vim/ipi/vim-pad
 df769eb51d1046a05c0d7c26798bc80d29f5dfff vim/ipi/vimroom

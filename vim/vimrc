@@ -625,13 +625,24 @@ let g:vimwiki_list = [
     \]
 
 " vim-pad settings
-let g:pad_dir = '~/pad'
+let g:pad_dir = '~/Dropbox/pad'
 let g:pad_window_height = 10
 let g:pad_highlighting_variant = 1 " Looks good with solarized
 let g:pad_use_default_mappings = 0
-nmap <Leader>l <Plug>ListPads
-nmap <Leader>a <Plug>OpenPad
-nmap <Leader>s <Plug>SearchPads
+let s:pad_ipi_loaded = 0
+fun! <SID>PadLoad(cmd)
+    if !s:pad_ipi_loaded
+        IP vim-pad
+        let s:pad_ipi_loaded = 1
+        nmap <Leader>l <Plug>ListPads
+        nmap <Leader>a <Plug>OpenPad
+        nmap <Leader>s <Plug>SearchPads
+    endif
+    execute 'normal <Plug>' . a:cmd
+endfun
+nnoremap <Leader>l :call <SID>PadLoad('ListPads')<CR>
+nnoremap <Leader>a :call <SID>PadLoad('OpenPad')<CR>
+nnoremap <Leader>s :call <SID>PadLoad('SearchPads')<CR>
 
 " simplenote credentials
 so ~/.simplenoterc
