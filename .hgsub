@@ -5,7 +5,7 @@ hg/hg-prompt = ssh://hg@bitbucket.org/sjl/hg-prompt
 hg/hg-shelve = ssh://hg@bitbucket.org/tksoh/hgshelve
 
 mutt/solarized-colors = [git]git://github.com/altercation/mutt-colors-solarized.git
-mail/offlineimap = [git]git://github.com/nicolas33/offlineimap.git
+mail/offlineimap = [git]git://github.com/spaetz/offlineimap.git
 
 vim/bundle/vim-pathogen = [git]git://github.com/tpope/vim-pathogen.git
 vim/bundle/vim-colors-solarized = [git]git://github.com/altercation/vim-colors-solarized.git
