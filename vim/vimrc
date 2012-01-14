@@ -634,15 +634,12 @@ fun! <SID>PadLoad(cmd)
     if !s:pad_ipi_loaded
         IP vim-pad
         let s:pad_ipi_loaded = 1
-        nmap <Leader>l <Plug>ListPads
-        nmap <Leader>a <Plug>OpenPad
-        nmap <Leader>s <Plug>SearchPads
     endif
-    execute 'normal <Plug>' . a:cmd
+    execute "normal \<Plug>" . a:cmd
 endfun
-nnoremap <Leader>l :call <SID>PadLoad('ListPads')<CR>
-nnoremap <Leader>a :call <SID>PadLoad('OpenPad')<CR>
-nnoremap <Leader>s :call <SID>PadLoad('SearchPads')<CR>
+nnoremap <silent> <Leader>l :call <SID>PadLoad('ListPads')<CR>
+nnoremap <silent> <Leader>a :call <SID>PadLoad('OpenPad')<CR>
+nnoremap <silent> <Leader>s :call <SID>PadLoad('SearchPads')<CR>
 
 " simplenote credentials
 so ~/.simplenoterc
