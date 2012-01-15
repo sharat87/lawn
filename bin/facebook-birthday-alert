@@ -7,7 +7,7 @@ date
 
 newborns="$(~/apps/fbcmd/bin/fbcmd friends '=bday' -csv -hdr=0 | cut -d, -f2)"
 
-if [[ ! -z "$newborns" ]]; then
+if [[ "$newborns" != "No Friends With Birthday Matches" ]]; then
     notify-send 'Facebook buddy birthday(s)' "$newborns"
 fi
 
