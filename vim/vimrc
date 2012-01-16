@@ -297,6 +297,9 @@ vnoremap ' `
 " ` is easier to reach than <C-w>
 nnoremap ` <C-w>
 
+" <C-l> is inaccessible in the terminal (I use it as a tmux binding)
+nnoremap <Leader>r <C-l>
+
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
 " Use <Space> to toggle to alternate buffer
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
