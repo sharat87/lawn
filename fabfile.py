@@ -88,6 +88,8 @@ def up():
     for sub in subs:
         update_subrepo(sub)
 
+    do_compilations()
+
 def dln(src, dst=None):
     if dst is None:
         dst = '~/.' + src
@@ -131,8 +133,6 @@ def update_subrepo(sub):
             local('svn up')
         else:
             print('Unknown version control system:', sub.vcs)
-
-    do_compilations()
 
 def do_compilations():
     if p.exists('vim/ipi/Command-T'):
