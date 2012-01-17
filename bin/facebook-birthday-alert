@@ -5,12 +5,17 @@
 echo '----------------------------------------------------------------------'
 date
 
+while ! ping -qc 2 facebook.com; do
+    echo no connection
+    sleep 10s
+done
+
 newborns="$(~/apps/fbcmd/bin/fbcmd friends '=bday' -csv -hdr=0 | cut -d, -f2)"
 
 if [[ "$newborns" != "No Friends With Birthday Matches" ]]; then
     notify-send 'Facebook buddy birthday(s)' "$newborns"
 fi
 
-echo
+echo Fin
 
 ) &>> ~/.facebook-birthday-alert.log
