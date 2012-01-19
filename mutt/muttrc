@@ -78,7 +78,7 @@ bind index,pager,browser \cd half-down
 bind index,pager gr reply
 bind index,pager r group-reply
 
-bind index,pager ,r refresh
+bind index ,r refresh
 
 macro index,pager ,d ":unset wait_key\n|~/Dropbox/Private/open-hd-from-mail\n:set wait_key\n" "Open desc page from mail"
 macro index,pager ,k ":unset wait_key\n|~/Dropbox/Private/add-email-to-tasks\n:set wait_key\n" "Add this email as a task"
