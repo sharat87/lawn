@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Once its copied to the public to-kindle folder,
+# ifttt will pick it up and se to my kindle email address.
+echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | xargs -I% cp % ~/Dropbox/Public/to-kindle/
