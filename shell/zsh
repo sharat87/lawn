@@ -30,5 +30,11 @@ COMPLETION_WAITING_DOTS=true
 echo >> ~/.zsh-profiling-info
 echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
 
+# Setup for rupa's z
+add-zsh-hook precmd z_precmd
+function z_precmd {
+    _z --add "$PWD"
+}
+
 _end_time=$(date +%s.%N)
 echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
