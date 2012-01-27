@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from __future__ import print_function
+from __future__ import unicode_literals
 
 import os, os.path as p
 from mailbox import MaildirMessage
@@ -25,7 +26,11 @@ for fname in os.listdir(loc):
     with open(p.join(loc, fname)) as f:
         msg = MaildirMessage(f.read())
 
-    key = ' | '.join([msg['Date'], msg['From'], msg['Subject'].replace('\n', ' ')]).strip()
+    # Join them with the ⁑ character
+    key = ' \u2051 '.join(unicode(msg[prop]) for prop in 'Date From Subject'.split())
+
+    # Replace the newline character with ␤
+    key = key.strip().replace('\n', '\u2424')
 
     if key not in previous_keys:
         new_msgs.append(msg)
