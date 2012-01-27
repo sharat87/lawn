@@ -13,7 +13,10 @@ done
 newborns="$(~/apps/fbcmd/bin/fbcmd friends '=bday' -csv -hdr=0 | cut -d, -f2)"
 
 if [[ "$newborns" != "No Friends With Birthday Matches" ]]; then
-    notify-send 'Facebook buddy birthday(s)' "$newborns"
+    # notify-send 'Facebook buddy birthday(s)' "$newborns"
+    zenity --info --title="Facebook birthday(s)" \
+        --text="Facebook buddy birthday(s):\n$newborns" \
+        --window-icon="/usr/share/icons/Faenza/apps/scalable/facebook.svg"
 fi
 
 echo Fin
