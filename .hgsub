@@ -135,3 +135,6 @@ vim/ipi/vimroom = [git]https://github.com/mikewest/vimroom.git
 
 # My fork of a Twitter client written in Vim script, by mortonfox.
 vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim
+
+# Buffergator
+vim/bundle/vim-buffergator = [git]https://github.com/jeetsukumaran/vim-buffergator.git
