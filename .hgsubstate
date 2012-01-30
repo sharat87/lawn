@@ -1,9 +1,9 @@
-c4095c3519d61f97f78fd767c1f81c6b4f06df80 hg/hg-prompt
+0649e77b06d03c2edecbf6ffc3612099c0f88436 hg/hg-prompt
 244a50c40d93873006c875c5d2ae64fcbc987216 hg/hg-shelve
 36dd46abfc35ca435600c307f09f84ebb9b3add5 mail/offlineimap
 3b23c55eb43849975656dd89e3f35dacd2b93e69 mutt/solarized-colors
 bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax-highlighting
-38dcb13a486944e5bf2f25ff44c7d6554b433e39 shell/oh-my-zsh
+18429e41e52de09b91f3549ed5153ef7763f1495 shell/oh-my-zsh
 224aa0955a522c59b1f9074199400a5da1a804ce vim/bundle/CamelCaseMotion
 e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
 4b819945e41cd2cc3866dab31f84b94587168f22 vim/bundle/SearchPosition
@@ -24,7 +24,7 @@ b7b4d8791a50013b56c2d68b6c5708c808203b54 vim/bundle/tabular
 6a633f685c59d80d9b73fb40506fde2e709abe04 vim/bundle/vim-abolish
 6d5527d2fe337324c4b125a2d3b45e20df16f94d vim/bundle/vim-afterimage
 c6f56eac74c9ae9301b640e9f5bb0389a8ffd4fa vim/bundle/vim-buffergator
-2591fefbc78ee7448da8da4a0537a531f710c743 vim/bundle/vim-coffee-script
+2a691d9f5db30d8a44704351401087ad00460825 vim/bundle/vim-coffee-script
 528a59f26d12278698bb946f8fb82a63711eec21 vim/bundle/vim-colors-solarized
 62b72580aba57cb5185bd077ac7a905c1c6893ea vim/bundle/vim-commentary
 6ddceb1ba6c072f6a9aa166743eee58ebf52b85c vim/bundle/vim-cute-python
@@ -32,9 +32,10 @@ c6f56eac74c9ae9301b640e9f5bb0389a8ffd4fa vim/bundle/vim-buffergator
 78fffa609b3e6b84ef01ee4c9aba6d7435d7b18e vim/bundle/vim-indent-object
 f28bb44a103ef6fe9d139b83bf84ce34d3bc1cfd vim/bundle/vim-ipi
 e66f9019b4eca05d7f5dfe38c742cf42e641e98d vim/bundle/vim-javascript
+3c2a265b89d1d9848633cfc1642d2e78ecd73a25 vim/bundle/vim-less
 fdc0f091c78cd9a474ac3e3cf40ba7d6933ef9da vim/bundle/vim-markdown
 ab64b4ddd0c184a528780b498a0b0a5b40248f7c vim/bundle/vim-pathogen
-f163b4695c3b4c75bf48b2e9a3ac53f9195dc7f8 vim/bundle/vim-powerline
+54011faab96adea6cff3bd45131c7cfe9e1bc067 vim/bundle/vim-powerline
 11cba188ef71927e8594a4145fc8451ef692a54b vim/bundle/vim-pyref
 cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 4eb2cdfccc016889acfa3b5d63e8f390a87863cf vim/bundle/vim-surround
@@ -43,6 +44,6 @@ cdffdd43816ddaeee858ae42da3ab6ddcfa25d19 vim/bundle/vim-repeat
 f3c92a29a162045c2604212f51846f0d7f73d661 vim/ipi/Conque-Shell
 644c7a4314149488b3852dd6bfbf7fb94f1ee148 vim/ipi/TwitVim
 2a78f151df54b53874f0aa6a85cfdad6ead224ed vim/ipi/gundo
-7fbb77c0675b1cea9efbfa2852feb8a3a7c12ac7 vim/ipi/nerdtree
+2a0578227ebcc334da64f5e93137926388f71ce6 vim/ipi/nerdtree
 8d1116d095fdacc845ffe66cd80693999d3fcb14 vim/ipi/vim-pad
 df769eb51d1046a05c0d7c26798bc80d29f5dfff vim/ipi/vimroom

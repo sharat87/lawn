@@ -138,3 +138,6 @@ vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim
 
 # Buffergator
 vim/bundle/vim-buffergator = [git]https://github.com/jeetsukumaran/vim-buffergator.git
+
+# vim syntax for LESS
+vim/bundle/vim-less = [git]git://github.com/groenewege/vim-less.git
