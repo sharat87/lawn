@@ -66,6 +66,10 @@ nnoremap <Leader>k :open to-kindle<CR>
 nnoremap s :open g<Space>
 nnoremap S :tabopen g<Space>
 
+" Use <C-o> instead of <C-w> as the former is easier to hit
+inoremap <C-o> <C-w>
+cnoremap <C-o> <C-w>
+
 " Don't you look at my private parts!
 source ~/Dropbox/Private/pentadactylrc
 
