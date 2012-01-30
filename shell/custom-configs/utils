@@ -211,16 +211,16 @@ copy-path () {
     echo $apath
 }
 
-# XXX A command to quickly open and start everything needed to start working
-# on a project.
+# A command to quickly open and start everything needed to start working on a
+# project.
 i () {
     project="$1"
-    starter="~/.starters/$project.sh"
-    if [[ -f $starter ]]; then
-        source "$starter"
+    starter="$HOME/.starters/$project.sh"
+    if [[ -f "$starter" ]]; then
         export PROJECT=$project
+        source "$starter"
     else
-        echo Project $project does not exist. >&2
+        echo "Project $project does not exist." >&2
     fi
 }
 
