@@ -402,8 +402,8 @@ fun! s:OpenScratchPad(start_new)
         startinsert
     endif
 endfunction
-nnoremap <Leader>d :call <SID>OpenScratchPad(1)<CR>
-nnoremap <Leader>D :call <SID>OpenScratchPad(0)<CR>
+nnoremap <Leader>xd :call <SID>OpenScratchPad(1)<CR>
+nnoremap <Leader>xD :call <SID>OpenScratchPad(0)<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -570,8 +570,8 @@ fun! <SID>CommandTLoad(cmd)
     execute a:cmd
 endfun
 nnoremap <Leader>f :call <SID>CommandTLoad('CommandT')<CR>
-nnoremap <Leader>F :call <SID>CommandTLoad('CommandTBuffer')<CR>
-nnoremap <Leader><Leader>f :call <SID>CommandTLoad('CommandTFlush')<CR>
+nnoremap <Leader>d :call <SID>CommandTLoad('CommandTBuffer')<CR>
+nnoremap <Leader>F :call <SID>CommandTLoad('CommandTFlush')<CR>
 
 " NerdTree
 " Convenience map for toggling NerdTree window
