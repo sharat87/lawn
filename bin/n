@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Load the given task from first argument, or the default-task
+task="${1:-default-task}"
+shift
+
+# Find the project directory.
+project_dir="$PWD"
+while [[ ! -f "$project_dir/nakefile" && ! -z "$project_dir" ]]; do
+    project_dir="${project_dir%/*}"
+done
+
+# Go into the project dir and load the nakefile
+cd "$project_dir"
+. nakefile
+
+# Run the task with the given arguments.
+"$task" "$@"
