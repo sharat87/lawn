@@ -10,6 +10,11 @@ while [[ ! -f "$project_dir/nakefile" && ! -z "$project_dir" ]]; do
     project_dir="${project_dir%/*}"
 done
 
+if [[ ! -f nakefile ]]; then
+    echo nakefile not found >&2
+    exit 1
+fi
+
 # Go into the project dir and load the nakefile
 cd "$project_dir"
 . nakefile
