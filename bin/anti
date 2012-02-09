@@ -20,9 +20,9 @@ if (( $len > 4 )); then
 fi
 
 # Decide on a java version based on the version number
-if (( $version >= 1200 )); then
+if (( "$version" >= 1200 )); then
     jhome="$JAVA_6_HOME"
-elif (( $version >= 900 )); then
+elif (( "$version" >= 900 )); then
     jhome="$JAVA_5_HOME"
 else
     jhome="$JAVA_4_HOME"
