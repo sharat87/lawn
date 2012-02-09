@@ -51,6 +51,7 @@ alias slo='s log'
 alias sre='s revert'
 alias sbl='s blame'
 alias ssw='s switch'
+alias sad='s add'
 
 # Even two is too much sometimes :)
 alias h='hg'
@@ -82,10 +83,13 @@ alias t.r='t -r'
 alias k.f='k -f'
 alias k.r='k -r'
 
-# ants and ants and ants and ants!
-alias ant4="PATH=$JAVA_4_HOME/bin:$PATH r ant "
-alias ant5="PATH=$JAVA_5_HOME/bin:$PATH r ant "
-alias ant6="PATH=$JAVA_6_HOME/bin:$PATH r ant "
+# Various javas and ants
+alias j4="JAVA_HOME=$JAVA_4_HOME PATH=$JAVA_4_HOME/bin:$PATH"
+alias j5="JAVA_HOME=$JAVA_5_HOME PATH=$JAVA_5_HOME/bin:$PATH"
+alias j6="JAVA_HOME=$JAVA_6_HOME PATH=$JAVA_6_HOME/bin:$PATH"
+alias ant4='j4 rn ant'
+alias ant5='j5 rn ant'
+alias ant6='j6 rn ant'
 
 ###
 # Utility functions/commands
@@ -120,7 +124,7 @@ ex () {
 }
 
 # Run a command and notify when done
-r () {
+rn () {
     if $@
     then
         notify-send 'Shell' "$1 finished successfully"
@@ -315,6 +319,20 @@ i () {
     else
         echo "Project $project does not exist." >&2
     fi
+}
+
+# A command to run a calypso application process quickly
+cproc () {
+    envname=$1
+    shift
+    proc=$1
+    shift
+    # (export IFS=$'\n'
+    #     echo "$*")
+    # return 0
+    java -Duser.home=$HOME/calypso-software -cp "$(c -P $envname)" \
+        com.calypso.apps.startup.$proc \
+        -user calypso_user -password calypso -env $envname "$@"
 }
 
 # vim: se ft=sh :
