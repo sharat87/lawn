@@ -6,6 +6,7 @@ bb0d575942760fe483790fe878ea43b1f781e2ca shell/custom-configs/plugins/zsh-syntax
 18429e41e52de09b91f3549ed5153ef7763f1495 shell/oh-my-zsh
 224aa0955a522c59b1f9074199400a5da1a804ce vim/bundle/CamelCaseMotion
 e4583e4c4bbb56a7d25a81ccfe78efa6d020ecd1 vim/bundle/CheckAttach
+5d994fa572013934aa984c222f56b4e2274bc137 vim/bundle/Hemisu
 4b819945e41cd2cc3866dab31f84b94587168f22 vim/bundle/SearchPosition
 40ff1d2902065dd35330e2a761196a78ef4315f5 vim/bundle/UltiSnips
 d4497538ae397efdb0f684b3d3278e4c6ec8effd vim/bundle/VimClojure
