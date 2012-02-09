@@ -11,7 +11,7 @@ noremap <Leader>h :noh<CR>
 set history=5000
 
 " C'mon!
-set mapleader=','
+set mapleader=,
 
 " Only show the tabbar when there are more than 1 tab.
 set showtabline=multitab
