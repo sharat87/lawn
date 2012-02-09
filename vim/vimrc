@@ -120,6 +120,10 @@ set shiftwidth=4 " No. of display space to be shifted per indent
 set expandtab " Use spaces instead of tabs to indent
 set shiftround " Round off the indent to *n* shiftwidths
 
+" Show a vertical line warning of my long lines
+set textwidth=80
+set colorcolumn=+1
+
 " Make horizontal scrolling less horrible (via @stevelosh)
 set sidescroll=1
 set sidescrolloff=10
