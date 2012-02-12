@@ -33,6 +33,8 @@ def put():
 
     dln('pentadactylrc')
 
+    dln('nautilus-scripts', '~/.gnome2/nautilus-scripts')
+
     dln('web/js', '~/.js')
     dln('web/css', '~/.css')
 
