@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from fabric.api import task, local, lcd
+from fabric.api import task, local, lcd, settings
 import os, os.path as p
 from fabric.contrib.console import confirm
 from parex import TaskManager
@@ -125,7 +125,7 @@ def parse_subrepo(line):
 
 def update_subrepo(sub):
     print(p.basename(sub.location))
-    with lcd(sub.location):
+    with lcd(sub.location), settings(warn_only=True):
         if sub.vcs == 'hg':
             local('hg pull -u')
         elif sub.vcs == 'git':
