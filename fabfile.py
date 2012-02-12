@@ -66,7 +66,6 @@ def put():
         'http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
         'https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
         'https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
-        'https://github.com/sjl/z-zsh/raw/master/z.sh                 | shell/custom-configs/sjl-z.sh',
     )
 
     for entry in update_entries:
