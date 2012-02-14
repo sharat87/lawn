@@ -1,22 +1,23 @@
 #!/bin/bash
 
-( # Script redirection wrapper subshell.
+{ # Script redirection wrapper.
 
-echo '----------------------------------------'
-date
+    echo '----------------------------------------'
+    date
 
-addresses='shrikantsharat.k@gmail.com shrikantsharat.k@kindle.com'
+    addresses="$(awk -F= '/^kindle-address/ {print$2}' \
+        ~/Dropbox/Private/creds.ini)"
 
-# Remove the empty line in the end.
-filenames="$(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | sed -n $!p)"
+    # Remove the empty line in the end.
+    filenames="$(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | sed -n $!p)"
 
-echo "$filenames" | xargs -I% -d\\n \
-    mutt -e "set from = 'shrikantsharat.k@gmail.com';
-        set smtp_url = 'smtp://shrikantsharat.k@smtp.gmail.com:587/';
-        set smtp_pass = '$(cat ~/Dropbox/Private/gmail-pass)';
-        set record = '';" \
-    -s "Add $(basename %)" -a % -- $addresses
+    echo "$filenames" | xargs -I% -d\\n \
+        mutt -e "set from = 'shrikantsharat.k@gmail.com';
+            set smtp_url = 'smtp://shrikantsharat.k@smtp.gmail.com:587/';
+            set smtp_pass = '$(cat ~/Dropbox/Private/gmail-pass)';
+            set record = '';" \
+        -s "Add $(basename %)" -a % -- $addresses
 
-notify-send 'Sent to kindle' "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"
+    notify-send 'Sent to kindle' "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"
 
-) &>> ~/.to-kindle.log
+} &>> ~/.to-kindle.log
