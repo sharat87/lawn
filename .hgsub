@@ -88,7 +88,7 @@ vim/bundle/pythondo = [git]git://github.com/vim-scripts/pythondo.git
 
 # Fuzzy file, buffer and MRU file finder with regexp support.
 #vim/bundle/ctrlp.vim = [git]git://github.com/kien/ctrlp.vim.git
-vim/ipi/Command-T = [git]http://git.wincent.com/command-t.git
+vim/ipi/Command-T = [git]git://git.wincent.com/command-t.git
 
 # Super text object additions
 vim/bundle/vim-indent-object = [git]git://github.com/michaeljsmith/vim-indent-object.git
@@ -134,7 +134,7 @@ vim/bundle/pythoncomplete = [git]https://github.com/vim-scripts/pythoncomplete.g
 vim/ipi/Conque-Shell = [git]https://github.com/vim-scripts/Conque-Shell.git
 
 # Simulating a vaguely WriteRoom-like environment in Vim.
-vim/ipi/vimroom = [git]https://github.com/mikewest/vimroom.git
+vim/ipi/vimroom = [git]git@github.com:sharat87/vimroom.git
 
 # My fork of a Twitter client written in Vim script, by mortonfox.
 vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim
