@@ -65,6 +65,7 @@ def put():
         'https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
         'http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
         'https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
+        'https://raw.github.com/holman/spark/master/spark             | ~/bin/spark',
         'https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
     )
 
