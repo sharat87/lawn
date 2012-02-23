@@ -53,6 +53,10 @@ def put():
 
     print('Finished setting up links')
 
+    tools()
+
+@task
+def tools():
     t = TaskManager()
     cmds = {}
 
@@ -80,7 +84,7 @@ def put():
 
     do_compilations()
 
-    print('Finished')
+    print('Finished updating tools')
 
 @task
 def up():
@@ -91,6 +95,8 @@ def up():
         update_subrepo(sub)
 
     do_compilations()
+
+    tools()
 
 def dln(src, dst=None):
     if dst is None:
