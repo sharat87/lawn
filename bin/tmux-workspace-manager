@@ -58,7 +58,8 @@ def work(sname, tmux):
     # Apps
     tmux.new_window('-a', '-n', 'mutt', 'zsh -c mutt')
     tmux.new_window('-a', '-n', 'twitter', 'vim +TwitterLoad')
-    tmux.new_window('-a', '-n', 'irssi', 'irssi')
+    # Need better alerts for gtalk messages, unusable until then.
+    # tmux.new_window('-a', '-n', 'irssi', 'irssi')
 
     # And an empty shell
     tmux.new_window('-a')
