@@ -18,7 +18,9 @@ progress =
 
 hgshelve = ~/lawn/hg/hg-shelve/hgshelve.py
 prompt = ~/lawn/hg/hg-prompt/prompt.py
+inotify = 
 # notify = ~/lawn/hg/notify.py
+hggit =
 
 [alias]
 clog = glog --style compact
