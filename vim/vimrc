@@ -359,16 +359,17 @@ nnoremap >< >>
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
-" Scrolling
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
+" Paragraph jumping
+nnoremap <C-j> }j^
+nnoremap <C-k> {{k^
 
 " Open a Quickfix window for the last search.
-nnoremap <silent> <Leader>; :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
+nnoremap <silent> <Leader>/ :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
 
 " Ack for the last search.
-nnoremap <silent> <Leader>: :execute "Ack! '" .
-            \ substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <silent> <Leader>? :execute "Ack! '" .
+            \ substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""),
+            \ "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 
 " Open a scratch pad with markdown
 " Utility func.
