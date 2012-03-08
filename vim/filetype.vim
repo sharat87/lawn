@@ -37,10 +37,13 @@ au FileType ruby,coffee setl sts=2 ts=2 sw=2
 
 au FileType yaml,haskell setl ai et sts=2 ts=2 sw=2
 
+au FileType clojure setl isk-=/
+
 au FileType sh setl isk+=-,!,?
 
 au FileType conque_term setl nolist
 
-au FileType help,man nnoremap <buffer> <silent> q :q<CR>
+" These files are not editable anyway, lets have `q` mapped to closing them.
+au FileType help,man,qf nnoremap <buffer> <silent> q :q<CR>
 
 aug END
