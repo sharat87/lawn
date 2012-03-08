@@ -1,5 +1,6 @@
 shell/oh-my-zsh = [git]git@github.com:sharat87/oh-my-zsh.git
 shell/custom-configs/plugins/zsh-syntax-highlighting = [git]https://github.com/zsh-users/zsh-syntax-highlighting.git
+shell/custom-configs/plugins/n-nake = ssh://hg@bitbucket.org/sharat87/n-nake
 
 hg/hg-prompt = ssh://hg@bitbucket.org/sjl/hg-prompt
 hg/hg-shelve = ssh://hg@bitbucket.org/tksoh/hgshelve
@@ -138,9 +139,6 @@ vim/ipi/vimroom = [git]git@github.com:sharat87/vimroom.git
 
 # My fork of a Twitter client written in Vim script, by mortonfox.
 vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim
-
-# Buffergator
-vim/bundle/vim-buffergator = [git]https://github.com/jeetsukumaran/vim-buffergator.git
 
 # vim syntax for LESS
 vim/bundle/vim-less = [git]git://github.com/groenewege/vim-less.git
