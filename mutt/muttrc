@@ -89,10 +89,10 @@ macro index,pager gs "<change-folder>=sent<enter>" "Open Sent Mail"
 
 # Notmuch search
 macro index g/ \
-    ":unset wait_key\n|~/bin/mutt-notmuch --prompt search\n<change-folder-readonly>~/.cache/mutt_results\n" \
+    ":unset wait_key\n!~/bin/mutt-notmuch.sh search\n<change-folder-readonly>~/.cache/mutt_results\n" \
     "search mail using notmuch"
 macro index gt \
-    ":unset wait_key\n|~/bin/mutt-notmuch thread\n<change-folder-readonly>~/.cache/mutt_results\n:set wait_key\n" \
+    ":unset wait_key\n|~/bin/mutt-notmuch.sh thread\n<change-folder-readonly>~/.cache/mutt_results\n:set wait_key\n" \
     "search and reconstruct owning thread (using notmuch)"
 
 source ~/lawn/mutt/solarized-colors/mutt-colors-solarized-dark-16.muttrc
