@@ -1,4 +1,8 @@
+" Firefox please
 set titlestring='Mozilla Firefox | Pentadactyl'
+
+" C'mon!
+set mapleader=,
 
 " Always open help in a new tab
 set newtab+=help
@@ -9,9 +13,6 @@ noremap <Leader>h :noh<CR>
 
 " History of ex commands to remember
 set history=5000
-
-" C'mon!
-set mapleader=,
 
 " Only show the tabbar when there are more than 1 tab.
 set showtabline=multitab
