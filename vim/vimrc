@@ -660,7 +660,8 @@ let vimclojure#ParenRainbow = 1
 let vimclojure#FuzzyIndent = 1
 " Je wanty le nailgun
 " let vimclojure#WantNailgun = 1
-" let vimclojure#NailgunClient = $VIMFILES . "/bundle/vimclojure/client/ng"
+let vimclojure#NailgunClient = $VIMFILES . "/ng-client/ng"
+let vimclojure#SplitPos = 'bottom'
 
 " Gundo Toggle
 nnoremap <F10> :silent! IP gundo<CR>:GundoToggle<CR>

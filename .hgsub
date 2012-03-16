@@ -22,7 +22,6 @@ vim/bundle/vim-repeat = [git]git://github.com/tpope/vim-repeat.git
 vim/bundle/vim-unimpaired = [git]git://github.com/tpope/vim-unimpaired.git
 vim/bundle/ZoomWin = [git]git://github.com/vim-scripts/ZoomWin.git
 vim/bundle/vim-markdown = [git]git://github.com/tpope/vim-markdown.git
-vim/bundle/vim-cute-python = [git]git://github.com/ehamberg/vim-cute-python.git
 vim/bundle/vim-javascript = [git]git://github.com/pangloss/vim-javascript.git
 vim/bundle/vim-coffee-script = [git]git://github.com/kchmck/vim-coffee-script.git
 
@@ -34,17 +33,6 @@ vim/ipi/nerdtree = [git]git://github.com/scrooloose/nerdtree.git
 
 # Awesome cool undo tree visualization
 vim/ipi/gundo = ssh://hg@bitbucket.org/sjl/gundo.vim
-
-# F*ck you auto close plugins. F*ck you with all my might! So very f*ck you!!
-# vim/bundle/AutoClose = [git]git://github.com/vim-scripts/AutoClose.git
-# vim/bundle/delimitMate = [git]git://github.com/Raimondi/delimitMate.git
-# vim/bundle/vim-autoclose = [git]https://github.com/Townk/vim-autoclose.git
-# vim/bundle/ClosePairs = [git]https://github.com/vim-scripts/ClosePairs.git
-# vim/bundle/simple-pairs = [git]https://github.com/vim-scripts/simple-pairs.git
-# vim/bundle/Auto-Pairs = [git]https://github.com/vim-scripts/Auto-Pairs.git
-
-# Keystroke saving with Vim and Google Scribe
-# vim/bundle/vim-google-scribe = [git]git://github.com/dubenstein/vim-google-scribe.git
 
 # This one's original repo is bzr based
 vim/bundle/UltiSnips = [git]git://github.com/vim-scripts/UltiSnips.git
@@ -80,12 +68,7 @@ vim/bundle/vim-powerline = [git]https://github.com/Lokaltog/vim-powerline.git
 # Python command :Pyd
 vim/bundle/pythondo = [git]git://github.com/vim-scripts/pythondo.git
 
-# The douchebag maintainer of this plugin couldn't keep it as it was and removed the plugin
-# Have to checkout git version 4b79c381c3f35e8a61d68cd9e7be9682fb32cfac for a working version
-# vim/bundle/ManPageView = [git]git://github.com/vim-scripts/ManPageView.git
-
 # Fuzzy file, buffer and MRU file finder with regexp support.
-#vim/bundle/ctrlp.vim = [git]git://github.com/kien/ctrlp.vim.git
 vim/ipi/Command-T = [git]git://git.wincent.com/command-t.git
 
 # Super text object additions
@@ -109,9 +92,6 @@ vim/ipi/vim-pad = [git]https://github.com/fmoralesc/vim-pad.git
 # Load plugins individually - cut down start-up time.
 vim/bundle/vim-ipi = [git]https://github.com/jceb/vim-ipi.git
 
-# HTML5 Syntax File
-# vim/bundle/HTML5-Syntax-File = [git]https://github.com/vim-scripts/HTML5-Syntax-File.git
-
 # HTML5 omnicomplete and syntax
 vim/bundle/html5.vim = [git]https://github.com/othree/html5.vim.git
 
@@ -119,14 +99,8 @@ vim/bundle/html5.vim = [git]https://github.com/othree/html5.vim.git
 # context-sensitive documentation for Python source code.
 vim/bundle/vim-pyref = [git]https://github.com/xolox/vim-pyref.git
 
-# pydoc integration for the best text editor on earth
-# vim/bundle/pydoc.vim = [git]https://github.com/fs111/pydoc.vim.git
-
 # Python Omni Completion
 vim/bundle/pythoncomplete = [git]https://github.com/vim-scripts/pythoncomplete.git
-
-# vim plugin to interact with the simplenote service
-# vim/bundle/simplenote.vim = [git]https://github.com/mrtazz/simplenote.vim.git
 
 # Run interactive commands inside a Vim buffer
 vim/ipi/Conque-Shell = [git]https://github.com/vim-scripts/Conque-Shell.git
@@ -139,3 +113,10 @@ vim/ipi/TwitVim = ssh://hg@bitbucket.org/sharat87/twitvim
 
 # vim syntax for LESS
 vim/bundle/vim-less = [git]git://github.com/groenewege/vim-less.git
+
+# Single Vim documentation file that lists strftime-like formatting characters
+# for a variety of languages.
+vim/bundle/strftimedammit.vim = ssh://hg@bitbucket.org/sjl/strftimedammit.vim
+
+# Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
+vim/bundle/python-mode = [git]https://github.com/klen/python-mode.git
