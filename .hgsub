@@ -74,9 +74,6 @@ vim/bundle/syntastic = [git]git://github.com/scrooloose/syntastic.git
 # A vim plugin to perform diffs on blocks of code
 vim/bundle/linediff.vim = [git]git://github.com/AndrewRadev/linediff.vim.git
 
-# on the fly Python checking in Vim with PyFlakes +with-submodules
-vim/bundle/pyflakes-vim = [git]git://github.com/kevinw/pyflakes-vim.git
-
 # Add useful informations to Vim statusline
 vim/bundle/vim-powerline = [git]https://github.com/Lokaltog/vim-powerline.git
 
