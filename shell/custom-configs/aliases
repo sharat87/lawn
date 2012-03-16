@@ -29,6 +29,8 @@ alias so='source'
 # Hate typing `gnone-open`. Just hate it. Nothing personal.
 alias o='gnome-open'
 
+alias na='nautilus'
+
 alias a='sudo aptitude'
 # alias sagi='sudo apt-get install'
 # alias sagu='sudo apt-get update'
