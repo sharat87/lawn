@@ -6,7 +6,7 @@ from __future__ import print_function
 import subprocess as sp
 from datetime import datetime as dt
 
-tmux_cmd = ['tmux', '-2']
+tmux_cmd = ['tmux', '-2u']
 
 class Tmux(object):
 
