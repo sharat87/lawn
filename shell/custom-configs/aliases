@@ -323,18 +323,4 @@ i () {
     fi
 }
 
-# A command to run a calypso application process quickly
-cproc () {
-    envname=$1
-    shift
-    proc=$1
-    shift
-    # (export IFS=$'\n'
-    #     echo "$*")
-    # return 0
-    java -Duser.home=$HOME/calypso-software -cp "$(c -P $envname)" \
-        com.calypso.apps.startup.$proc \
-        -user calypso_user -password calypso -env $envname "$@"
-}
-
 # vim: se ft=sh :
