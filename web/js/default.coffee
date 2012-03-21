@@ -1,5 +1,5 @@
 # Mailing list pages (by MailChimp, I think).
-if location.host.match /^us\d\.campaign-archive\d\.com$/
+if location.host.match /^us\d\.campaign-archive\d?\.com$/
   # Hide the annoying bar at the top.
   $('#awesomebar')
     .css(top: '-50px')
