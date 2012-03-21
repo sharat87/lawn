@@ -120,3 +120,9 @@ vim/bundle/strftimedammit.vim = ssh://hg@bitbucket.org/sjl/strftimedammit.vim
 
 # Vim python-mode. PyLint, Rope, Pydoc, breakpoints from box.
 vim/bundle/python-mode = [git]https://github.com/klen/python-mode.git
+
+# Text objects for entire buffer
+vim/bundle/vim-textobj-entire = [git]https://github.com/kana/vim-textobj-entire.git
+
+# Support for user-defined text objects
+vim/bundle/vim-textobj-user = [git]https://github.com/kana/vim-textobj-user.git
