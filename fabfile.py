@@ -73,6 +73,7 @@ def tools():
         'https://github.com/flatland/cake/raw/develop/bin/cake        | ~/bin/cake',
         'https://raw.github.com/holman/spark/master/spark             | ~/bin/spark',
         'https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
+        'https://raw.github.com/samirahmed/fu/master/src/fu.py        | ~/bin/fu',
     )
 
     for entry in update_entries:
