@@ -650,6 +650,19 @@ nnoremap <silent> <Leader>l :call <SID>PadLoad('ListPads')<CR>
 nnoremap <silent> <Leader>a :call <SID>PadLoad('OpenPad')<CR>
 nnoremap <silent> <Leader>s :call <SID>PadLoad('SearchPads')<CR>
 
+" Pymode settings
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+let g:pymode_lint = 0
+let g:pymode_run = 0
+let g:pymode_utils_whitespaces = 0
+let g:pymode_options_indent = 0
+let g:pymode_options_other = 0
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+let g:pymode_syntax_string_format = g:pymode_syntax_all
+let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
+
 " simplenote credentials
 so ~/.simplenoterc
 
