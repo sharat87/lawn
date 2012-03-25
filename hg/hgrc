@@ -41,3 +41,10 @@ gvimmerge.executable = gvim
 gvimmerge.args = -d $local $other
 gvimmerge.checkchanged = true
 gvimmerge.gui = true
+
+[color]
+status.modified = blue
+status.added = green
+status.removed = red bold
+status.deleted = red
+status.unknown = magenta bold
