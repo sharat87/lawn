@@ -145,3 +145,6 @@
 [submodule "vim/bundle/clam.vim"]
 	path = vim/bundle/clam.vim
 	url = https://github.com/sjl/clam.vim.git
+[submodule "vim/ipi/gundo"]
+	path = vim/ipi/gundo
+	url = https://github.com/sjl/gundo.vim.git
