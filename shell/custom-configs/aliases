@@ -36,8 +36,8 @@ alias a='sudo aptitude'
 # alias sagu='sudo apt-get update'
 # alias sagui='sudo apt-get update && sudo apt-get install'
 
-alias g='gvim'
-alias v='vim'
+alias v='gvim'
+alias v.='vim'
 
 alias epoch='date +%s'
 
