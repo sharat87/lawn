@@ -30,7 +30,7 @@ then
     export VIRTUALENVWRAPPER_PYTHON=$HOME/apps/python-2.7/bin/python
 fi
 export VIRTUAL_ENV_DISABLE_PROMPT=a-non-empty-string
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=--no-site-packages\ --distribute
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=--distribute
 source /usr/local/bin/virtualenvwrapper.sh
 # source ~/virtualenvwrapper.sh
 
