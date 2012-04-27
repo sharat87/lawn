@@ -1,1 +1,5 @@
+# vim swap files
 *.swp
+
+# vim help tags
+doc/tags
