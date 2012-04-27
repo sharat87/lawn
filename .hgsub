@@ -126,3 +126,12 @@ vim/bundle/vim-textobj-entire = [git]https://github.com/kana/vim-textobj-entire.
 
 # Support for user-defined text objects
 vim/bundle/vim-textobj-user = [git]https://github.com/kana/vim-textobj-user.git
+
+# Smart input assistant. Pair autocomplete plugin.
+vim/bundle/vim-smartinput = [git]https://github.com/kana/vim-smartinput.git
+
+# tmux interoperation plugin.
+vim/bundle/tslime.vim = [git]https://github.com/sjl/tslime.vim.git
+
+# A lightweight Vim plugin for working with shell commands.
+vim/bundle/clam.vim = [git]https://github.com/sjl/clam.vim.git
