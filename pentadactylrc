@@ -12,13 +12,16 @@ set hlfind
 noremap <Leader>h :noh<CR>
 
 " History of ex commands to remember
-set history=5000
+set history=9000
 
 " Only show the tabbar when there are more than 1 tab.
 set showtabline=multitab
 
 " Open links only on hitting return
 set followhints=1
+
+" Open Tab groups (Expo)
+nnoremap <Leader>e <C-S-e>
 
 " Make the text bigger.
 highlight StatusLine -moz-appearance: none !important; font-weight: bold; background: transparent !important; border: 0px !important; min-height: 22px !important; text-shadow: none !important; font: normal 16px/1 'Menlo' !important; padding: 3px 0px 3px 5px !important;
@@ -70,6 +73,13 @@ nnoremap S :tabopen g<Space>
 " Use <C-o> instead of <C-w> as the former is easier to hit
 inoremap <C-o> <C-w>
 cnoremap <C-o> <C-w>
+
+" Lastpass hotkeys
+nnoremap gl <M-PageUp>
+nnoremap gL <M-PageDown>
+
+" Subscribe to RSS/Atom feeds
+nnoremap gs :emenu Bookmarks.Subscribe to This Page…<CR>
 
 " Don't you look at my private parts!
 source ~/Dropbox/Private/pentadactylrc
