@@ -115,7 +115,8 @@ endif
 
 " indenting settings
 set tabstop=4 " Displayed size of a tab character
-set softtabstop=4 " No. of spaces that make up a single indent
+" set softtabstop=4 " No. of spaces that make up a single indent
+set smarttab
 set shiftwidth=4 " No. of display space to be shifted per indent
 set expandtab " Use spaces instead of tabs to indent
 set shiftround " Round off the indent to *n* shiftwidths
@@ -274,12 +275,11 @@ nnoremap v.at vatV
 nnoremap v.ab vabV
 nnoremap v.aB vaBV
 
-" Use `,` as the leader, and <Space> for the default functionality of `;` and
-" `,`
-nnoremap <Space> ;
-nnoremap <S-Space> ,
-vnoremap <Space> ;
-vnoremap <S-Space> ,
+" I don't need the default functionality of `-` and `_`.
+nnoremap - ;
+nnoremap _ ,
+vnoremap - ;
+vnoremap _ ,
 
 " Open a new line without leaving insert mode
 inoremap <silent> <S-CR> <C-[>
@@ -300,6 +300,7 @@ vnoremap ' `
 
 " ` is easier to reach than <C-w>
 nnoremap ` <C-w>
+nnoremap `` <C-w><C-w>
 
 " <C-l> is inaccessible in the terminal (I use it as a tmux binding)
 nnoremap <Leader>r <C-l>
@@ -311,7 +312,6 @@ nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : 
 " Easier way to go to normal mode
 vnoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
-inoremap <ESC> <C-o>:echoerr 'Use C-k instead'<CR>
 inoremap <silent> <C-y> <C-k>
 
 " Backspacing
@@ -348,12 +348,18 @@ inoremap <Home> <C-o>^
 nnoremap <silent> <Leader>h :noh<CR>
 
 " More convinient to go to command mode
-nnoremap ; :
-vnoremap ; :
+nnoremap <Space> :
+vnoremap <Space> :
 
 " Repeating keys is not as awesome
 nnoremap <> <<
 nnoremap >< >>
+
+" Use `U` for redo. I never understood its default functionality anyway.
+nnoremap U <C-r>
+
+" <C-r> for screen redraw. How and why <C-l> is used for this, I have no idea.
+nnoremap <C-r> <C-l>
 
 " F1 is goddamn close to <ESC>. I don't want to see help with F1.
 noremap <F1> <Nop>
@@ -361,7 +367,7 @@ inoremap <F1> <Nop>
 
 " Paragraph jumping
 nnoremap <C-j> }j^
-nnoremap <C-k> {{k^
+nnoremap <C-k> k{j^
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <Leader>/ :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
@@ -646,9 +652,9 @@ fun! <SID>PadLoad(cmd)
     endif
     execute "normal \<Plug>" . a:cmd
 endfun
-nnoremap <silent> <Leader>l :call <SID>PadLoad('ListPads')<CR>
-nnoremap <silent> <Leader>a :call <SID>PadLoad('OpenPad')<CR>
-nnoremap <silent> <Leader>s :call <SID>PadLoad('SearchPads')<CR>
+nmap <silent> <Leader>l :call <SID>PadLoad('ListPads')<CR>
+nmap <silent> <Leader>a :call <SID>PadLoad('OpenPad')<CR>
+nmap <silent> <Leader>s :call <SID>PadLoad('SearchPads')<CR>
 
 " Pymode settings
 let g:pymode_doc = 1
