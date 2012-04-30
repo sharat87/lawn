@@ -16,8 +16,8 @@ extdiff =
 # pager =
 progress =
 
-hgshelve = ~/lawn/hg/hg-shelve/hgshelve.py
-prompt = ~/lawn/hg/hg-prompt/prompt.py
+# hgshelve = ~/lawn/hg/hg-shelve/hgshelve.py
+# prompt = ~/lawn/hg/hg-prompt/prompt.py
 inotify = 
 # notify = ~/lawn/hg/notify.py
 hggit =
