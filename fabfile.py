@@ -1,21 +1,32 @@
-#!/usr/bin/python
-#-*- coding:utf-8 -*-
+#!/usr/bin/env python
+# encoding: utf-8
 
 from __future__ import print_function
+from __future__ import unicode_literals
 
 from fabric.api import task, local, lcd
-import os, os.path as p
+import os
+from os.path import expanduser, basename, exists, abspath
 from fabric.contrib.console import confirm
 from parex import TaskManager
-from collections import namedtuple
 
-Subrepo = namedtuple('Subrepo', 'location vcs repo')
+TOOLS = [
+    ('https://bitbucket.org/sharat87/dtime/raw/tip/dtime', '~/bin/dtime'),
+    ('http://betterthangrep.com/ack-standalone', '~/bin/ack'),
+    ('https://github.com/technomancy/leiningen/raw/stable/bin/lein', '~/bin/lein'),
+    # ('http://releases.clojure-cake.org/cake', '~/bin/cake'),
+    ('https://github.com/flatland/cake/raw/develop/bin/cake', '~/bin/cake'),
+    ('https://raw.github.com/holman/spark/master/spark', '~/bin/spark'),
+    ('https://bitbucket.org/sjl/t/raw/tip/t.py', '~/.t.py'),
+    ('https://raw.github.com/samirahmed/fu/master/src/fu.py', '~/bin/fu'),
+]
 
 @task(default=True)
 def put():
 
-    if p.exists('_originals'):
-        print('_originals already exists. Delete it first, if you do not need it.')
+    if exists('_originals'):
+        print('_originals already exists.'
+                ' Delete it first, if you do not need it.')
         if confirm('Get rid of it?'):
             local('rm -Rf _originals')
         else:
@@ -48,8 +59,7 @@ def put():
 
     dln('shell/bash', '~/.bashrc')
 
-    if not p.exists('shell/custom-configs/plugins'):
-        local('mkdir -p shell/custom-configs/plugins')
+    local('mkdir -p shell/custom-configs/plugins')
 
     print('Finished setting up links')
 
@@ -65,23 +75,10 @@ def tools():
         print('-' * 70, cmds[pid], pid)
         print(data.getvalue() if data else None)
 
-    update_entries = (
-        'https://bitbucket.org/sharat87/dtime/raw/tip/dtime           | ~/bin/dtime',
-        'http://betterthangrep.com/ack-standalone                     | ~/bin/ack',
-        'https://github.com/technomancy/leiningen/raw/stable/bin/lein | ~/bin/lein',
-        # 'http://releases.clojure-cake.org/cake                        | ~/bin/cake',
-        'https://github.com/flatland/cake/raw/develop/bin/cake        | ~/bin/cake',
-        'https://raw.github.com/holman/spark/master/spark             | ~/bin/spark',
-        'https://bitbucket.org/sjl/t/raw/tip/t.py                     | ~/.t.py',
-        'https://raw.github.com/samirahmed/fu/master/src/fu.py        | ~/bin/fu',
-    )
-
-    for entry in update_entries:
-        url, dst = (e.strip() for e in entry.split('|'))
-        dst = p.expanduser(dst)
-        name, cmd = wget_cmd(url, dst=dst)
-        pid = t.execute(cmd)
-        cmds[pid] = name
+    for url, dst in TOOLS:
+        pid = t.execute('wget --no-check-certificate '
+                '-O "' + expanduser(dst) + '" "' + url + '"')
+        cmds[pid] = basename(dst)
 
     t.wait()
 
@@ -99,36 +96,15 @@ def dln(src, dst=None):
     if dst is None:
         dst = '~/.' + src
 
-    dst = p.expanduser(dst)
+    dst = expanduser(dst)
 
-    if p.exists(dst):
+    if exists(dst):
         local('mv "' + dst + '" _originals/')
 
-    local('ln -s "' + p.abspath(src) + '" "' + dst + '"')
-
-def wget_cmd(url, dst=None):
-    if dst is None:
-        dst = p.basename(url)
-
-    cmd = 'wget --no-check-certificate -O "' + dst + '" "' + url + '"'
-
-    return p.basename(dst), cmd
-
-def parse_subrepo(line):
-    location, repo = line.split('=', 1)
-
-    location = location.strip()
-    repo = repo.strip()
-
-    if repo.startswith('['):
-        vcs, repo = repo[1:].split(']', 1)
-    else:
-        vcs = 'hg'
-
-    return Subrepo(location, vcs, repo)
+    local('ln -s "' + abspath(src) + '" "' + dst + '"')
 
 def do_compilations():
-    if p.exists('vim/ipi/Command-T'):
+    if exists('vim/ipi/Command-T'):
         with lcd('vim/ipi/Command-T/ruby/command-t'):
             local('ruby extconf.rb')
             local('make')
