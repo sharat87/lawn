@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from fabric.api import task, local, lcd, settings
+from fabric.api import task, local, lcd
 import os, os.path as p
 from fabric.contrib.console import confirm
 from parex import TaskManager
@@ -91,14 +91,8 @@ def tools():
 
 @task
 def up():
-    subs = (parse_subrepo(line) for line in  open('.hgsub')
-            if not line.isspace() and not line.startswith('#'))
-
-    for sub in subs:
-        update_subrepo(sub)
-
+    local('git submodule foreach git pull origin master')
     do_compilations()
-
     tools()
 
 def dln(src, dst=None):
@@ -132,18 +126,6 @@ def parse_subrepo(line):
         vcs = 'hg'
 
     return Subrepo(location, vcs, repo)
-
-def update_subrepo(sub):
-    print(p.basename(sub.location))
-    with lcd(sub.location), settings(warn_only=True):
-        if sub.vcs == 'hg':
-            local('hg pull -u')
-        elif sub.vcs == 'git':
-            local('git pull')
-        elif sub.vcs == 'svn':
-            local('svn up')
-        else:
-            print('Unknown version control system:', sub.vcs)
 
 def do_compilations():
     if p.exists('vim/ipi/Command-T'):
