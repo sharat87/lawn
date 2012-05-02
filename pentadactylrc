@@ -30,7 +30,7 @@ highlight CmdOutput  font: normal 14px 'Inconsolata-g' !important;
 highlight CompItem   font: normal 14px 'Inconsolata-g' !important;
 
 " An itchy habit I have on vim
-nnoremap ; :
+nnoremap <Space> :
 
 " Oh please!
 " Note: Not using 4<Left> here because 4 will be sent as a character and
