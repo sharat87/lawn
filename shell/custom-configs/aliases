@@ -79,12 +79,6 @@ alias fn=find
 alias ff='find -type f -iname'
 alias fd='find -type d -iname'
 
-# Aliases for my task manager
-alias t.f='t -f'
-alias t.r='t -r'
-alias k.f='k -f'
-alias k.r='k -r'
-
 # Various javas and ants
 alias j4="JAVA_HOME=$JAVA_4_HOME PATH=$JAVA_4_HOME/bin:$PATH"
 alias j5="JAVA_HOME=$JAVA_5_HOME PATH=$JAVA_5_HOME/bin:$PATH"
@@ -250,19 +244,16 @@ t () {
     python ~/.t.py --task-dir ~/Dropbox --list tasks "$@" | discoball '\+\S+'
 }
 
-# Project specific bugs/todos
-b () {
-    python ~/.t.py --task-dir . --list todo | discoball '\+\S+'
-}
-
 # My work tasks
 k () {
-    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" | discoball '^\S+\s+-' '\+\S+' 'mail:'
+    python ~/.t.py --task-dir ~/Dropbox --list tasks-work "$@" \
+        | discoball '^\S+\s+-' '\+\S+' 'mail:'
 }
 
 # Take the message-id from the task and display the message
 km () {
-    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work | sed -n "s/^$1\s\+- .*mail://p")"
+    local mail_id="$(python ~/.t.py --task-dir ~/Dropbox --list tasks-work \
+            | sed -n "s/^$1\s\+- .*mail://p")"
     if [[ -z $mail_id ]]; then
         echo No task with that id or the task has no attached mail.
         return 1
@@ -270,6 +261,17 @@ km () {
         mutt-open-mail-id "$mail_id"
     fi
 }
+
+# Project specific bugs/todos
+b () {
+    python ~/.t.py --task-dir . --list todo | discoball '\+\S+'
+}
+
+# Aliases for my task manager
+alias t.f='t -f'
+alias t.r='t -r'
+alias k.f='k -f'
+alias k.r='k -r'
 
 # cd to an ancestral directory
 cu () {

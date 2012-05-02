@@ -40,13 +40,16 @@ filterInput.keyup (e) ->
       currentActive.removeClass 'active'
 
   else if e.which is 13 # Enter key
-    window.location = links.filter('.active').attr 'href'
+    do links.filter('.active').click
+    # window.location = links.filter('.active').attr 'href'
 
   else
     do updateFilter
 
 $(document).keyup (e) ->
+  return if $(e.target).is(':input')
   if e.which is 82 # r key
+    console.log(e.which)
     do popup.show
     do filterInput.focus
 
