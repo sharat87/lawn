@@ -145,3 +145,6 @@
 [submodule "vim/ipi/gundo"]
 	path = vim/ipi/gundo
 	url = https://github.com/sjl/gundo.vim.git
+[submodule "vim/bundle/ctrlp"]
+	path = vim/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
