@@ -106,9 +106,6 @@
 [submodule "vim/bundle/SearchPosition"]
 	path = vim/bundle/SearchPosition
 	url = https://github.com/vim-scripts/SearchPosition.git
-[submodule "vim/ipi/vim-pad"]
-	path = vim/ipi/vim-pad
-	url = https://github.com/fmoralesc/vim-pad.git
 [submodule "vim/bundle/vim-ipi"]
 	path = vim/bundle/vim-ipi
 	url = https://github.com/jceb/vim-ipi.git
