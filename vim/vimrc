@@ -652,16 +652,9 @@ let g:pad_window_height = 10
 let g:pad_highlighting_variant = 1 " Looks good with solarized
 let g:pad_use_default_mappings = 0
 let s:pad_ipi_loaded = 0
-fun! <SID>PadLoad(cmd)
-    if !s:pad_ipi_loaded
-        IP vim-pad
-        let s:pad_ipi_loaded = 1
-    endif
-    execute "normal \<Plug>" . a:cmd
-endfun
-nmap <silent> <Leader>l :call <SID>PadLoad('ListPads')<CR>
-nmap <silent> <Leader>a :call <SID>PadLoad('OpenPad')<CR>
-nmap <silent> <Leader>s :call <SID>PadLoad('SearchPads')<CR>
+nmap <silent> <Leader>l <Plug>PadListPads
+nmap <silent> <Leader>a <Plug>PadOpenPad
+nmap <silent> <Leader>s <Plug>PadSearchPads
 
 " Pymode settings
 let g:pymode_doc = 1
