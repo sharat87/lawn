@@ -574,15 +574,22 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 " PyRef options
 let g:pyref_mapping = 'gK'
 
-" Command-T settings
-let g:CommandTMatchWindowReverse = 1
-fun! <SID>CommandTLoad(cmd)
-    IP Command-T
-    execute a:cmd
-endfun
-nnoremap <Leader>f :call <SID>CommandTLoad('CommandT')<CR>
-nnoremap <Leader>d :call <SID>CommandTLoad('CommandTBuffer')<CR>
-nnoremap <Leader>F :call <SID>CommandTLoad('CommandTFlush')<CR>
+" " Command-T settings
+" let g:CommandTMatchWindowReverse = 1
+" fun! <SID>CommandTLoad(cmd)
+"     IP Command-T
+"     execute a:cmd
+" endfun
+" nnoremap <Leader>f :call <SID>CommandTLoad('CommandT')<CR>
+" nnoremap <Leader>d :call <SID>CommandTLoad('CommandTBuffer')<CR>
+" nnoremap <Leader>F :call <SID>CommandTLoad('CommandTFlush')<CR>
+
+" CtrlP settings
+let g:ctrlp_map = ''
+let g:ctrlp_root_markers = ['.project']
+nnoremap <Leader>f :CtrlP<CR>
+nnoremap <Leader>d :CtrlPBuffer<CR>
+nnoremap <Leader>F :CtrlPClearCache<CR>
 
 " NerdTree
 " Convenience map for toggling NerdTree window
