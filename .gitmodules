@@ -148,3 +148,6 @@
 [submodule "vim/bundle/vim-pad"]
 	path = vim/bundle/vim-pad
 	url = https://github.com/fmoralesc/vim-pad.git
+[submodule "vim/bundle/quicksilver"]
+	path = vim/bundle/quicksilver
+	url = https://github.com/sharat87/quicksilver.vim.git
