@@ -18,8 +18,11 @@ plugins=(pip
         lein
         zsh-syntax-highlighting
         command-not-found
+        heroku
+        extract
         svn
-        git)
+        git
+        history-substring-search)
 
 _omz_start_time=$(date +%s.%N)
 source $ZSH/oh-my-zsh.sh
