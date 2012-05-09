@@ -148,3 +148,6 @@
 [submodule "vim/bundle/quicksilver"]
 	path = vim/bundle/quicksilver
 	url = https://github.com/sharat87/quicksilver.vim.git
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
