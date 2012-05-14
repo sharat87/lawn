@@ -88,7 +88,7 @@ def tools():
 
 @task
 def up():
-    local('git submodule foreach git pull origin master')
+    local('git submodule foreach git pull')
     do_compilations()
     tools()
 
