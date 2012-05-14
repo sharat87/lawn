@@ -5,3 +5,7 @@ code {
     background: none;
     border: none;
 }
+
+pre, .man-page dt.hdlist1 {
+    font-family: Inconsolata-g !important;
+}
