@@ -151,3 +151,9 @@
 [submodule "vim/bundle/ultisnips"]
 	path = vim/bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
+[submodule "vim/bundle/strftimedammit"]
+	path = vim/bundle/strftimedammit
+	url = https://github.com/sjl/strftimedammit.vim.git
+[submodule "vim/bundle/fugitive"]
+	path = vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
