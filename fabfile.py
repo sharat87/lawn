@@ -19,6 +19,7 @@ TOOLS = [
     ('https://raw.github.com/holman/spark/master/spark', '~/bin/spark'),
     ('https://bitbucket.org/sjl/t/raw/tip/t.py', '~/.t.py'),
     ('https://raw.github.com/samirahmed/fu/master/src/fu.py', '~/bin/fu'),
+    ('https://raw.github.com/fireteam/curlish/master/curlish.py', '~/bin/curlish'),
 ]
 
 @task(default=True)
