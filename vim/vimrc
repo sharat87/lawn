@@ -41,6 +41,11 @@ call pathogen#infect('bundle-local')
 call pathogen#helptags()
 call ipi#inspect()
 
+set rtp+=$VIMFILES/vundle
+call vundle#rc('$HOME/.vim/plugins')
+
+Bundle 'Lokaltog/vim-powerline'
+
 set path=./**
 
 " }}}
