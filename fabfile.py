@@ -90,6 +90,7 @@ def tools():
 @task
 def up():
     local('git submodule foreach git pull')
+    local('vim +BundleInstall! +qall')
     do_compilations()
     tools()
 
