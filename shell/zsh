@@ -1,43 +1,41 @@
-_start_time=$(date +%s.%N)
-
-# Path to your oh-my-zsh configuration.
-export ZSH=$HOME/lawn/shell/oh-my-zsh
+# Path to my zsh configuration.
 export ZSH_CUSTOM=$HOME/lawn/shell/custom-configs
 
-# Set to the name theme to load.
-# Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="prose"
-
-# Comment this out to disable weekly auto-update checks
-export DISABLE_AUTO_UPDATE="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pip
-        fabric
-        lein
-        zsh-syntax-highlighting
-        command-not-found
-        heroku
-        extract
-        svn
-        git
-        history-substring-search)
-
-_omz_start_time=$(date +%s.%N)
-source $ZSH/oh-my-zsh.sh
-_omz_end_time=$(date +%s.%N)
-
-# Customize to your needs...
-
-# red dots to be displayed while waiting for completion
+# Red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS=true
 
-# wohwohwohowhohohoho!
-# fortune -s -n 300 | cowsay | lolcat
+# Antigen — A zsh plugin manager
+export ANTIGEN_DEFAULT_REPO_URL=https://github.com/sharat87/oh-my-zsh.git
+source ~/labs/antigen/antigen.zsh
 
-echo >> ~/.zsh-profiling-info
-echo oh-my-zsh took $(($_omz_end_time - $_omz_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
+# Load the oh-my-zsh's library.
+bundle-lib
+
+# Bundles from the default repo declared above.
+bundle --loc=plugins/vi-mode
+bundle --loc=plugins/fabric
+bundle --loc=plugins/lein
+bundle --loc=plugins/pip
+bundle --loc=plugins/command-not-found
+bundle --loc=plugins/heroku
+bundle --loc=plugins/extract
+bundle --loc=plugins/svn
+bundle --loc=plugins/git
+
+# FIXME: Following doesn't work because it depends on the oh-my-zsh way of doing
+# things. It uses the $ZSH variable and expects the `plugins` directory in it.
+# bundle --loc=plugins/history-substring-search
+source $ZSH_CUSTOM/history-substring-search.zsh
+
+# Syntax highlighting bundle.
+bundle zsh-users/zsh-syntax-highlighting
+
+# FIXME: Need a better way to specify custom bundles.
+source $ZSH_CUSTOM/aliases
+source $ZSH_CUSTOM/z.sh
+
+# Load the prompt theme.
+bundle-theme prose
 
 # Setup for rupa's z
 add-zsh-hook precmd z_precmd
@@ -45,5 +43,5 @@ function z_precmd {
     _z --add "$PWD"
 }
 
-_end_time=$(date +%s.%N)
-echo zshrc took $(($_end_time - $_start_time)) seconds of your precious time >> ~/.zsh-profiling-info
+# wohwohwohowhohohoho!
+# fortune -s -n 300 | cowsay | lolcat

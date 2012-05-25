@@ -13,12 +13,6 @@ export skip_global_compinit=1
 
 export EDITOR='vim'
 
-# Oracle variables
-export ORACLE_BASE=/u01/app/oracle
-export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_3
-export ORACLE_SID=orcl
-export LD_LIBRARY_PATH=$ORACLE_HOME/lib
-export PATH=$ORACLE_HOME/bin:$PATH
 # export EDITOR=/usr/bin/vi
 
 # Load RVM function
@@ -62,6 +56,13 @@ export JAVA_6_HOME=$HOME/apps/javas/jdk1.6.0_22
 #    vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
 #    -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
 #    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
+
+# Oracle variables
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_3
+export ORACLE_SID=orcl
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export PATH=$ORACLE_HOME/bin:$PATH
 
 # I don't want this running more than once!
 export SHARAT_ENV_DONE=true
