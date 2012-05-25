@@ -715,6 +715,11 @@ endfun
 nnoremap <Leader>V :nunmap <Leader>V\|call <SID>VimroomLoad()<CR>
 " }}}
 
+" Gist interaction plugin {{{
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+" }}}
+
 Bundle 'AndrewRadev/linediff.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'bkad/CamelCaseMotion'
