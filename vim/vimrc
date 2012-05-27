@@ -591,9 +591,10 @@ let g:pyref_mapping = 'gK'
 
 " CtrlP {{{
 Bundle 'kien/ctrlp.vim'
-let g:ctrlp_map = ''
 let g:ctrlp_root_markers = ['.project']
-nnoremap <Leader>f :CtrlP<CR>
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_switch_buffer = 2
+let g:ctrlp_map = '<Leader>f'
 nnoremap <Leader>d :CtrlPBuffer<CR>
 nnoremap <Leader>F :CtrlPClearCache<CR>
 " }}}
