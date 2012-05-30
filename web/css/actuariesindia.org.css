@@ -1,0 +1,11 @@
+.ja-copyright,
+.ja-links,
+.nsb_container,
+.ja-megamenu,
+.ja-updatetime {
+    display: none;
+}
+
+#jabookmark-container {
+    display: none !important;
+}
