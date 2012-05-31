@@ -604,15 +604,25 @@ Bundle 'sharat87/quicksilver.vim'
 nmap <Leader>r <Plug>ActivateQS
 " }}}
 
-" NerdTree {{{
-Bundle 'scrooloose/nerdtree'
-" Convenience map for toggling NerdTree window
-nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
-" Set the location of bookmarks for nerdtree
-let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
-autocmd FileType nerdtree setlocal nolist
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+" " NerdTree {{{
+" Bundle 'scrooloose/nerdtree'
+" " Convenience map for toggling NerdTree window
+" nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
+" " Set the location of bookmarks for nerdtree
+" let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
+" autocmd FileType nerdtree setlocal nolist
+" let NERDTreeMinimalUI = 1
+" let NERDTreeDirArrows = 1
+" " }}}
+
+" Netrw {{{
+" Bundled with vim!
+" Use tree-mode as default view
+let g:netrw_liststyle = 3
+" Open file in previous buffer
+let g:netrw_browse_split = 4
+" preview window shown in a vertically split
+let g:netrw_preview = 1
 " }}}
 
 " UltiSnips {{{
