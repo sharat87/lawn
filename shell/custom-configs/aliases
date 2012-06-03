@@ -321,7 +321,11 @@ i () {
         export PROJECT=$project
         source "$starter"
     else
-        echo "Project $project does not exist." >&2
+        echo "Project $project does not exist."
+        echo -n "Create it? [y|N] "
+        if read -q; then
+            $EDITOR "$HOME/.starters/$project.sh"
+        fi
     fi
 }
 
