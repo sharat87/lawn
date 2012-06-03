@@ -49,6 +49,9 @@ def put():
     dln('web/js', '~/.js')
     dln('web/css', '~/.css')
 
+    dln('vim', '~/.vim')
+    dln('vim/vimrc', '~/.vimrc')
+
     dln('git/config', '~/.gitconfig')
     dln('git/ignore', '~/.gitignore')
 
