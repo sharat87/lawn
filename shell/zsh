@@ -12,15 +12,17 @@ source ~/labs/antigen/antigen.zsh
 bundle-lib
 
 # Bundles from the default repo declared above.
-bundle --loc=plugins/vi-mode
-bundle --loc=plugins/fabric
-bundle --loc=plugins/lein
-bundle --loc=plugins/pip
-bundle --loc=plugins/command-not-found
-bundle --loc=plugins/heroku
-bundle --loc=plugins/extract
-bundle --loc=plugins/svn
-bundle --loc=plugins/git
+bundle fabric
+bundle lein
+bundle pip
+bundle command-not-found
+bundle heroku
+bundle extract
+bundle svn
+bundle git
+
+# Vim like bindings plugin.
+bundle sharat87/zsh-vim-mode
 
 # FIXME: Following doesn't work because it depends on the oh-my-zsh way of doing
 # things. It uses the $ZSH variable and expects the `plugins` directory in it.
