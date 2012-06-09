@@ -9,23 +9,37 @@ export ANTIGEN_DEFAULT_REPO_URL=https://github.com/sharat87/oh-my-zsh.git
 source ~/labs/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
-bundle-lib
+antigen-lib
 
 # Bundles from the default repo declared above.
-bundle fabric
-bundle lein
-bundle pip
-bundle command-not-found
-bundle heroku
-bundle extract
-bundle svn
-bundle git
+antigen-bundles <<EOF
+# Fabric plugin
+fabric
+
+# Leiningen completions
+lein
+pip
+
+# Guess what to install when running an unknown command.
+command-not-found
+
+# The heroku tool helper plugin.
+heroku
+
+# Helper for extracting different types of archives.
+extract
+
+# Help working with version control systems.
+svn
+git
+
+EOF
 
 # nicoulaj's moar completion files for zsh
-bundle zsh-users/zsh-completions
+antigen-bundle zsh-users/zsh-completions
 
 # Vim like bindings plugin.
-bundle sharat87/zsh-vim-mode
+antigen-bundle sharat87/zsh-vim-mode
 
 # FIXME: Following doesn't work because it depends on the oh-my-zsh way of doing
 # things. It uses the $ZSH variable and expects the `plugins` directory in it.
@@ -33,17 +47,17 @@ bundle sharat87/zsh-vim-mode
 source $ZSH_CUSTOM/history-substring-search.zsh
 
 # Syntax highlighting bundle.
-bundle zsh-users/zsh-syntax-highlighting
+antigen-bundle zsh-users/zsh-syntax-highlighting
 
 # FIXME: Need a better way to specify custom bundles.
 source $ZSH_CUSTOM/aliases
 source $ZSH_CUSTOM/z.sh
 
 # Load the prompt theme.
-bundle-theme prose
+antigen-theme prose
 
-# Done specifying bundles. Load the completions.
-bundle-apply
+# Tell Antigen that we're done.
+antigen-apply
 
 # Setup for rupa's z
 add-zsh-hook precmd z_precmd
