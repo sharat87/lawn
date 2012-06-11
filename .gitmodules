@@ -1,9 +1,3 @@
-[submodule "shell/oh-my-zsh"]
-	path = shell/oh-my-zsh
-	url = git@github.com:sharat87/oh-my-zsh.git
-[submodule "shell/custom-configs/plugins/zsh-syntax-highlighting"]
-	path = shell/custom-configs/plugins/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "mutt/solarized-colors"]
 	path = mutt/solarized-colors
 	url = https://github.com/altercation/mutt-colors-solarized.git
