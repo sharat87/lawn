@@ -47,9 +47,11 @@ antigen-bundle zsh-users/zsh-history-substring-search
 # Syntax highlighting bundle.
 antigen-bundle zsh-users/zsh-syntax-highlighting
 
+# Tracks your most used directories, based on 'frecency'.
+antigen-bundle rupa/z
+
 # FIXME: Need a better way to specify custom bundles.
 source $ZSH_CUSTOM/aliases
-source $ZSH_CUSTOM/z.sh
 
 # Load the prompt theme.
 antigen-theme prose
