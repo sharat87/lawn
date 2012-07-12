@@ -95,6 +95,9 @@ def tools():
 
     do_compilations()
 
+    for tool in os.listdir(expanduser('~/bin')):
+        local('chmod +x ~/bin/' + tool)
+
     print('Finished updating tools')
 
 @task
