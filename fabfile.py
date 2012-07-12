@@ -64,6 +64,8 @@ def put():
 
     local('mkdir -p shell/custom-configs/plugins')
 
+    local('mkdir -p tmp/{baks,swap,undo}')
+
     print('Finished setting up links')
 
     tools()
