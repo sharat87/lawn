@@ -61,7 +61,7 @@ noremap <C-l> :tabn<CR>
 
 " Hotkeys for some awesome bookmarklets
 nnoremap e :open readable-light<CR>
-nnoremap E :open readable-light-narrow<CR>
+nnoremap E :open readable-dark<CR>
 nnoremap <Leader>l :open read-later-readability<CR>
 nnoremap <Leader>L :open read-later-pinboard<CR>
 nnoremap <Leader>s :open pinboard-save<CR>
