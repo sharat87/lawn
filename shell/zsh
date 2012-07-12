@@ -39,7 +39,8 @@ EOF
 antigen-bundle zsh-users/zsh-completions
 
 # Vim like bindings plugin.
-antigen-bundle sharat87/zsh-vim-mode
+# antigen-bundle sharat87/zsh-vim-mode
+antigen-bundle /home/sharat/labs/zsh-vim-mode
 
 # ZSH port of Fish shell's history search feature.
 antigen-bundle zsh-users/zsh-history-substring-search
