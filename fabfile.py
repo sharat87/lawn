@@ -34,6 +34,10 @@ def put():
 
     os.mkdir('_originals')
 
+    # Ensure the subrepos are present.
+    local('git submodule init')
+    local('git submodule update')
+
     dln('tmux.conf')
 
     dln('mail/offlineimap.conf', '~/.offlineimaprc')
