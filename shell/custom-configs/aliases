@@ -329,4 +329,35 @@ i () {
     fi
 }
 
+# The usual `./configure`, `make` and `make installl` automation.
+auto-install () {
+    app_name="${PWD##*/}"
+    install_dir="$HOME/apps/$app_name"
+
+    if [[ ! -f "./configure" ]]; then
+        echo "There doesn't seem to be an app here."
+    fi
+
+    echo Installing $app_name to $install_dir
+
+    if ! ./configure --prefix="$install_dir" "$@"; then
+        msg='*** Error with `./configure`. Please correct and retry.'
+        return 1
+
+    elif ! make; then
+        msg='*** Error with `make`. Please check and retry.'
+        return 2
+
+    elif ! make install; then
+        msg='*** Error with `make install`. Please check and retry.'
+        return 3
+
+    elif [[ -d "$install_dir/bin" ]]; then
+        export PATH="$install_dir/bin:$PATH"
+    fi
+
+    echo "$msg"
+    notify-send "$app_name finished" "${msg:-Installation complete.}"
+}
+
 # vim: se ft=sh :
