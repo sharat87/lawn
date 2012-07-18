@@ -14,7 +14,7 @@ antigen-lib
 # Bundles from the default repo declared above.
 antigen-bundles <<EOF
 # Fabric plugin
-fabric
+git://gist.github.com/1522827
 
 # Leiningen completions
 lein
@@ -47,6 +47,9 @@ antigen-bundle zsh-users/zsh-history-substring-search
 
 # Syntax highlighting bundle.
 antigen-bundle zsh-users/zsh-syntax-highlighting
+
+# Automatically source an environment script on cd-ing to a directory.
+antigen-bundle kennethreitz/autoenv
 
 # Tracks your most used directories, based on 'frecency'.
 antigen-bundle rupa/z
