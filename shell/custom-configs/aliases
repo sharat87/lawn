@@ -31,11 +31,6 @@ alias o='gnome-open'
 
 alias na='nautilus'
 
-alias a='sudo aptitude'
-# alias sagi='sudo apt-get install'
-# alias sagu='sudo apt-get update'
-# alias sagui='sudo apt-get update && sudo apt-get install'
-
 alias v='gvim'
 alias v.='vim'
 
@@ -153,6 +148,8 @@ lawn-files-update () {
 #----------------------------------------
 # aptitude utilities
 #----------------------------------------
+
+alias a='sudo aptitude'
 
 # install command
 ai () {
