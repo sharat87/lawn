@@ -12,7 +12,7 @@ source ~/labs/antigen/antigen.zsh
 antigen-lib
 
 # Bundles from the default repo declared above.
-antigen-bundles <<EOF
+antigen-bundles <<EOBUNDLES
 # Fabric plugin
 git://gist.github.com/1522827
 
@@ -33,29 +33,31 @@ extract
 svn
 git
 
-EOF
-
 # nicoulaj's moar completion files for zsh
-antigen-bundle zsh-users/zsh-completions
+zsh-users/zsh-completions
 
 # Vim like bindings plugin.
 # antigen-bundle sharat87/zsh-vim-mode
-antigen-bundle /home/sharat/labs/zsh-vim-mode
+/home/sharat/labs/zsh-vim-mode
 
 # ZSH port of Fish shell's history search feature.
-antigen-bundle zsh-users/zsh-history-substring-search
+zsh-users/zsh-history-substring-search
 
 # Syntax highlighting bundle.
-antigen-bundle zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-syntax-highlighting
 
 # Automatically source an environment script on cd-ing to a directory.
-antigen-bundle kennethreitz/autoenv
+kennethreitz/autoenv
 
-# Tracks your most used directories, based on 'frecency'.
+EOBUNDLES
+
+# Tracks your most used directories, based on 'frecency'. And its accompanying
+# setup code.
 antigen-bundle rupa/z
-
-# FIXME: Need a better way to specify custom bundles.
-source $ZSH_CUSTOM/aliases
+add-zsh-hook precmd _z_precmd
+function _z_precmd {
+    _z --add "$PWD"
+}
 
 # Load the prompt theme.
 antigen-theme prose
@@ -63,11 +65,8 @@ antigen-theme prose
 # Tell Antigen that we're done.
 antigen-apply
 
-# Setup for rupa's z
-add-zsh-hook precmd z_precmd
-function z_precmd {
-    _z --add "$PWD"
-}
+# FIXME: Need a better way to specify custom bundles.
+source $ZSH_CUSTOM/aliases
 
 # wohwohwohowhohohoho!
 # fortune -s -n 300 | cowsay | lolcat
