@@ -87,6 +87,9 @@ alias ant4='j4 rn ant'
 alias ant5='j5 rn ant'
 alias ant6='j6 rn ant'
 
+# An alias to antigen.
+alias a.=antigen
+
 ###
 # Utility functions/commands
 ###
