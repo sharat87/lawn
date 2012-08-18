@@ -1,9 +1,3 @@
-if [[ ! -z $SHARAT_ENV_DONE ]]; then
-    # echo skipping env, as it is already loaded
-    source ~/.virtualenvwrapper/virtualenvwrapper.sh
-    return
-fi
-
 export skip_global_compinit=1
 
 export EDITOR='vim'
@@ -11,22 +5,13 @@ export EDITOR='vim'
 # Load RVM function
 [[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
 
-# Load virtualenvwrapper
-if [[ -d $HOME/apps/python-2.7 ]]
-then
-    export VIRTUALENVWRAPPER_PYTHON=$HOME/apps/python-2.7/bin/python
-fi
-export VIRTUAL_ENV_DISABLE_PROMPT=a-non-empty-string
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=--distribute
-export PYTHONPATH=~/.virtualenvwrapper:"$PYTHONPATH"
-source ~/.virtualenvwrapper/virtualenvwrapper.sh
-
 # Add all under ~/apps/*/bin directories to path
 export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
 
 # Home bin and lawn' bin
 export PATH=~/bin:~/lawn/bin:$PATH
 
+source ~/labs/virtualenvman/virtualenvman.sh
 export PIP_DOWNLOAD_CACHE=~/.pip/cache
 export PYTHONPATH=~/lawn/python-lib:"$PYTHONPATH"
 
@@ -42,8 +27,5 @@ export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
     vim -R -c 'set ft=man nomod nolist' -c 'map q :q<CR>' \
     -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
     -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
-
-# I don't want this running more than once!
-export SHARAT_ENV_DONE=true
 
 # vim: se ft=sh :
