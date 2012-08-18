@@ -1,49 +1,48 @@
 aug ftdetect-user
 au!
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" File type detection logic
-
-" Less Stylesheets
-au BufRead,BufNewFile *.less setf less
-
-" Clojure
-au BufRead,BufNewFile *.clj,*.cljs setf clojure
+" File type detection logic {{{
 
 " GNUPlot
 au BufRead,BufNewFile *.plt,*.gnuplot setf gnuplot
 
-" log4j log files
-au BufRead,BufNewFile *.log setf log4j
-
-" Pipe separated log files
-au BufRead,BufNewFile *_{SQL,REQUEST,CLIENTREQUEST,WORKFLOW}_*.log setf elog
-
 " Cram test files
 au BufRead,BufNewFile *.t setf cram
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" File type specific preferences
+" }}}
 
+" File type specific preferences {{{
+
+" Highlight cursor line in quickfix window.
 au FileType qf setl cursorline
 
+" Set spell when composing mails.
 au FileType mail setl spell
 
-au FileType make setl noet sts=0 ts=4 sw=4
-
+" Don't scan `current and included files` for python.
 au FileType python setl cpt-=i
 
-au FileType ruby,coffee setl sts=2 ts=2 sw=2
+" Two space indenting for certain languages.
+au FileType ruby,coffee,haskell setl sts=2 ts=2 sw=2
 
-au FileType yaml,haskell setl ai et sts=2 ts=2 sw=2
+" Need to explicitly turn on auto indentation for haskell files.
+au FileType haskell setl ai
 
+" Auto indentation for yaml files.
+au FileType yaml setl ai
+
+" I don't want `/` as word-char in clojure.
 au FileType clojure setl isk-=/
 
+" Function names in shell scripts are okay with these characters.
 au FileType sh setl isk+=-,!,?
 
+" Deactivate highlighting hidden characters in conque terminals.
 au FileType conque_term setl nolist
 
 " These files are not editable anyway, lets have `q` mapped to closing them.
 au FileType help,man,qf nnoremap <buffer> <silent> q :q<CR>
+
+" }}}
 
 aug END
