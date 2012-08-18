@@ -39,26 +39,23 @@ set path=./**
 
 " Settings {{{
 
-if has('gui_running')
+if has('gui_running') && s:first_time
 
-    if s:first_time
-
-        if s:is_windows
-            set guifont=Consolas:h14:cANSI
-        else
-            set guifont=Inconsolata-g\ Medium\ 16
-        endif
-
-        set guioptions+=b " enable horizontal scrollbar
-        set guioptions-=T " remove toolbar
-        set guioptions-=t " remove tearoff from menus
-        set guioptions-=e " Do not use a gui tab bar
-        set guioptions+=c " user console like dialogs instead of GUI ones
-        set guioptions-=m " user console like dialogs instead of GUI ones
-
-        set lines=30 columns=100
-
+    if s:is_windows
+        set guifont=Consolas:h14:cANSI
+    else
+        set guifont=Inconsolata-g\ Medium\ 16
     endif
+
+    set guioptions+=b " enable horizontal scrollbar
+    set guioptions-=T " remove toolbar
+    set guioptions-=t " remove tearoff from menus
+    set guioptions-=e " Do not use a gui tab bar
+    set guioptions+=c " user console like dialogs instead of GUI ones
+    set guioptions-=m " user console like dialogs instead of GUI ones
+
+    set lines=30 columns=100
+
 endif
 
 " Set the default colorscheme {{{
