@@ -57,6 +57,16 @@ alias ipy='ipython'
 alias py='bpython'
 alias pipr='pip install -r requirements.txt'
 
+# Shortcut to make a new virtualenv.
+venv () {
+    local envdir="${1:-.venv}"
+    virtualenv --use-distribute "$envdir"
+    source "$envdir/bin/activate"
+    echo "test -f '$envdir/bin/activate' && source '$envdir/bin/activate'" \
+        >> .env
+    echo Created autoenv script to load virtualenv.
+}
+
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
