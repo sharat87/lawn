@@ -165,7 +165,7 @@ set nowrap
 set nostartofline
 
 " Enable line numbers.
-" set number
+set number
 
 " Show the cursor position all the time.
 set ruler
