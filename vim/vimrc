@@ -86,13 +86,6 @@ set bg=dark
 colorscheme solarized
 " }}}
 
-" set backup only if not using version control
-if has("vms")
-    set nobackup
-else
-    set backup
-endif
-
 " Enable File type detection
 " Also load indent files, to automatically do language-dependent indenting
 filetype plugin indent on
@@ -163,11 +156,6 @@ set incsearch
 
 " blank lines piss me off when doing block selections!
 set virtualedit=block
-
-" location where all the backups go
-if s:qui_os() != "win"
-    set backupdir=$LAWN_TMP/baks
-endif
 
 " Keep swap files in one location
 set directory=$LAWN_TMP/swap//,.
