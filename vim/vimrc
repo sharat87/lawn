@@ -508,11 +508,6 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 " }}}
 
-" PyRef {{{
-Bundle 'xolox/vim-pyref'
-let g:pyref_mapping = 'gK'
-" }}}
-
 " Command-T {{{
 let g:CommandTMatchWindowReverse = 1
 nnoremap <Leader>f :call :CommandT<CR>
@@ -538,15 +533,8 @@ let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " }}}
 
-" Conque-shell {{{
-Bundle 'vim-scripts/Conque-Shell'
-let g:ConqueTerm_CWInsert = 1 " Use <C-W> in insert mode as if it were hit in normal mode
-let g:ConqueTerm_TERM = 'vt100' " The terminal type Conque identifies itself as, to the shell
-let g:ConqueTerm_Syntax = 'conque'
-" }}}
-
 " VCSCommand {{{
-Bundle 'vim-scripts/vcscommand.vim'
+Bundle 'vcscommand.vim'
 let g:VCSCommandMapPrefix = '<Leader>v'
 " }}}
 
@@ -554,16 +542,15 @@ let g:VCSCommandMapPrefix = '<Leader>v'
 Bundle 'fmoralesc/vim-pad'
 let g:pad_dir = '~/Dropbox/pad'
 let g:pad_window_height = 10
-let g:pad_highlighting_variant = 1 " Looks good with solarized
+let g:pad_highlighting_variant = 1 " Looks good with solarized.
 let g:pad_use_default_mappings = 0
-let s:pad_ipi_loaded = 0
-nmap <silent> <Leader>l <Plug>PadListPads
-nmap <silent> <Leader>a <Plug>PadOpenPad
-nmap <silent> <Leader>s <Plug>PadSearchPads
+nmap <silent> <Leader>l <Plug>ListPads
+nmap <silent> <Leader>a <Plug>OpenPad
+nmap <silent> <Leader>s <Plug>SearchPads
 " }}}
 
 " VimClojure {{{
-Bundle 'vim-scripts/VimClojure'
+Bundle 'VimClojure'
 " Colorful matching parentheses.
 let vimclojure#ParenRainbow = 1
 " Special indenting rules for def* and with-* forms.
@@ -577,7 +564,7 @@ let vimclojure#SplitPos = 'bottom'
 " Gundo {{{
 Bundle 'sjl/gundo.vim'
 " Toggle.
-nnoremap <F10> :silent! IP gundo<CR>:GundoToggle<CR>
+nnoremap <F10> :GundoToggle<CR>
 " }}}
 
 " Vimroom awesomeness {{{
@@ -620,40 +607,43 @@ Bundle 'Lokaltog/vim-powerline'
 let g:Powerline_symbols = 'fancy'
 " }}}
 
+" File type supporters {{{
+Bundle 'groenewege/vim-less'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'pangloss/vim-javascript'
+Bundle 'tpope/vim-markdown'
+" }}}
+
+" Text objects {{{
+Bundle 'kana/vim-textobj-user'
+Bundle 'kana/vim-textobj-entire'
+Bundle 'michaeljsmith/vim-indent-object'
+" }}}
+
+" Functionality plugins {{{
 Bundle 'AndrewRadev/linediff.vim'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'chrisbra/CheckAttach'
 Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'godlygeek/tabular'
-Bundle 'groenewege/vim-less'
-Bundle 'jceb/vim-ipi'
-Bundle 'juvenn/mustache.vim'
-Bundle 'kana/vim-smartinput'
-Bundle 'kana/vim-textobj-entire'
-Bundle 'kana/vim-textobj-user'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'mileszs/ack.vim'
-Bundle 'noahfrederick/Hemisu'
-Bundle 'othree/html5.vim'
-Bundle 'pangloss/vim-javascript'
 Bundle 'sjl/clam.vim'
 Bundle 'sjl/strftimedammit.vim'
-Bundle 'sjl/tslime.vim'
 Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-afterimage'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-pathogen'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'SearchPosition'
 Bundle 'ZoomWin'
 Bundle 'matchit.zip'
 Bundle 'pythoncomplete'
 Bundle 'pythondo'
+" }}}
+
+" Color schemes {{{
+Bundle 'noahfrederick/Hemisu'
+" }}}
 
 " }}}
 
