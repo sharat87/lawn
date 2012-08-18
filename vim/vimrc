@@ -8,17 +8,12 @@ set nocompatible
 
 " Utilities {{{
 
-" Return the operating system we are running
-fun! <SID>qui_os()
-    if has("win16") || has("win32") || has("win64")
-        return "win"
-    endif
-    return substitute(system('uname'), "\n", "", "")
-endfun
+" Find out if we are on windows.
+let s:is_windows = has("win16") || has("win32") || has("win64")
 
 " Define the VIMFILES directory, if not already done
 if !exists('$VIMFILES')
-    if s:qui_os() == 'win'
+    if s:is_windows
         let $VIMFILES = 'C:/tools/Vim/vimfiles'
     else
         let $VIMFILES = $HOME . '/.vim'
@@ -48,7 +43,7 @@ if has('gui_running')
 
     if s:first_time
 
-        if s:qui_os() == "win"
+        if s:is_windows
             set guifont=Consolas:h14:cANSI
         else
             set guifont=Inconsolata-g\ Medium\ 16
