@@ -72,7 +72,7 @@ def put():
 
     local('mkdir -p shell/custom-configs/plugins')
 
-    local('mkdir -p tmp/baks tmp/undo')
+    local('mkdir -p tmp/undo')
 
     virtualenvwrapper(update=False)
 
