@@ -95,8 +95,7 @@ endif
 
 " Enable File type detection
 " Also load indent files, to automatically do language-dependent indenting
-filetype indent on
-filetype plugin on
+filetype plugin indent on
 
 if has('autocmd')
 
@@ -173,6 +172,9 @@ endif
 " Keep swap files in one location
 set directory=$LAWN_TMP/swap//,.
 
+" No swap files please.
+set noswapfile
+
 " Store undofiles (persistent-undo)
 set undodir=$LAWN_TMP/undo//,.
 set undofile
@@ -186,11 +188,27 @@ set nowrap
 " Keep cursor on current column for certain jump commands
 set nostartofline
 
-" enable line numbers
+" Enable line numbers
 " set number
 
-" show the cursor position all the time
+" Show the cursor position all the time
 set ruler
+
+" Super thin cursor in insert mode.
+set guicursor=i-ci:ver10
+
+" Highlight the cursor line.
+set cursorline
+
+" Minimum dimensions for window with focus.
+set winheight=20
+set winwidth=80
+
+" Set the cursor changes in terminal.
+if &term =~ "xterm"
+    " let &t_SI = "\<Esc>]12;purple\x7"
+    " let &t_EI = "\<Esc>]12;blue\x7"
+endif
 
 " display partial/incomplete commands
 set showcmd
@@ -200,6 +218,9 @@ set wildmenu
 
 " Ignore these files when autocompleting
 set wildignore=*.pyc,*.o,*.class,*/.hg/*,*/.svn/*,*/.git/*
+
+" Ignore case in filename completions and then some.
+set wildignorecase
 
 " Use / instead of \ in file name completion among other places
 set shellslash
@@ -319,7 +340,11 @@ inoremap <silent> <C-y> <C-k>
 
 " Backspacing
 inoremap <silent> <C-o> <C-w>
-cnoremap <silent> <C-o> <C-w>
+cnoremap <C-o> <C-w>
+
+" Navigating history on command line intelligently.
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 " Save all modified buffers
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
@@ -716,6 +741,7 @@ fun! <SID>VimroomLoad()
         set go-=R
         set go-=b
         set go-=h
+        set go-=m
     else
         " Deactivate
         let s:vimroom_active = 0
@@ -731,8 +757,12 @@ Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
 " }}}
 
-Bundle 'AndrewRadev/linediff.vim'
+" Powerline status {{{
 Bundle 'Lokaltog/vim-powerline'
+let g:Powerline_symbols = 'fancy'
+" }}}
+
+Bundle 'AndrewRadev/linediff.vim'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'chrisbra/CheckAttach'
 Bundle 'git://git.wincent.com/command-t.git'
@@ -767,6 +797,11 @@ Bundle 'matchit.zip'
 Bundle 'pythoncomplete'
 Bundle 'pythondo'
 
+" }}}
+
+" {{{ Fix for Vundle's changes to &rtp not loading the `ftdetect` scripts.
+filetype off
+filetype on
 " }}}
 
 " Miscellaneous {{{
