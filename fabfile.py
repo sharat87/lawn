@@ -4,6 +4,10 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import sys
+
+sys.path.append('python-lib')
+
 from fabric.api import task, local, lcd
 import os
 from os.path import expanduser, basename, exists, abspath
