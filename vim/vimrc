@@ -11,7 +11,7 @@ set nocompatible
 " Find out if we are on windows.
 let s:is_windows = has("win16") || has("win32") || has("win64")
 
-" Define the VIMFILES directory, if not already done
+" Define the VIMFILES directory, if not already done.
 if !exists('$VIMFILES')
     if s:is_windows
         let $VIMFILES = 'C:/tools/Vim/vimfiles'
@@ -20,7 +20,7 @@ if !exists('$VIMFILES')
     endif
 endif
 
-" Define my lawn's temp directory
+" Define my lawn's temp directory.
 if !exists('$LAWN_TMP')
     let $LAWN_TMP = $HOME . '/lawn/tmp'
 endif
@@ -29,7 +29,7 @@ endif
 let s:first_time = !exists('g:vimrc_done')
 let g:vimrc_done = 1
 
-" Load Vundle
+" Load Vundle.
 set rtp+=$VIMFILES/vundle
 call vundle#rc('$HOME/.vim/plugins')
 
@@ -62,11 +62,11 @@ endif
 
 " Solarized {{{
 Bundle 'altercation/vim-colors-solarized'
-" Solarized bg switcher
+" Solarized bg switcher.
 call togglebg#map('<F5>')
 " }}}
 
-" Colors are not as good with these 256 thingies turned on
+" Colors are not as good with these 256 thingies turned on.
 set t_Co=256
 let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
@@ -78,21 +78,21 @@ set bg=dark
 colorscheme solarized
 " }}}
 
-" Enable File type detection
-" Also load indent files, to automatically do language-dependent indenting
+" Enable File type detection.
+" Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 
 if has('autocmd')
 
-    " Place the autocmds in a group
+    " Place the autocmds in a group.
     augroup shvim
 
-    " Clear the autocmd's in the group
+    " Clear the autocmd's in the group.
     autocmd!
 
-    " when editing a file, jump to the last known cursor position
-    " Don't do it when the position id invalid or when inside an event handler
-    " (happens when dropping a file on gvim)
+    " When editing a file, jump to the last known cursor position. Don't do it
+    " when the position is invalid or when inside an event handler (happens when
+    " dropping a file on gvim).
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     exe 'normal! g`"' |
@@ -110,68 +110,67 @@ set shiftwidth=4 " No. of display space to be shifted per indent
 set expandtab " Use spaces instead of tabs to indent
 set shiftround " Round off the indent to *n* shiftwidths
 
-" Show a vertical line warning of my long lines
+" Show a vertical line warning of my long lines.
 set textwidth=80
 set colorcolumn=+1
 
-" Make horizontal scrolling less horrible (via @stevelosh)
+" Make horizontal scrolling less horrible (via @stevelosh).
 set sidescroll=1
 set sidescrolloff=10
 
-" turn on syntax highlighting
+" Turn on syntax highlighting.
 syntax on
 
 " Make backspace act sane (i.e., non vi-compatible)
 set backspace=indent,eol,start
 
-" enable mouse
+" Enable mouse.
 set mouse=a
 
-" Hide abandoned buffers in order to not lose undo history
+" Hide abandoned buffers in order to not lose undo history.
 set hidden
 
-" Ignore case in searches for everything (Tab completion, C-x completions
-" etc.)
+" Ignore case in searches for everything (Tab completion, C-x completions etc.).
 set ignorecase
 
-" highlight last used search term
+" Highlight last used search term.
 if s:first_time
     set hlsearch
 endif
 
-" Show the matched character for an annoyingly long time period
+" Show the matched character for an annoyingly long time period.
 set showmatch
 set matchtime=3
 
-" do incremental search
+" Do incremental search.
 set incsearch
 
-" blank lines piss me off when doing block selections!
+" Blank lines piss me off when doing block selections!
 set virtualedit=block
 
-" Keep swap files in one location
+" Keep swap files in one location.
 set directory=$LAWN_TMP/swap//,.
 
 " No swap files please.
 set noswapfile
 
-" Store undofiles (persistent-undo)
+" Store undofiles (persistent-undo).
 set undodir=$LAWN_TMP/undo//,.
 set undofile
 
-" lines to save from command line history
+" Lines to save from command line history.
 set history=1000
 
-" disable word-wrap
+" Disable word-wrap.
 set nowrap
 
-" Keep cursor on current column for certain jump commands
+" Keep cursor on current column for certain jump commands.
 set nostartofline
 
-" Enable line numbers
+" Enable line numbers.
 " set number
 
-" Show the cursor position all the time
+" Show the cursor position all the time.
 set ruler
 
 " Super thin cursor in insert mode.
@@ -190,40 +189,39 @@ if &term =~ "xterm"
     " let &t_EI = "\<Esc>]12;blue\x7"
 endif
 
-" display partial/incomplete commands
+" Display partial/incomplete commands.
 set showcmd
 
-" Show a mini-menu when using Tab-completions for commands
+" Show a mini-menu when using Tab-completions for commands.
 set wildmenu
 
-" Ignore these files when autocompleting
+" Ignore these files when autocompleting.
 set wildignore=*.pyc,*.o,*.class,*/.hg/*,*/.svn/*,*/.git/*
 
 " Ignore case in filename completions and then some.
 set wildignorecase
 
-" Use / instead of \ in file name completion among other places
+" Use / instead of \ in file name completion among other places.
 set shellslash
 
-" omni completion function
+" Omni completion function.
 set omnifunc=syntaxcomplete#Complete
 
-" Characters used to show invisibles with `list`
-" Other possible tab chars: ›‣⁍
+" Characters used to show invisibles with `list`. Other possible tab chars: ›‣⁍
 set listchars=tab:›\ ,trail:∙
 set list
 
-" Use blowfish encryption by default
+" Use blowfish encryption by default.
 if has('&cryptmethod')
     set cryptmethod=blowfish
 endif
 
-" Enable concealing everywhere
+" Enable concealing everywhere.
 if has('conceal')
 
     set concealcursor=nvic
 
-    " Toggle concealing
+    " Toggle concealing.
     nnoremap <silent> <F3> :call <SID>ToggleConceal(2)<CR>
     fun! <SID>ToggleConceal(value)
         exe 'set conceallevel=' . (&conceallevel == 0 ? a:value : 0)
@@ -231,22 +229,13 @@ if has('conceal')
 
 endif
 
-" My status line rules!
+" Always show status line.
 set laststatus=2
-" set statusline=%f\ [%n%H%M%R%W]\ [%{&ff}]\ %y%=L%l/%L\ C%c%V\ =%b\ @%P
 
-" My title line rules too!!
+" Show the title line.
 set title
-"set titlestring=\{%{\ g:LAST_SESSION\ }\}+\ %m\ %f\ %h\ -\ GVIM
 
-" Vim seems to be opening a new shell when run external commands,
-" This is sourcing my env file again, and hence re-constructing my $PATH
-" That means of course, my virtualenv is now lost, as the env adds my custom
-" built python's bin unto the top of the PATH!
-" The env file will see this variable and quit without changing anything.
-" let $DONT_ENV = 'true'
-
-" Highlight VCS conflict markers
+" Highlight VCS conflict markers.
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " }}}
@@ -257,10 +246,10 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 let mapleader = ','
 let maplocalleader = '\'
 
-" Quickly edit my vimrc
+" Quickly edit my vimrc.
 nnoremap <Leader>ev :e $MYVIMRC<CR>
 
-" Maps that make more sense
+" Maps that make more sense.
 nnoremap Y y$
 nnoremap <silent> Q :wqa<CR>
 nnoremap j gj
@@ -268,13 +257,13 @@ nnoremap gj j
 nnoremap k gk
 nnoremap gk k
 
-" Maps that apply on line can use the `.` key
+" Maps that apply on line can use the `.` key.
 nnoremap d. dd
 nnoremap y. yy
 nnoremap c. cc
 nnoremap g. gg
 
-" Fix linewise visual selection of various text objects
+" Fix linewise visual selection of various text objects.
 nnoremap v. V
 nnoremap v.it vitVkoj
 nnoremap v.at vatV
@@ -287,10 +276,10 @@ nnoremap _ ,
 vnoremap - ;
 vnoremap _ ,
 
-" Open a new line without leaving insert mode
+" Open a new line without leaving insert mode.
 inoremap <silent> <S-CR> <C-[>
 
-" A use for the unused Arrow keys :)
+" A use for the unused Arrow keys :).
 nnoremap <Up> <C-y>
 nnoremap <Down> <C-e>
 vnoremap <Up> <C-y>
@@ -300,25 +289,25 @@ inoremap <Down> <C-o><C-e>
 inoremap <Left> <C-d>
 inoremap <Right> <C-t>
 
-" Make ' act as ` which has the saner behavior
+" Make ' act as ` which has the saner behavior.
 nnoremap ' `
 vnoremap ' `
 
-" ` is easier to reach than <C-w>
+" ` is easier to reach than <C-w>.
 nnoremap ` <C-w>
 nnoremap `` <C-w><C-w>
 
-" My remapping of <C-^>. If there is no alternate file, then switch to next file.
-" Use <Space> to toggle to alternate buffer
+" My remapping of <C-^>. If there is no alternate file, then switch to next
+" file. Use <Space> to toggle to alternate buffer.
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
-" Easier way to go to normal mode
+" Easier way to go to normal mode.
 vnoremap <silent> <C-k> <ESC>
 snoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-y> <C-k>
 
-" Backspacing
+" Backspacing.
 inoremap <silent> <C-o> <C-w>
 cnoremap <C-o> <C-w>
 
@@ -326,7 +315,7 @@ cnoremap <C-o> <C-w>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" Save all modified buffers
+" Save all modified buffers.
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 vnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 fun! <SID>SuperEnterKey()
@@ -334,32 +323,24 @@ fun! <SID>SuperEnterKey()
         .cc
     elseif expand('%') != ''
         wa
-    " elseif &modified
-    "     echoerr "No filename"
     endif
 endfun
 
-" Map to change current directory to the directory of the current buffer
+" Map to change current directory to the directory of the current buffer.
 nnoremap cd :cd %:p:h<CR>:pwd<CR>
 
-" Map in visual mode to duplicate selected stuff just below the selected stuff
-vnoremap D y'>p
-
-" Easy mapping to show only the current window.
-" ... or a map to Zoom toggling if ZoomWin plugin is available
+" Easy mapping to show only the current window. Or a map to Zoom toggling if
+" ZoomWin plugin is available.
 nnoremap <F9> <C-w>o
 
-" Home key mapping
-inoremap <Home> <C-o>^
-
-" Turn off hlsearch temporarily
+" Turn off hlsearch temporarily.
 nnoremap <silent> <Leader>h :noh<CR>
 
-" More convinient to go to command mode
+" More convenient to go to command mode.
 nnoremap <Space> :
 vnoremap <Space> :
 
-" Repeating keys is not as awesome
+" Repeating keys is not as awesome.
 nnoremap <> <<
 nnoremap >< >>
 
@@ -373,7 +354,7 @@ nnoremap <C-r> <C-l>
 noremap <F1> <Nop>
 inoremap <F1> <Nop>
 
-" Paragraph jumping
+" Paragraph jumping. Slightly flaky.
 nnoremap <C-j> }j^
 nnoremap <C-k> k{j^
 
@@ -384,45 +365,6 @@ nnoremap <silent> <Leader>/ :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
 nnoremap <silent> <Leader>? :execute "Ack! '" .
             \ substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""),
             \ "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-
-" Open a scratch pad with markdown
-" Utility func.
-fun! <SID>IsTabEmpty()
-
-    " Remember which window we're in at the moment
-    let initial_win_num = winnr()
-
-    let win_count = 0
-    " Add the length of the file name on to count:
-    " this will be 0 if there is no file name
-    windo let win_count += len(expand('%'))
-
-    " Go back to the initial window
-    exe "normal " . initial_win_num . ""
-
-    " Check count
-    if win_count == 0
-        " Tab page is empty
-        return 1
-    else
-        return 0
-    endif
-
-endfun
-fun! s:OpenScratchPad(start_new)
-    if !<SID>IsTabEmpty()
-        silent tabnew
-    endif
-    e ~/.msgs
-    se ft=markdown spell wrap nolist
-    nnoremap <Leader>l ggO--<CR>Shrikant<CR><CR><ESC>100i-<ESC>o<ESC>ggO<ESC>O
-    if a:start_new
-        normal ,l
-        startinsert
-    endif
-endfunction
-nnoremap <Leader>xd :call <SID>OpenScratchPad(1)<CR>
-nnoremap <Leader>xD :call <SID>OpenScratchPad(0)<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -436,7 +378,7 @@ endfunction
 vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
-" Replace consecutive blank lines with a single blank line
+" Replace consecutive blank lines with a single blank line.
 nnoremap <silent> <Leader>xx :call <SID>PurgeExtraBlankLines()<CR>
 fun! <SID>PurgeExtraBlankLines()
     if getline('.') != ''
@@ -453,7 +395,7 @@ fun! <SID>PurgeExtraBlankLines()
     normal k
 endfun
 
-" Strip all trailing spaces in the whole file
+" Strip all trailing spaces in the whole file.
 nnoremap <silent> <Leader>xt :call <SID>StripTrailingSpaces()<CR>
 fun! <SID>StripTrailingSpaces()
     let _s = @/
@@ -464,7 +406,7 @@ fun! <SID>StripTrailingSpaces()
     call cursor(l, c)
 endfun
 
-" Show highlighting groups for word under cursor
+" Show highlighting groups for word under cursor.
 nnoremap <C-S-P> :call <SID>SynStack()<CR>
 fun! <SID>SynStack()
     if !exists("*synstack")
@@ -474,21 +416,21 @@ fun! <SID>SynStack()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfun
 
-" Text object shortcuts
+" Text object shortcuts.
 
-" r for rectangle brackets
+" r for rectangle brackets.
 onoremap ar a]
 onoremap ir i]
 
-" a for angle brackets
+" a for angle brackets.
 onoremap aa a>
 onoremap ia i>
 
-" c for curly brackets
+" c for curly brackets.
 onoremap ac a}
 onoremap ic i}
 
-" Act on the next occuring text-object in the current line
+" Act on the next occuring text-object in the current line.
 
 fun! <SID>ObMapper(char, ...)
     let key = a:0 ? a:1 : a:char
@@ -498,7 +440,7 @@ fun! <SID>ObMapper(char, ...)
     exe 'onoremap <silent> an' . key . ' :<C-U>normal! f' . a:char . 'va' . key . '<CR>'
 endfun
 
-" Next ()
+" Next ().
 call <SID>ObMapper('(', 'b')
 call <SID>ObMapper('(')
 
@@ -507,21 +449,21 @@ call <SID>ObMapper('{', 'B')
 call <SID>ObMapper('{', 'c')
 call <SID>ObMapper('{')
 
-" Next []
+" Next [].
 call <SID>ObMapper('[', 'r')
 call <SID>ObMapper('[')
 
-" Next <>
+" Next <>.
 call <SID>ObMapper('<', 'a')
 call <SID>ObMapper('<')
 
-" Next ''
+" Next ''.
 call <SID>ObMapper("'")
 
-" Next ""
+" Next "".
 call <SID>ObMapper('"')
 
-" Highlight word (Taken from sjl's vimrc)
+" Highlight word (Taken from sjl's vimrc).
 nnoremap <silent> <Leader>ma :execute 'match InterestingWordA /\<<C-r><C-w>\>/'<CR>
 nnoremap <silent> <Leader>ms :execute '2match InterestingWordS /\<<C-r><C-w>\>/'<CR>
 nnoremap <silent> <Leader>md :execute '3match InterestingWordD /\<<C-r><C-w>\>/'<CR>
@@ -542,11 +484,11 @@ command! -nargs=+ C :py print <args>
 py from math import *
 
 " Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
+" file it was loaded from, thus the changes you made. Only define it when not
+" defined already.
 command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
 
-" Sudo write
+" Sudo write.
 if executable('sudo') && executable('tee')
   command! W
         \ execute 'w !sudo tee % > /dev/null' |
@@ -583,51 +525,21 @@ Bundle 'xolox/vim-pyref'
 let g:pyref_mapping = 'gK'
 " }}}
 
-" " Command-T {{{
-" let g:CommandTMatchWindowReverse = 1
-" fun! <SID>CommandTLoad(cmd)
-"     IP Command-T
-"     execute a:cmd
-" endfun
-" nnoremap <Leader>f :call <SID>CommandTLoad('CommandT')<CR>
-" nnoremap <Leader>d :call <SID>CommandTLoad('CommandTBuffer')<CR>
-" nnoremap <Leader>F :call <SID>CommandTLoad('CommandTFlush')<CR>
-" " }}}
-
-" CtrlP {{{
-Bundle 'kien/ctrlp.vim'
-let g:ctrlp_root_markers = ['.project']
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_switch_buffer = 2
-let g:ctrlp_map = '<Leader>f'
-nnoremap <Leader>d :CtrlPBuffer<CR>
-nnoremap <Leader>F :CtrlPClearCache<CR>
+" Command-T {{{
+let g:CommandTMatchWindowReverse = 1
+nnoremap <Leader>f :call :CommandT<CR>
+nnoremap <Leader>d :call :CommandTBuffer<CR>
+nnoremap <Leader>F :call :CommandTFlush\|CommandT<CR>
 " }}}
 
-" Quicksilver {{{
-Bundle 'sharat87/quicksilver.vim'
-nmap <Leader>r <Plug>ActivateQS
-" }}}
-
-" " NerdTree {{{
-" Bundle 'scrooloose/nerdtree'
-" " Convenience map for toggling NerdTree window
-" nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
-" " Set the location of bookmarks for nerdtree
-" let g:NERDTreeBookmarksFile = '$HOME/.vim/nerdtree-bookmarks'
-" autocmd FileType nerdtree setlocal nolist
-" let NERDTreeMinimalUI = 1
-" let NERDTreeDirArrows = 1
-" " }}}
-
-" Netrw {{{
-" Bundled with vim!
-" Use tree-mode as default view
-let g:netrw_liststyle = 3
-" Open file in previous buffer
-let g:netrw_browse_split = 4
-" preview window shown in a vertically split
-let g:netrw_preview = 1
+" NerdTree {{{
+Bundle 'scrooloose/nerdtree'
+" Convenience map for toggling NerdTree window.
+nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
+" Set the location of bookmarks for nerdtree.
+autocmd FileType nerdtree setlocal nolist
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 " }}}
 
 " UltiSnips {{{
@@ -664,11 +576,11 @@ nmap <silent> <Leader>s <Plug>PadSearchPads
 
 " VimClojure {{{
 Bundle 'vim-scripts/VimClojure'
-" Colorful matching parentheses
+" Colorful matching parentheses.
 let vimclojure#ParenRainbow = 1
-" Special indenting rules for def* and with-* forms
+" Special indenting rules for def* and with-* forms.
 let vimclojure#FuzzyIndent = 1
-" Je wanty le nailgun
+" Je wanty le nailgun.
 " let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = $VIMFILES . "/ng-client/ng"
 let vimclojure#SplitPos = 'bottom'
@@ -676,31 +588,9 @@ let vimclojure#SplitPos = 'bottom'
 
 " Gundo {{{
 Bundle 'sjl/gundo.vim'
-" Toggle
+" Toggle.
 nnoremap <F10> :silent! IP gundo<CR>:GundoToggle<CR>
 " }}}
-
-" " TwitVim ahoy! {{{
-" let g:twitvim_browser_cmd = 'firefox'
-" let g:twitvim_enable_python = 1
-" let g:twitvim_api_root = "https://api.twitter.com/1"
-" fun! <SID>TwitterLoad()
-"     " The vim instance becomes pretty useless as a text editor after this.
-"     nmap o <Plug>TwitvimLaunchURL
-"     nmap u <Plug>TwitvimGetUserInfo
-"     IP TwitVim
-"     FriendsTwitter
-"     wincmd k
-"     wincmd H
-"     setlocal winwidth=80
-"     setlocal wrap
-"     setlocal linebreak
-"     setlocal nolist
-"     nnoremap <buffer> <HOME> gg
-"     nnoremap <buffer> <END> G
-" endfun
-" command! TwitterLoad call <SID>TwitterLoad()
-" " }}}
 
 " Vimroom awesomeness {{{
 Bundle 'git@github.com:sharat87/vimroom.git'
@@ -709,7 +599,7 @@ fun! <SID>VimroomLoad()
     IP vimroom
     VimroomToggle
     if !s:vimroom_active
-        " Activate
+        " Activate.
         let s:vimroom_active = 1
         setlocal nolist
         let s:vimroom_save_ls = &ls
@@ -723,7 +613,7 @@ fun! <SID>VimroomLoad()
         set go-=h
         set go-=m
     else
-        " Deactivate
+        " Deactivate.
         let s:vimroom_active = 0
         let &ls = s:vimroom_save_ls
         let &go = s:vimroom_save_go
@@ -786,7 +676,7 @@ filetype on
 
 " Miscellaneous {{{
 
-" Source evim.vim if running as evim
+" Source evim.vim if running as evim.
 if v:progname =~? "evim"
     source $VIMFILES/evim.vim
 endif
