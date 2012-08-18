@@ -181,6 +181,7 @@ set winheight=20
 set winwidth=80
 
 " Set the cursor changes in terminal.
+" TODO: Find escape codes to change cursor style.
 if &term =~ "xterm"
     " let &t_SI = "\<Esc>]12;purple\x7"
     " let &t_EI = "\<Esc>]12;blue\x7"
@@ -273,9 +274,6 @@ nnoremap _ ,
 vnoremap - ;
 vnoremap _ ,
 
-" Open a new line without leaving insert mode.
-inoremap <silent> <S-CR> <C-[>
-
 " A use for the unused Arrow keys :).
 nnoremap <Up> <C-y>
 nnoremap <Down> <C-e>
@@ -302,9 +300,11 @@ nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : 
 vnoremap <silent> <C-k> <ESC>
 snoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
+
+" Insert digraphs (<C-k> taken above).
 inoremap <silent> <C-y> <C-k>
 
-" Backspacing.
+" Easy backspacing.
 inoremap <silent> <C-o> <C-w>
 cnoremap <C-o> <C-w>
 
@@ -344,12 +344,9 @@ nnoremap >< >>
 " Use `U` for redo. I never understood its default functionality anyway.
 nnoremap U <C-r>
 
-" <C-r> for screen redraw. How and why <C-l> is used for this, I have no idea.
-nnoremap <C-r> <C-l>
-
 " F1 is goddamn close to <ESC>. I don't want to see help with F1.
-noremap <F1> <Nop>
-inoremap <F1> <Nop>
+noremap <F1> <Esc>
+inoremap <F1> <Esc>
 
 " Paragraph jumping. Slightly flaky.
 nnoremap <C-j> }j^
@@ -453,12 +450,6 @@ call <SID>ObMapper('[')
 " Next <>.
 call <SID>ObMapper('<', 'a')
 call <SID>ObMapper('<')
-
-" Next ''.
-call <SID>ObMapper("'")
-
-" Next "".
-call <SID>ObMapper('"')
 
 " Highlight word (Taken from sjl's vimrc).
 nnoremap <silent> <Leader>ma :execute 'match InterestingWordA /\<<C-r><C-w>\>/'<CR>
