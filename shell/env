@@ -11,7 +11,8 @@ export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
 # Home bin and lawn' bin
 export PATH=~/bin:~/lawn/bin:$PATH
 
-source ~/labs/virtualenvman/virtualenvman.sh
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+# source ~/labs/virtualenvman/virtualenvman.sh
 export PIP_DOWNLOAD_CACHE=~/.pip/cache
 export PYTHONPATH=~/lawn/python-lib:"$PYTHONPATH"
 

@@ -38,7 +38,10 @@ zsh-users/zsh-completions
 
 # Vim like bindings plugin.
 # antigen-bundle sharat87/zsh-vim-mode
-/home/sharat/labs/zsh-vim-mode
+$HOME/labs/zsh-vim-mode --no-local-clone
+
+# My own lightweight alternative to virtualenvwrapper.
+$HOME/labs/virtualenvman --no-local-clone
 
 # ZSH port of Fish shell's history search feature.
 zsh-users/zsh-history-substring-search
