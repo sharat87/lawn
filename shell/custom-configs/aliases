@@ -175,9 +175,9 @@ compdef "_a install" ai
 # purge command
 ap () {
     if sudo aptitude purge "$@"; then
-        notify-send "aptitude" "$1 installation finished"
+        notify-send "aptitude" "$1 purged"
     else
-        notify-send "aptitude" "Error installing $1"
+        notify-send "aptitude" "Error purging $1"
     fi
 }
 
@@ -186,9 +186,9 @@ compdef "_a purge" ap
 # remove command (ar is the archive command)
 ad () {
     if sudo aptitude remove "$@"; then
-        notify-send "aptitude" "$1 installation finished"
+        notify-send "aptitude" "$1 removed"
     else
-        notify-send "aptitude" "Error installing $1"
+        notify-send "aptitude" "Error removing $1"
     fi
 }
 
