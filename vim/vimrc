@@ -509,10 +509,11 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 " }}}
 
 " Command-T {{{
+Bundle 'git://git.wincent.com/command-t.git'
 let g:CommandTMatchWindowReverse = 1
-nnoremap <Leader>f :call :CommandT<CR>
-nnoremap <Leader>d :call :CommandTBuffer<CR>
-nnoremap <Leader>F :call :CommandTFlush\|CommandT<CR>
+nnoremap <Leader>f :CommandT<CR>
+nnoremap <Leader>d :CommandTBuffer<CR>
+nnoremap <Leader>F :CommandTFlush<CR>:CommandT<CR>
 " }}}
 
 " NerdTree {{{
@@ -624,7 +625,6 @@ Bundle 'michaeljsmith/vim-indent-object'
 Bundle 'AndrewRadev/linediff.vim'
 Bundle 'bkad/CamelCaseMotion'
 Bundle 'chrisbra/CheckAttach'
-Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
 Bundle 'sjl/clam.vim'
