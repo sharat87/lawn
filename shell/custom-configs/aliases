@@ -339,6 +339,13 @@ i () {
     fi
 }
 
+# Project loader autocomplete
+_i () {
+    compadd $(ls --color=never ~/.starters | sed 's/\.sh$//')
+}
+
+compdef _i i
+
 # The usual `./configure`, `make` and `make installl` automation.
 auto-install () {
     app_name="${PWD##*/}"
