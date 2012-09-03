@@ -71,7 +71,7 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
 # Command to quickly edit the aliases file
-alias eal='v ~/lawn/shell/custom-configs/aliases && source ~/lawn/shell/custom-configs/aliases'
+alias eal='v. ~/lawn/shell/custom-configs/aliases && source ~/lawn/shell/custom-configs/aliases'
 
 alias ht=htop
 
