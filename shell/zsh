@@ -62,6 +62,9 @@ function _z_precmd {
     _z --add "$PWD"
 }
 
+# A pip apps functionality, basing on antigen.
+antigen-bundle ~/labs/pip-app
+
 # Load the prompt theme.
 antigen-theme prose
 

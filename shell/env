@@ -21,6 +21,9 @@ export JAVA_4_HOME=$HOME/apps/javas/j2sdk1.4.2_19
 export JAVA_5_HOME=$HOME/apps/javas/jdk1.5.0_22
 export JAVA_6_HOME=$HOME/apps/javas/jdk1.6.0_22
 
+# Go stuff.
+export GOROOT=$HOME/apps/go
+
 export HISTIGNORE="&:[bf]g:exit:logout"
 
 # Use vim as a pager (to view man pages for example)

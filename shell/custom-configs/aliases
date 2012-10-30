@@ -57,18 +57,10 @@ alias ipy='ipython'
 alias py='bpython'
 alias pipr='pip install -r requirements.txt'
 
-# Shortcut to make a new virtualenv.
-venv () {
-    local envdir="${1:-.venv}"
-    virtualenv --use-distribute "$envdir"
-    source "$envdir/bin/activate"
-    echo "test -f '$envdir/bin/activate' && source '$envdir/bin/activate'" \
-        >> .env
-    echo Created autoenv script to load virtualenv.
-}
-
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+
+alias tree='tree -C --charset utf-8'
 
 # Command to quickly edit the aliases file
 alias eal='v. ~/lawn/shell/custom-configs/aliases && source ~/lawn/shell/custom-configs/aliases'
@@ -98,6 +90,29 @@ alias a.=antigen
 ###
 # Utility functions/commands
 ###
+
+# Check if the given files (as arguments) are the same files, using md5 hashing.
+are-same-files () {
+    local quite=false
+
+    if [[ $1 == -q ]]; then
+        quite=true
+        shift
+    fi
+
+    if [[ "$(md5sum "$@" | cut -d' ' -f1 | sort -u | wc -l)" == 1 ]]; then
+        $quite || echo Yes. They are the same, according to md5 hashing.
+    else
+        $quite || echo No. They are NOT the same, according to md5 hashing.
+        return 1
+    fi
+}
+
+gman () {
+    yelp "man:$1" &
+}
+
+compdef "_man" gman
 
 ec () {
     easytether connect &
@@ -159,7 +174,22 @@ lawn-files-update () {
 # aptitude utilities
 #----------------------------------------
 
-alias a='sudo aptitude'
+# Master aptitude command.
+a () {
+    local cmd=$1
+
+    case "$cmd" in
+        changelog|download|help|show|search|versions|why|why-not)
+            aptitude "$@"
+            ;;
+        *)
+            sudo aptitude "$@"
+            ;;
+    esac
+}
+
+# show command
+alias aw='aptitude show'
 
 # install command
 ai () {

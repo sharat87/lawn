@@ -1,0 +1,12 @@
+#supertab,
+.top-rhs,
+#maindetails_sidebar_bottom,
+#bottom_ad_wrapper {
+    display: none;
+}
+
+#content-2-wide #main,
+#content-2-wide .maindetails_center {
+    width: auto;
+    margin-right: 20px;
+}

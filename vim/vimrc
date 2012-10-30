@@ -44,7 +44,7 @@ if has('gui_running') && s:first_time
     if s:is_windows
         set guifont=Consolas:h14:cANSI
     else
-        set guifont=Inconsolata-g\ Medium\ 16
+        set guifont=Monaco\ 14
     endif
 
     set guioptions+=b " enable horizontal scrollbar
@@ -64,9 +64,7 @@ endif
 Bundle 'altercation/vim-colors-solarized'
 " Solarized bg switcher.
 call togglebg#map('<F5>')
-" }}}
-
-" Colors are not as good with these 256 thingies turned on.
+set bg=dark
 set t_Co=256
 let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
@@ -74,8 +72,14 @@ let g:solarized_bold = 0
 let g:solarized_italic = 0
 let g:solarized_visibility = 'low'
 let g:solarized_hitrail = 1
-set bg=dark
-colorscheme solarized
+" }}}
+
+" Tomorrow {{{
+Bundle 'chriskempson/vim-tomorrow-theme'
+" }}}
+
+" Colors are not as good with these 256 thingies turned on.
+colorscheme Tomorrow-Night
 " }}}
 
 " Enable File type detection.
@@ -462,6 +466,10 @@ highlight InterestingWordA guifg=#000000 guibg=#FFA700
 highlight InterestingWordS guifg=#000000 guibg=#53FF00
 highlight InterestingWordD guifg=#000000 guibg=#FF74F8
 
+" Insertion helpers, easier typing of some hard-to-get characters using `Alt`.
+imap <A-j> (
+imap <A-k> )
+
 " }}}
 
 " Custom Commands {{{
@@ -502,11 +510,11 @@ nmap <leader>c  <Plug>Commentary
 xmap <leader>c  <Plug>Commentary
 " }}}
 
-" Syntastic {{{
-Bundle 'scrooloose/syntastic'
-let g:syntastic_enable_signs = 1
-let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-" }}}
+" " Syntastic {{{
+" Bundle 'scrooloose/syntastic'
+" let g:syntastic_enable_signs = 1
+" let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+" " }}}
 
 " Command-T {{{
 Bundle 'git://git.wincent.com/command-t.git'
@@ -526,12 +534,32 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 " }}}
 
-" UltiSnips {{{
-Bundle 'SirVer/ultisnips'
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-let g:UltiSnipsExpandTrigger = '<Tab>'
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+" " UltiSnips {{{
+" Bundle 'SirVer/ultisnips'
+" let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+" let g:UltiSnipsExpandTrigger = '<Tab>'
+" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+" " }}}
+
+" Snipmate (garbas) {{{
+
+" Dependencies {{{
+Bundle "MarcWeber/vim-addon-mw-utils"
+
+" tlib shit {{{
+Bundle "tomtom/tlib_vim"
+augroup tlib-shit
+    au!
+    autocmd FileType tlibInputList setl nolist nocul nonu tw=0
+augroup END
+" }}}
+
+" }}}
+
+Bundle 'garbas/vim-snipmate'
+Bundle "honza/snipmate-snippets"
+
 " }}}
 
 " VCSCommand {{{
@@ -543,7 +571,7 @@ let g:VCSCommandMapPrefix = '<Leader>v'
 Bundle 'fmoralesc/vim-pad'
 let g:pad_dir = '~/Dropbox/pad'
 let g:pad_window_height = 10
-let g:pad_highlighting_variant = 1 " Looks good with solarized.
+let g:pad_highlighting_variant = 1
 let g:pad_use_default_mappings = 0
 nmap <silent> <Leader>l <Plug>ListPads
 nmap <silent> <Leader>a <Plug>OpenPad
@@ -558,8 +586,8 @@ let vimclojure#ParenRainbow = 1
 let vimclojure#FuzzyIndent = 1
 " Je wanty le nailgun.
 " let vimclojure#WantNailgun = 1
-let vimclojure#NailgunClient = $VIMFILES . "/ng-client/ng"
-let vimclojure#SplitPos = 'bottom'
+" let vimclojure#NailgunClient = $VIMFILES . '/ng-client/ng'
+" let vimclojure#SplitPos = 'bottom'
 " }}}
 
 " Gundo {{{
@@ -613,6 +641,19 @@ Bundle 'groenewege/vim-less'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
+Bundle 'jnwhiteh/vim-golang'
+" }}}
+
+" Syntax checkers {{{
+
+" Python syntax checking with pyflakes {{{
+Bundle 'kevinw/pyflakes-vim'
+" }}}
+
+" Javscript syntax checking with jshint {{{
+Bundle 'wookiehangover/jshint.vim'
+" }}}
+
 " }}}
 
 " Text objects {{{
@@ -639,6 +680,7 @@ Bundle 'ZoomWin'
 Bundle 'matchit.zip'
 Bundle 'pythoncomplete'
 Bundle 'pythondo'
+Bundle 'ciaranm/detectindent'
 " }}}
 
 " Color schemes {{{

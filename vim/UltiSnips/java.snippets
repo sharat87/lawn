@@ -1,6 +1,0 @@
-snippet hf "HOTFIX static log entry"
-static {
-    Log.system("HOTFIX", "${5:`!p snip.rv = fn`}: " +
-            "\n HF_${1:version you are fixing}_${2:upcoming freeze with this fix}_${6:`!v strftime("%Y%m%d")`}_HD${3:XXX}_CAL-${4:XXX}", null);${7}
-}
-endsnippet

@@ -3,11 +3,14 @@ au!
 
 " File type detection logic {{{
 
-" GNUPlot
+" GNUPlot.
 au BufRead,BufNewFile *.plt,*.gnuplot setf gnuplot
 
-" Cram test files
+" Cram test files.
 au BufRead,BufNewFile *.t setf cram
+
+" Gradle build files.
+au BufRead,BufNewFile build.gradle setf groovy
 
 " }}}
 
@@ -30,6 +33,9 @@ au FileType haskell setl ai
 
 " Auto indentation for yaml files.
 au FileType yaml setl ai
+
+" Auto indentation for groovy (and so gradle) files.
+au FileType groovy setl ai
 
 " I don't want `/` as word-char in clojure.
 au FileType clojure setl isk-=/
