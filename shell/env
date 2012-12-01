@@ -24,6 +24,9 @@ export JAVA_6_HOME=$HOME/apps/javas/jdk1.6.0_22
 # Go stuff.
 export GOROOT=$HOME/apps/go
 
+# Haskell stuff.
+export PATH=$HOME/.cabal/bin:$PATH
+
 export HISTIGNORE="&:[bf]g:exit:logout"
 
 # Use vim as a pager (to view man pages for example)
