@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+exif_data="$(exiftool -S "$@")"
+
+exif () {
+    echo "$exif_data" | sed -n "s/^$1: //p"
+}
+
+echo -e "$(exif FileType) video \x1b[1;30m($(exif MIMEType))\x1b[0m"
+echo
+
+echo Duration: $(exif Duration)
+echo Dimensions: $(exif ImageSize)
+
+echo
+file_no_ext="${1%.*}"
+if [[ -f "$file_no_ext.srt" ]]; then
+    echo -e "\x1b[1;36mSubtitles are available.\x1b[0m"
+else
+    echo -e "\x1b[1;33mNo subtitle file found locally.\x1b[0m"
+fi
+
+echo -e "\n\n\x1b[1;30mExifToolVersion: $(exif ExifToolVersion)\x1b[0m"

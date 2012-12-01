@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+
+# A `tree` like output of the contents of an archive file. Supports all archives
+# supported by `atool`.
+
+extension=${1##*.}
+if [[ ${1%.*} == *.tar ]]; then
+    extension=tar.$extension
+fi
+
+process-zip () {
+    awk '
+
+        /^---/ {
+            if (reading)
+                exit;
+            else {
+                reading = 1
+                next
+            }
+        }
+
+        reading {
+            size = $1
+            path = $NF
+
+            if (path ~ /\/$/)
+                size = ""
+            else {
+                humanized = 1
+                units[1] = ""
+                units[2] = "K" units[1]
+                units[3] = "M" units[1]
+                units[4] = "G" units[1]
+
+                while (humanized <= 4 && size >= 1000) {
+                    size = size / 1000
+                    humanized++
+                }
+
+                size = sprintf("%.2f", size) units[humanized]
+            }
+
+            sub(/\/$/, "*", path)
+            indent = ""
+            while (index(path, "/")) {
+                sub(/^[^\/]*\//, "", path)
+                # indent = indent "∙ "
+                indent = indent "  "
+            }
+            sub(/\*$/, "/", path)
+
+            print "\x1b[1;30m" indent "\x1b[0m" path, "\x1b[1;30m" size "\x1b[0m"
+        }
+
+    '
+}
+
+process-jar () {
+    process-zip
+}
+
+# FIXME: /bin repeats in the brogue archive.
+process-tar.gz () {
+    awk ' {
+        size = $3
+        path = $NF
+
+        loc = path
+        sub(/\/[^\/]+$/, "*", loc)
+        indent = ""
+        while (index(loc, "/")) {
+            sub(/^[^\/]*\//, "", loc)
+            indent = indent "  "
+        }
+        sub(/\*$/, "/", loc)
+
+        if (loc != last_loc) {
+            print indent loc
+            last_loc = loc
+        }
+
+        # Humanize the file size.
+        if (path ~ /\/$/)
+            size = ""
+        else {
+            humanized = 1
+            units[1] = ""
+            units[2] = "K" units[1]
+            units[3] = "M" units[1]
+            units[4] = "G" units[1]
+
+            while (humanized <= 4 && size >= 1000) {
+                size = size / 1000
+                humanized++
+            }
+
+            size = sprintf("%.2f", size) units[humanized]
+        }
+
+        # Turn the path into an appropriately indented 'basename'.
+        sub(/\/$/, "*", path)
+        indent = ""
+        while (index(path, "/")) {
+            sub(/^[^\/]*\//, "", path)
+            # indent = indent "∙ "
+            indent = indent "  "
+        }
+        sub(/\*$/, "/", path)
+
+        print "\x1b[1;30m" indent "\x1b[0m" path, "\x1b[1;30m" size "\x1b[0m"
+    }
+    '
+}
+
+als "$@" |
+    if type "process-$extension" > /dev/null
+    then
+        "process-$extension"
+    else
+        cat
+    fi
