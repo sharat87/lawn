@@ -4,7 +4,6 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-_
 import sys
 
 sys.path.append('python-lib')
@@ -76,8 +75,6 @@ def put():
 
     local('mkdir -p tmp/undo')
 
-    virtualenvwrapper(update=False)
-
     print('Finished setting up links')
 
     tools()
@@ -112,7 +109,6 @@ def up():
     local('vim +BundleInstall! +qall')
     do_compilations()
     tools()
-    virtualenvwrapper()
 
 def dln(src, dst=None):
     if dst is None:
@@ -130,14 +126,3 @@ def do_compilations():
         with lcd('vim/ipi/Command-T/ruby/command-t'):
             local('ruby extconf.rb')
             local('make')
-
-@task
-def virtualenvwrapper(update=True):
-    """Install/Update virtualenvwrapper."""
-
-    if not exists(expanduser('~/.virtualenvwrapper')):
-        local('hg clone https://bitbucket.org/dhellmann/virtualenvwrapper '
-                '~/.virtualenvwrapper')
-
-    elif update:
-        local('cd ~/.virtualenvwrapper && hg pull')
