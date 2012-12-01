@@ -383,6 +383,7 @@ auto-install () {
 
     if [[ ! -f "./configure" ]]; then
         echo "There doesn't seem to be an app here."
+        return 1
     fi
 
     echo Installing $app_name to $install_dir
