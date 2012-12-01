@@ -1,0 +1,10 @@
+.problem-statement p {
+    font-size: 18px !important;
+    line-height: 22px;
+}
+
+.problem-statement pre, .problem-statement code {
+    font-size: 18px;
+    font-weight: normal;
+    font-family: Inconsolata-g;
+}

@@ -1,0 +1,2 @@
+$ ->
+  do $('table:last').remove
