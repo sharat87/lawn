@@ -1,0 +1,16 @@
+ul.course-item-list-section-list > li.viewed {
+    opacity: .6;
+}
+
+ul.course-item-list-section-list > li:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, .05);
+}
+
+div.course-modal-frame {
+    display: none;
+}
+
+div.course-topbanner-logo-name {
+    font-size: 2em;
+}
