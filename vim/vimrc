@@ -54,7 +54,7 @@ if has('gui_running') && s:first_time
     set guioptions+=c " user console like dialogs instead of GUI ones
     set guioptions-=m " user console like dialogs instead of GUI ones
 
-    set lines=30 columns=100
+    set lines=30 columns=84
 
 endif
 
@@ -73,13 +73,16 @@ let g:solarized_italic = 0
 let g:solarized_visibility = 'low'
 let g:solarized_hitrail = 1
 " }}}
-
+" Hemisu {{{
+Bundle 'noahfrederick/Hemisu'
+" }}}
 " Tomorrow {{{
 Bundle 'chriskempson/vim-tomorrow-theme'
 " }}}
 
 " Colors are not as good with these 256 thingies turned on.
 colorscheme Tomorrow-Night
+
 " }}}
 
 " Enable File type detection.
@@ -169,7 +172,7 @@ set nowrap
 set nostartofline
 
 " Enable line numbers.
-set number
+" set number
 
 " Show the cursor position all the time.
 set ruler
@@ -470,6 +473,10 @@ highlight InterestingWordD guifg=#000000 guibg=#FF74F8
 imap <C-'> "
 
 " Insertion helpers, easier typing of some hard-to-get characters using `Alt`.
+imap <A-p> +
+imap <A-i> -
+imap <A-o> _
+imap <A-l> =
 imap <A-j> (
 imap <A-k> )
 
@@ -502,6 +509,10 @@ endif
 let g:is_bash = 1
 " }}}
 
+" HTML {{{
+let g:html_indent_tags = ''
+" }}}
+
 " }}}
 
 " Plugins {{{
@@ -512,12 +523,6 @@ nmap <leader>cc <Plug>CommentaryLine
 nmap <leader>c  <Plug>Commentary
 xmap <leader>c  <Plug>Commentary
 " }}}
-
-" " Syntastic {{{
-" Bundle 'scrooloose/syntastic'
-" let g:syntastic_enable_signs = 1
-" let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-" " }}}
 
 " Command-T {{{
 Bundle 'git://git.wincent.com/command-t.git'
@@ -581,6 +586,11 @@ nmap <silent> <Leader>a <Plug>OpenPad
 nmap <silent> <Leader>s <Plug>SearchPads
 " }}}
 
+" vim-notes (xolox) {{{
+Bundle 'xolox/vim-notes'
+let g:notes_directory = '~/Dropbox/notes'
+" }}}
+
 " VimClojure {{{
 Bundle 'VimClojure'
 " Colorful matching parentheses.
@@ -599,36 +609,6 @@ Bundle 'sjl/gundo.vim'
 nnoremap <F10> :GundoToggle<CR>
 " }}}
 
-" Vimroom awesomeness {{{
-Bundle 'git@github.com:sharat87/vimroom.git'
-let s:vimroom_active = 0
-fun! <SID>VimroomLoad()
-    IP vimroom
-    VimroomToggle
-    if !s:vimroom_active
-        " Activate.
-        let s:vimroom_active = 1
-        setlocal nolist
-        let s:vimroom_save_ls = &ls
-        set ls=0
-        let s:vimroom_save_go = &go
-        set go-=l
-        set go-=L
-        set go-=r
-        set go-=R
-        set go-=b
-        set go-=h
-        set go-=m
-    else
-        " Deactivate.
-        let s:vimroom_active = 0
-        let &ls = s:vimroom_save_ls
-        let &go = s:vimroom_save_go
-    endif
-endfun
-nnoremap <Leader>V :nunmap <Leader>V\|call <SID>VimroomLoad()<CR>
-" }}}
-
 " Gist interaction plugin {{{
 Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
@@ -643,6 +623,12 @@ let g:Powerline_symbols = 'fancy'
 Bundle 'thinca/vim-quickrun'
 " }}}
 
+" Clam {{{
+Bundle 'sjl/clam.vim'
+nnoremap ! :Clam<Space>
+vnoremap ! :ClamVisual<Space>
+" }}}
+
 " simplenote-vim {{{
 Bundle 'mrtazz/simplenote.vim'
 source $HOME/.simplenoterc
@@ -655,17 +641,41 @@ Bundle 'jnwhiteh/vim-golang'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
+Bundle 'othree/html5.vim'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'wlangstroth/vim-racket'
 " }}}
 
 " Syntax checkers {{{
 
-" Python syntax checking with pyflakes {{{
-Bundle 'kevinw/pyflakes-vim'
+" Syntastic {{{
+Bundle 'Syntastic'
+
+let g:syntastic_mode_map = { 'mode': 'passive',
+            \ 'active_filetypes': ['javascript', 'python']
+            \ }
+
+let g:syntastic_python_checker = 'pyflakes'
+let g:syntastic_javascript_checker = 'jshint'
+
+" Powerline overrides this.
+" let g:syntastic_stl_format = '[%E{Err: %feL #%e}%B{, }%W{Warn: %fwL #%w}]'
+
+" Run checking on file open.
+" let g:syntastic_check_on_open = 1
+
+" No tooltips in GVim with error messages.
+let g:syntastic_enable_balloons = 0
+
 " }}}
 
-" Javscript syntax checking with jshint {{{
-Bundle 'wookiehangover/jshint.vim'
-" }}}
+" " Python syntax checking with pyflakes {{{
+" Bundle 'kevinw/pyflakes-vim'
+" " }}}
+
+" " Javscript syntax checking with jshint {{{
+" Bundle 'wookiehangover/jshint.vim'
+" " }}}
 
 " }}}
 
@@ -678,10 +688,8 @@ Bundle 'michaeljsmith/vim-indent-object'
 " Functionality plugins {{{
 Bundle 'AndrewRadev/linediff.vim'
 Bundle 'bkad/CamelCaseMotion'
-Bundle 'chrisbra/CheckAttach'
 Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
-Bundle 'sjl/clam.vim'
 Bundle 'sjl/strftimedammit.vim'
 Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-endwise'
@@ -690,15 +698,10 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
-Bundle 'ZoomWin'
 Bundle 'matchit.zip'
 Bundle 'pythoncomplete'
 Bundle 'ciaranm/detectindent'
 Bundle 'kshenoy/vim-signature'
-" }}}
-
-" Color schemes {{{
-Bundle 'noahfrederick/Hemisu'
 " }}}
 
 " }}}
