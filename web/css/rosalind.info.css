@@ -1,6 +1,6 @@
 .problem-statement p {
     font-size: 18px !important;
-    line-height: 22px;
+    line-height: 24px !important;
 }
 
 .problem-statement pre, .problem-statement code {

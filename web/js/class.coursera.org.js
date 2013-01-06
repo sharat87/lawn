@@ -42,8 +42,8 @@ $(function ($) {
     handle('Video Lectures', function () {
         $('div.course-lecture-item-resource').prepend(function (i) {
             return '<a href="' +
-                    this.previousElementSibling.dataset.lectureViewLink +
-                    '" target=_blank>' +
+                    this.previousElementSibling.dataset.modalIframe +
+                    '" target=video-view>' +
                     '<i class="icon-eye-open resource"></i>' +
                     '<div class=hidden>View the lecture in new page</div>' +
                     '</a>';
@@ -68,17 +68,23 @@ $(function ($) {
 
     // Add icons to left sidebar.
     var iconMap = {
-        'Home - Announcements': 'flag',
-        'Welcome to the Course': 'user',
+        'Home': 'home',
+        'Home - Announcements': 'home',
+        'Welcome to the Course': 'flag',
         'Course Schedule': 'calendar',
         'Tips for Working in Coursera': 'list-alt',
         'Viewing the Video Lectures': 'film',
         'Video Lectures': 'facetime-video',
         'Discussion Forums': 'comment',
         'Resources': 'book',
+        'Learning Resources': 'book',
+        'Additional Documents': 'file',
+        'Quizzes': 'edit',
         'Assignments': 'check',
         'Programming Assignments': 'check',
         'Exams': 'pencil',
+        'Syllabus': 'tasks',
+        'About the Instructors': 'user',
         'Course Wiki': 'eye-close'
     };
 
