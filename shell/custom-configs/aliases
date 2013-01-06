@@ -87,9 +87,15 @@ alias ant6='j6 rn ant'
 # An alias to antigen.
 alias a.=antigen
 
+# Alias git to hub.
+alias g=hub
+
 ###
 # Utility functions/commands
 ###
+
+# Quick plots using datafart.com
+alias datafart='curl --data-binary @- datafart.com'
 
 # Check if the given files (as arguments) are the same files, using md5 hashing.
 are-same-files () {
