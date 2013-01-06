@@ -18,12 +18,14 @@ TOOLS = [
     ('https://bitbucket.org/sharat87/dtime/raw/tip/dtime', '~/bin/dtime'),
     ('http://betterthangrep.com/ack-standalone', '~/bin/ack'),
     ('https://raw.github.com/technomancy/leiningen/preview/bin/lein', '~/bin/lein2'),
-    ('https://github.com/technomancy/leiningen/raw/stable/bin/lein', '~/bin/lein'),
-    ('https://github.com/flatland/cake/raw/develop/bin/cake', '~/bin/cake'),
+    ('https://raw.github.com/technomancy/leiningen/stable/bin/lein', '~/bin/lein'),
+    ('https://raw.github.com/flatland/cake/develop/bin/cake', '~/bin/cake'),
     ('https://raw.github.com/holman/spark/master/spark', '~/bin/spark'),
     ('https://bitbucket.org/sjl/t/raw/tip/t.py', '~/.t.py'),
     ('https://raw.github.com/samirahmed/fu/master/src/fu.py', '~/bin/fu'),
     ('https://raw.github.com/fireteam/curlish/master/curlish.py', '~/bin/curlish'),
+    ('http://defunkt.io/hub/standalone', '~/bin/hub'),
+    ('https://raw.github.com/rkitover/vimpager/master/vimpager', '~/bin/vimp')
 ]
 
 @task(default=True)
