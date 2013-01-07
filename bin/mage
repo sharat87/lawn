@@ -8,8 +8,14 @@ bg=dark
 col -b |
 
 $vim -NMu NONE -c 'syn on | filetype plugin on
-    se ft=man nomod bg='$bg' ru ic scs is hls
+    se ft=man nomod bg='$bg' ic scs is hls sol | noh
+
     let page = split(getline(1))[-1]
-    exe "se ruf=%" . (len(page) + 17) . "(%#Special#%l\\ %c%V%=%p%%\\ \\ %#StatusLine#" . page . "%)"
+    let stat = "(%#Special#%l\\ %c%V%=%p%%\\ \\ %#StatusLine#" . page . "%)"
+
+    exe "se ru ruf=%" . (len(page) + 17) . stat
+    exe "se title titlestring=" . page
+
     map q :q<CR> | map u <C-u> | map d <C-d> | map f <C-f> | map b <C-b>
+    map <Up> <C-y> | map <Down> <C-e> | map c :noh<CR>
     nmap K :Man <C-r><C-w><CR><CR>' -
