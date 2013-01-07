@@ -32,6 +32,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export HISTIGNORE="&:[bf]g:exit:logout"
 
-export MANPAGER=pag
+export MANPAGER=mage
 
 # vim: se ft=sh :
