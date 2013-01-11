@@ -194,8 +194,13 @@ a () {
     esac
 }
 
+compdef _aptitude a
+
 # show command
 alias aw='aptitude show'
+
+# search command
+alias a/='aptitude search'
 
 # install command
 ai () {
