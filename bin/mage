@@ -17,6 +17,6 @@ $vim -NMu NONE -c 'syn on | filetype plugin on
     exe "se title titlestring=" . page
 
     map q :q<CR>| map u <C-u>| map d <C-d>| map f <C-f>| map b <C-b>
-    map <Up> <C-y>| map <Down> <C-e>| map c :noh<CR>
+    map <Up> <C-y>| map <Down> <C-e>| map <silent> c :noh<CR>
     map n nzz| map N Nzz
     nmap K :Man <C-r><C-w><CR><CR>' -
