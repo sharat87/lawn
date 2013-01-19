@@ -1,6 +1,10 @@
 # enable color support
 if [[ -x /usr/bin/dircolors ]]; then
-    [[ -r ~/.dircolors ]] && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    if [[ -r ~/.dircolors ]]; then
+        eval "$(dircolors -b ~/.dircolors)"
+    else
+        eval "$(dircolors -b)"
+    fi
     alias ls='ls --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -11,11 +15,11 @@ alias ll='ls -l --almost-all --classify --human-readable'
 alias la='ls --almost-all'
 alias l='ls --classify'
 
-alias le=less
+# Pager aliases
+alias le='less'
+alias p='$PAGER'
 
-alias xg='xargs -I%'
-
-alias gr='grep '
+alias gr='grep'
 alias grp='grep --perl-regex'
 
 alias rmv='rm -v'
@@ -29,50 +33,28 @@ alias so='source'
 # Hate typing `gnone-open`. Just hate it. Nothing personal.
 alias o='gnome-open'
 
-alias na='nautilus'
-
 alias v='gvim'
 alias v.='vim'
-
-alias epoch='date +%s'
-
-# svn shortys
-alias sin='s info'
-alias sst='s st'
-alias sdi='s diff'
-alias sci='s ci'
-alias sco='s co'
-alias sup='s up'
-alias sxp='s export'
-alias slo='s log'
-alias sre='s revert'
-alias sbl='s blame'
-alias ssw='s switch'
-alias sad='s add'
 
 # Even two is too much sometimes :)
 alias h='hg'
 
-alias ipy='ipython'
-alias py='bpython'
+alias py='ipython'
+alias ipy='py'
 alias pipr='pip install -r requirements.txt'
 
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
+# A nicer tree
 alias tree='tree -C --charset utf-8'
 
 # Command to quickly edit the aliases file
 alias eal='v. ~/lawn/shell/custom-configs/aliases && source ~/lawn/shell/custom-configs/aliases'
 
-alias ht=htop
-
-alias sp='rlwrap sqlplus'
-
-alias f='fab'
 alias m='make'
 
-alias fn=find
+alias f=find
 alias ff='find -type f -iname'
 alias fd='find -type d -iname'
 
@@ -94,11 +76,16 @@ alias g=hub
 # Utility functions/commands
 ###
 
+alias epoch-show='date +%s'
+epoch-read () {
+    date --date @$1
+}
+
 # Quick plots using datafart.com
 alias datafart='curl --data-binary @- datafart.com'
 
 # Check if the given files (as arguments) are the same files, using md5 hashing.
-are-same-files () {
+same-files () {
     local quite=false
 
     if [[ $1 == -q ]]; then
@@ -106,7 +93,7 @@ are-same-files () {
         shift
     fi
 
-    if [[ "$(md5sum "$@" | cut -d' ' -f1 | sort -u | wc -l)" == 1 ]]; then
+    if [[ "$(md5sum "$@" | cut -d' ' -f1 | uniq | wc -l)" == 1 ]]; then
         $quite || echo Yes. They are the same, according to md5 hashing.
     else
         $quite || echo No. They are NOT the same, according to md5 hashing.
@@ -115,46 +102,25 @@ are-same-files () {
 }
 
 gman () {
-    yelp "man:$1" &
+    yelp 'man:$1' &
 }
 
-compdef "_man" gman
+compdef _man gman
 
-ec () {
+easytether-connect () {
     easytether connect &
     sleep 1s
     sudo dhclient easytether0
-    notify-send "EasyTether" "Connection established"
-}
-
-# Extract any archive
-ex () {
-    if [[ ! -f $1 ]]; then
-        echo "'$1' is not a valid file."
-    fi
-    case $1 in
-        *.tar.bz2)   tar xjf $1;;
-        *.tar.gz)    tar xzf $1;;
-        *.bz2)       bunzip2 $1;;
-        *.rar)       rar x $1;;
-        *.gz)        gunzip $1;;
-        *.tar)       tar xf $1;;
-        *.tbz2)      tar xjf $1;;
-        *.tgz)       tar xzf $1;;
-        *.zip)       unzip $1;;
-        *.Z)         uncompress $1;;
-        *.7z)        7z x $1;;
-        *)           echo "'$1' cannot be extracted via extract()";;
-    esac
+    notify-send EasyTether 'Connection established'
 }
 
 # Run a command and notify when done
 rn () {
     if $@
     then
-        notify-send 'Shell' "$1 finished successfully"
+        notify-send Shell "$1 finished successfully"
     else
-        notify-send 'Shell' "$1 has failed"
+        notify-send Shell "$1 has failed"
     fi
 }
 
@@ -166,13 +132,9 @@ rr () {
     done
 }
 
-ca () {
-    cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
-}
-
 # Update vimfiles and lawn
 lawn-files-update () {
-    (cd ~/lawn && f)
+    (cd ~/lawn && fab)
     notify-send "lawn-mowing finished"
 }
 
@@ -196,11 +158,31 @@ a () {
 
 compdef _aptitude a
 
-# show command
-alias aw='aptitude show'
-
 # search command
 alias a/='aptitude search'
+
+# show command
+aw () {
+    if ! aptitude show "$@"; then
+        local search_output="$(aptitude search "$@")"
+
+        if [[ -z $search_output ]]; then
+            echo 'No search results either.' >&2
+
+        elif [[ "$(echo "$search_output" | wc -l)" == 1 ]]; then
+            local package="$(echo "$search_output" | awk '{print $2}')"
+            echo "You are probably looking for $package.\n"
+            aw $package
+
+        else
+            {
+                echo "There's no package called $1. Here's a search result:"
+                echo "$search_output"
+            } | $PAGER
+
+        fi
+    fi
+}
 
 # install command
 ai () {
@@ -250,6 +232,58 @@ _a () {
     _aptitude "$@"
 }
 
+# aptitude history
+# Taken from https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/debian/debian.plugin.zsh
+ah () {
+    case "$1" in
+        installs)
+            zgrep --no-filename 'install ' $(ls -rt /var/log/dpkg*)
+            ;;
+        upgrades|removes)
+            zgrep --no-filename $1 $(ls -rt /var/log/dpkg*)
+            ;;
+        rollbacks)
+            zgrep --no-filename upgrade $(ls -rt /var/log/dpkg*) | \
+                grep "$2" -A10000000 | \
+                grep "$3" -B10000000 | \
+                awk '{print $4"="$5}'
+            ;;
+        all)
+            zcat $(ls -rt /var/log/dpkg*)
+            ;;
+        *)
+            echo "Usage:"
+            echo " installs - Lists all packages that have been installed."
+            echo " upgrades - Lists all packages that have been upgraded."
+            echo " removes - Lists all packages that have been removed."
+            echo " rollbacks - Lists rollback information."
+            echo " all - Lists all contains of dpkg logs."
+            ;;
+    esac
+}
+
+_ah () {
+    # compadd $(ah | awk '/^ / {print $1}')
+    local ret=1 state
+    _arguments ':subcommand:->subcommand' && ret=0
+
+    case $state in
+      subcommand)
+        subcommands=(
+          "installs:Lists all packages that have been installed."
+          "upgrades:Lists all packages that have been upgraded."
+          "removes:Lists all packages that have been removed."
+          "rollbacks:Lists rollback information."
+          "all:Lists all contains of dpkg logs."
+        )
+        _describe -t subcommands 'ah subcommands' subcommands && ret=0
+    esac
+
+    return ret
+}
+
+compdef _ah ah
+
 #----------------------------------------
 # Version control utils
 #----------------------------------------
@@ -270,16 +304,19 @@ s () {
     notify-send "Subversion $1 finished"
 }
 
-cv () {
-    if cvs -d ':extssh:cvs:/usr/local/cvs' "$@"
-    then
-        notify-send "CVS Success" "CVS $1 exited successfully"
-    else
-        notify-send "CVS Failure" "CVS $1 seem to have failed"
-    fi
-}
-
-alias cs="c -qq -n up 2>&1 | awk '/^U / { next } /no longer in/ { print \"? \" \$3; next } { print }'"
+# svn shortys
+alias sin='s info'
+alias sst='s st'
+alias sdi='s diff'
+alias sci='s ci'
+alias sco='s co'
+alias sup='s up'
+alias sxp='s export'
+alias slo='s log'
+alias sre='s revert'
+alias sbl='s blame'
+alias ssw='s switch'
+alias sad='s add'
 
 #----------------------------------------
 # Miscellaneous
@@ -352,6 +389,8 @@ _cu () {
 
 compdef _cu cu
 
+# Copy the full absolute path into the clipboard, and also echo it. Handles the
+# path in the argument, if any, else `pwd`.
 copy-path () {
     local apath=
     if [[ -d "$1" ]]; then

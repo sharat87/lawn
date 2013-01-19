@@ -13,12 +13,13 @@ antigen-lib
 
 # Bundles from the default repo declared above.
 antigen-bundles <<EOBUNDLES
-# Fabric plugin
-git://gist.github.com/1522827
 
-# Leiningen completions
 lein
 pip
+gradle
+
+# Fabric plugin
+git://gist.github.com/1522827
 
 # Guess what to install when running an unknown command.
 command-not-found
@@ -34,7 +35,7 @@ svn
 git
 
 # nicoulaj's moar completion files for zsh
-zsh-users/zsh-completions
+zsh-users/zsh-completions src
 
 # Vim like bindings plugin.
 # antigen-bundle sharat87/zsh-vim-mode
