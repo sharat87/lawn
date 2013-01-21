@@ -17,9 +17,9 @@ export PIP_DOWNLOAD_CACHE=~/.pip/cache
 export PYTHONPATH=~/lawn/python-lib:"$PYTHONPATH"
 
 # Java home directories
-export JAVA_4_HOME=$HOME/apps/javas/j2sdk1.4.2_19
-export JAVA_5_HOME=$HOME/apps/javas/jdk1.5.0_22
-export JAVA_6_HOME=$HOME/apps/javas/jdk1.6.0_22
+export JAVA_4_HOME=$HOME/apps/j2sdk1.4.2_19
+export JAVA_5_HOME=$HOME/apps/jdk1.5.0_22
+export JAVA_6_HOME=$HOME/apps/jdk1.6.0_35
 
 # Go stuff.
 export GOROOT=$HOME/apps/go
