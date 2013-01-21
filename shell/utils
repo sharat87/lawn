@@ -49,12 +49,12 @@ alias pbpaste='xsel --clipboard --output'
 # A nicer tree
 alias tree='tree -C --charset utf-8'
 
-# Command to quickly edit the aliases file
-alias eal='v. ~/lawn/shell/custom-configs/aliases && source ~/lawn/shell/custom-configs/aliases'
+# Command to quickly edit the utils file
+alias eal='v. ~/lawn/shell/utils && source ~/lawn/shell/utils'
 
 alias m='make'
 
-alias f=find
+alias f='find'
 alias ff='find -type f -iname'
 alias fd='find -type d -iname'
 
