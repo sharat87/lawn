@@ -1,6 +1,3 @@
-# Path to my zsh configuration.
-export ZSH_CUSTOM=$HOME/lawn/shell/custom-configs
-
 # Red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS=true
 
@@ -73,7 +70,7 @@ antigen-theme prose
 antigen-apply
 
 # FIXME: Need a better way to specify custom bundles.
-source $ZSH_CUSTOM/aliases
+source $HOME/lawn/shell/utils
 
 # wohwohwohowhohohoho!
 # fortune -s -n 300 | cowsay | lolcat

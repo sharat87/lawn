@@ -3,7 +3,7 @@
 # for examples
 
 parent=~/lawn
-source $parent/shell/custom-configs/aliases
+source $parent/shell/utils
 source $parent/shell/env
 
 # If not running interactively, don't do anything
