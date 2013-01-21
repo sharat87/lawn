@@ -102,7 +102,7 @@ same-files () {
 }
 
 gman () {
-    yelp 'man:$1' &
+    yelp "man:$1" 2>/dev/null &
 }
 
 compdef _man gman
