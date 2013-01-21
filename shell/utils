@@ -39,8 +39,8 @@ alias v.='vim'
 # Even two is too much sometimes :)
 alias h='hg'
 
-alias py='ipython'
-alias ipy='py'
+alias py='python'
+alias ipy='ipython'
 alias pipr='pip install -r requirements.txt'
 
 alias pbcopy='xsel --clipboard --input'
