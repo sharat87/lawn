@@ -2,18 +2,25 @@ body {
     font-family: Ubuntu;
 }
 
-div.course-topbanner-logo-name {
-    font-size: 2em;
+a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+#course-page-content {
+    min-height: none !important;
+    padding: 12px;
 }
 
 div.course-item-list-header h3,
-li.course-navbar-item > a {
+li.course-navbar-item > a,
+.lecture-link {
     font-weight: normal !important;
 }
 
 li.course-navbar-item > a:active,
 li.course-navbar-item.active > a {
-    background-color: #08C !important;
+    background-color: #173862 !important;
     color: #EEE;
 }
 
@@ -24,10 +31,6 @@ ul.course-item-list-section-list > li.viewed {
 ul.course-item-list-section-list > li:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, .05);
-}
-
-div.course-modal-frame {
-    display: none;
 }
 
 div.course-lecture-item-resource a:hover i {
