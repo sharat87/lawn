@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""
+*** OBSOLETE ***
+Use Makefile instead of this.
+****************
+"""
+
 from __future__ import print_function
 from __future__ import unicode_literals
 
