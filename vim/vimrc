@@ -37,7 +37,7 @@ set path=./**
 
 " }}}
 
-" Settings {{{
+" Options {{{
 
 if has('gui_running') && s:first_time
 
@@ -84,6 +84,9 @@ Bundle 'chriskempson/vim-tomorrow-theme'
 colorscheme Tomorrow-Night
 
 " }}}
+
+" Load a vimrc from current directory.
+set secure exrc
 
 " Enable File type detection.
 " Also load indent files, to automatically do language-dependent indenting.
@@ -635,6 +638,8 @@ source $HOME/.simplenoterc
 " }}}
 
 " File type supporters {{{
+
+" Additional file types {{{
 Bundle 'derekwyatt/vim-scala'
 Bundle 'groenewege/vim-less'
 Bundle 'jnwhiteh/vim-golang'
@@ -646,7 +651,37 @@ Bundle 'hail2u/vim-css3-syntax'
 Bundle 'wlangstroth/vim-racket'
 " }}}
 
-" Syntax checkers {{{
+" Python {{{
+" Bundle 'kevinw/pyflakes-vim'
+Bundle 'pythoncomplete'
+" }}}
+
+" " Javscript {{{
+" Bundle 'wookiehangover/jshint.vim'
+" " }}}
+
+" Haskell {{{
+
+" Unicode conceals.
+Bundle 'Twinside/vim-haskellConceal'
+
+" Indentation.
+Bundle 'indenthaskell.vim'
+let g:haskell_indent_if = 2
+let g:haskell_indent_case = 2
+
+" Omni Completion.
+Bundle 'ujihisa/neco-ghc'
+au FileType haskell setl omnifunc=necoghc#omnifunc
+
+" Type and info about identifier under cursor.
+Bundle 'bitc/vim-hdevtools'
+au FileType haskell nnoremap <buffer> K :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <C-S-K> :HdevtoolsClear<CR>
+
+" }}}
+
+" }}}
 
 " Syntastic {{{
 Bundle 'scrooloose/syntastic'
@@ -677,16 +712,6 @@ let g:syntastic_enable_balloons = 0
 
 " }}}
 
-" " Python syntax checking with pyflakes {{{
-" Bundle 'kevinw/pyflakes-vim'
-" " }}}
-
-" " Javscript syntax checking with jshint {{{
-" Bundle 'wookiehangover/jshint.vim'
-" " }}}
-
-" }}}
-
 " Text objects {{{
 Bundle 'kana/vim-textobj-user'
 Bundle 'kana/vim-textobj-entire'
@@ -707,7 +732,6 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'matchit.zip'
-Bundle 'pythoncomplete'
 Bundle 'ciaranm/detectindent'
 Bundle 'kshenoy/vim-signature'
 " }}}
