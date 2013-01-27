@@ -15,9 +15,6 @@ lein
 pip
 gradle
 
-# Fabric plugin
-git://gist.github.com/1522827
-
 # Guess what to install when running an unknown command.
 command-not-found
 
