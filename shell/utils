@@ -134,7 +134,7 @@ rr () {
 
 # Update vimfiles and lawn
 lawn-files-update () {
-    (cd ~/lawn && make up)
+    (cd ~/lawn && make update)
     notify-send "lawn-mowing finished"
 }
 
