@@ -545,66 +545,18 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 " }}}
 
-" " UltiSnips {{{
-" Bundle 'SirVer/ultisnips'
-" let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-" let g:UltiSnipsExpandTrigger = '<Tab>'
-" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-" " }}}
-
-" Snipmate (garbas) {{{
-
-" Dependencies {{{
-Bundle 'MarcWeber/vim-addon-mw-utils'
-
-" tlib shit {{{
-Bundle 'tomtom/tlib_vim'
-augroup tlib-shit
-    au!
-    autocmd FileType tlibInputList setl nolist nocursorline nonumber textwidth=0
-augroup END
-" }}}
-
-" }}}
-
-Bundle 'garbas/vim-snipmate'
-Bundle 'honza/snipmate-snippets'
-
+" UltiSnips {{{
+Bundle 'SirVer/ultisnips'
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " }}}
 
 " " VCSCommand {{{
 " Bundle 'vcscommand.vim'
 " let g:VCSCommandMapPrefix = '<Leader>v'
 " " }}}
-
-" vim-pad {{{
-Bundle 'fmoralesc/vim-pad'
-let g:pad_dir = '~/Dropbox/pad'
-let g:pad_window_height = 10
-let g:pad_highlighting_variant = 1
-let g:pad_use_default_mappings = 0
-nmap <silent> <Leader>l <Plug>ListPads
-nmap <silent> <Leader>a <Plug>OpenPad
-nmap <silent> <Leader>s <Plug>SearchPads
-" }}}
-
-" vim-notes (xolox) {{{
-Bundle 'xolox/vim-notes'
-let g:notes_directory = '~/Dropbox/notes'
-" }}}
-
-" VimClojure {{{
-Bundle 'VimClojure'
-" Colorful matching parentheses.
-let vimclojure#ParenRainbow = 1
-" Special indenting rules for def* and with-* forms.
-let vimclojure#FuzzyIndent = 1
-" Je wanty le nailgun.
-" let vimclojure#WantNailgun = 1
-" let vimclojure#NailgunClient = $VIMFILES . '/ng-client/ng'
-" let vimclojure#SplitPos = 'bottom'
-" }}}
 
 " Gundo {{{
 Bundle 'sjl/gundo.vim'
@@ -632,12 +584,34 @@ nnoremap ! :Clam<Space>
 vnoremap ! :ClamVisual<Space>
 " }}}
 
+" Easymotion {{{
+Bundle 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key = ';'
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvz'
+" }}}
+
+" vim-pad {{{
+Bundle 'fmoralesc/vim-pad'
+let g:pad_dir = '~/Dropbox/pad'
+let g:pad_window_height = 10
+let g:pad_highlighting_variant = 1
+let g:pad_use_default_mappings = 0
+nmap <silent> <Leader>l <Plug>ListPads
+nmap <silent> <Leader>a <Plug>OpenPad
+nmap <silent> <Leader>s <Plug>SearchPads
+" }}}
+
+" vim-notes (xolox) {{{
+Bundle 'xolox/vim-notes'
+let g:notes_directory = '~/Dropbox/notes'
+" }}}
+
 " simplenote-vim {{{
 Bundle 'mrtazz/simplenote.vim'
 source $HOME/.simplenoterc
 " }}}
 
-" File type supporters {{{
+" File type sauces {{{
 
 " Additional file types {{{
 Bundle 'derekwyatt/vim-scala'
@@ -651,10 +625,9 @@ Bundle 'hail2u/vim-css3-syntax'
 Bundle 'wlangstroth/vim-racket'
 " }}}
 
-" Python {{{
+" " Python {{{
 " Bundle 'kevinw/pyflakes-vim'
-Bundle 'pythoncomplete'
-" }}}
+" " }}}
 
 " " Javscript {{{
 " Bundle 'wookiehangover/jshint.vim'
@@ -681,6 +654,18 @@ au FileType haskell nnoremap <buffer> <silent> <C-S-K> :HdevtoolsClear<CR>
 
 " }}}
 
+" Clojure {{{
+Bundle 'VimClojure'
+" Colorful matching parentheses.
+let vimclojure#ParenRainbow = 1
+" Special indenting rules for def* and with-* forms.
+let vimclojure#FuzzyIndent = 1
+" Je wanty le nailgun.
+" let vimclojure#WantNailgun = 1
+" let vimclojure#NailgunClient = $VIMFILES . '/ng-client/ng'
+" let vimclojure#SplitPos = 'bottom'
+" }}}
+
 " }}}
 
 " Syntastic {{{
@@ -700,6 +685,7 @@ let g:syntastic_mode_map = {
 
 let g:syntastic_python_checker = 'pyflakes'
 let g:syntastic_javascript_checker = 'jshint'
+let g:syntastic_haskell_checker = 'hdevtools'
 
 " Powerline overrides this.
 " let g:syntastic_stl_format = '[%E{Err: %feL #%e}%B{, }%W{Warn: %fwL #%w}]'
@@ -732,8 +718,8 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'matchit.zip'
-Bundle 'ciaranm/detectindent'
 Bundle 'kshenoy/vim-signature'
+Bundle 'YankRing.vim'
 " }}}
 
 " }}}
