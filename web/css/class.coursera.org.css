@@ -1,14 +1,10 @@
-body {
-    font-family: Ubuntu;
-}
-
 a:hover {
     opacity: 1;
     text-decoration: underline;
 }
 
 #course-page-content {
-    min-height: none !important;
+    min-height: 0 !important;
     padding: 12px;
 }
 
@@ -16,6 +12,11 @@ div.course-item-list-header h3,
 li.course-navbar-item > a,
 .lecture-link {
     font-weight: normal !important;
+}
+
+div.course-item-list-header.expanded {
+    background-image: -webkit-gradient(linear,
+            0% 0%, 0% 100%, from(#F1F1F1), to(#FFFFFF));
 }
 
 li.course-navbar-item > a:active,

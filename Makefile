@@ -13,7 +13,6 @@ https://raw.github.com/holman/spark/master/spark bin/spark
 https://bitbucket.org/sjl/t/raw/tip/t.py .t.py
 https://raw.github.com/samirahmed/fu/master/src/fu.py bin/fu
 https://raw.github.com/fireteam/curlish/master/curlish.py bin/curlish
-http://defunkt.io/hub/standalone bin/hub
 https://raw.github.com/rkitover/vimpager/master/vimpager bin/vimp
 endef
 export TOOLS
@@ -88,7 +87,17 @@ update:
 	git submodule foreach git pull
 	vim +BundleInstall! +qall
 	$(MAKE) tools
+	$(MAKE) powerline
 	$(MAKE) compilations
+
+poweline:
+	pip install --upgrade --user git+git://github.com/Lokaltog/powerline
+	wget --no-check-certificate -O ~/.fonts/PowerlineSymbols.otf \
+		https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf
+	fc-cache -vf ~/.fonts
+	mkdir -p ~/.fonts.conf
+	wget --no-check-certificate -O ~/.fonts.conf/10-powerline-symbols.conf \
+		https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
 
 compilations:
 	@test -e vim/plugins/command-t && { \

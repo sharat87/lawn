@@ -69,9 +69,6 @@ alias ant6='j6 rn ant'
 # An alias to antigen.
 alias a.=antigen
 
-# Alias git to hub.
-alias g=hub
-
 ###
 # Utility functions/commands
 ###

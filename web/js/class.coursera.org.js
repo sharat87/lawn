@@ -64,15 +64,16 @@ $(function ($) {
     // More informative and better section headers.
     handle(videoTitles, function () {
         $('div.course-item-list-header > h3')
-            .append(function (i, html) {
+            .append(function () {
                 var mins = 0, secs = 0, lectureLinks = this
                         .parentNode
                         .nextSibling
                         .querySelectorAll('.unviewed > a.lecture-link');
 
                 for (var i = lectureLinks.length - 1; i >= 0; i--) {
-                    var match = lectureLinks[i]
-                        .innerText.match(/\((\d\d?):(\d\d)\)$/);
+                    var title = lectureLinks[i].innerText,
+                        match = title.match(/\((\d\d?):(\d\d)\)$/) ||
+                                title.match(/\((\d\d?)m(\d\d)s\)$/);
                     if (match) {
                         mins += parseInt(match[1], 10);
                         secs += parseInt(match[2], 10);
