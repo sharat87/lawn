@@ -1,5 +1,6 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
-" Used On: (G)Vim 7.3 and 7.2 on Ubuntu Natty(current), Maverick, Karmic and Lucid, and Windows 7
+" Used On: (G)Vim 7.3 and 7.2 on Ubuntu Natty(current), Maverick, Karmic and
+"       Lucid, and Windows 7
 " Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 fdm=marker :
 
 " Use Vim settings, rather then Vi settings (much better!).
@@ -25,13 +26,13 @@ if !exists('$LAWN_TMP')
     let $LAWN_TMP = $HOME . '/lawn/tmp'
 endif
 
-" Is vimrc running for the first time. e.g., not run with `source`
+" Is vimrc running for the first time. e.g., not run with `source`.
 let s:first_time = !exists('g:vimrc_done')
 let g:vimrc_done = 1
 
 " Load Vundle.
 set rtp+=$VIMFILES/vundle
-call vundle#rc('$HOME/.vim/plugins')
+call vundle#rc($VIMFILES . '/plugins')
 
 set path=./**
 
@@ -47,12 +48,13 @@ if has('gui_running') && s:first_time
         set guifont=Monaco\ 14
     endif
 
-    set guioptions+=b " enable horizontal scrollbar
-    set guioptions-=T " remove toolbar
-    set guioptions-=t " remove tearoff from menus
-    set guioptions-=e " Do not use a gui tab bar
-    set guioptions+=c " user console like dialogs instead of GUI ones
-    set guioptions-=m " user console like dialogs instead of GUI ones
+    " GUI options.
+    set go+=b " enable horizontal scrollbar
+    set go-=T " remove toolbar
+    set go-=t " remove tearoff from menus
+    set go-=e " Do not use a gui tab bar
+    set go+=c " user console like dialogs instead of GUI ones
+    set go-=m " user console like dialogs instead of GUI ones
 
     set lines=30 columns=84
 
@@ -92,37 +94,26 @@ set secure exrc
 " Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 
-if has('autocmd')
+" When editing a file, jump to the last known cursor position. Don't do it when
+" the position is invalid or when inside an event handler (happens when dropping
+" a file on gvim).
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \     exe 'normal! g`"' |
+            \ endif
 
-    " Place the autocmds in a group.
-    augroup shvim
-
-    " Clear the autocmd's in the group.
-    autocmd!
-
-    " When editing a file, jump to the last known cursor position. Don't do it
-    " when the position is invalid or when inside an event handler (happens when
-    " dropping a file on gvim).
-    autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     exe 'normal! g`"' |
-        \ endif
-
-    augroup END
-
-endif
-
-" indenting settings
-set tabstop=4 " Displayed size of a tab character
-" set softtabstop=4 " No. of spaces that make up a single indent
+" Indenting settings.
+set tabstop=4 " Displayed size of a tab character.
+" set softtabstop=4 " No. of spaces that make up a single indent.
 set smarttab
-set shiftwidth=4 " No. of display space to be shifted per indent
-set expandtab " Use spaces instead of tabs to indent
-set shiftround " Round off the indent to *n* shiftwidths
+set shiftwidth=4 " No. of display space to be shifted per indent.
+set expandtab " Use spaces instead of tabs to indent.
+set shiftround " Round off the indent to *n* shiftwidths.
 
 " Show a vertical line warning of my long lines.
 set textwidth=80
-set colorcolumn=+1
+" Adapted from http://stackoverflow.com/a/13731714/151048.
+let &colorcolumn = '+' . join(range(1, 90), ',+')
 
 " Make horizontal scrolling less horrible (via @stevelosh).
 set sidescroll=1
@@ -131,7 +122,7 @@ set sidescrolloff=10
 " Turn on syntax highlighting.
 syntax on
 
-" Make backspace act sane (i.e., non vi-compatible)
+" Make backspace act sane (i.e., non vi-compatible).
 set backspace=indent,eol,start
 
 " Enable mouse.
@@ -158,7 +149,10 @@ set incsearch
 " Blank lines piss me off when doing block selections!
 set virtualedit=block
 
-" No swap files please.
+" No swap files, no backup and no magic atomic saving. Let `inotifywait` work
+" right.
+set nobackup
+set nowritebackup
 set noswapfile
 
 " Store undofiles (persistent-undo).
@@ -166,7 +160,7 @@ set undodir=$LAWN_TMP/undo//,.
 set undofile
 
 " Lines to save from command line history.
-set history=1000
+set history=5000
 
 " Disable word-wrap.
 set nowrap
@@ -175,13 +169,13 @@ set nowrap
 set nostartofline
 
 " Enable line numbers.
-" set number
+set number
 
 " Show the cursor position all the time.
 set ruler
 
 " Super thin cursor in insert mode.
-set guicursor=i-ci:ver10
+set guicursor=i-ci:ver5
 
 " Highlight the cursor line.
 set cursorline
@@ -190,12 +184,12 @@ set cursorline
 set winheight=20
 set winwidth=80
 
-" Set the cursor changes in terminal.
-" TODO: Find escape codes to change cursor style.
-if &term =~ "xterm"
-    " let &t_SI = "\<Esc>]12;purple\x7"
-    " let &t_EI = "\<Esc>]12;blue\x7"
-endif
+" " Set the cursor changes in terminal.
+" " TODO: Find escape codes to change cursor style.
+" if &term =~ "xterm"
+"     let &t_si = "\<esc>]12;purple\x7"
+"     let &t_EI = "\<Esc>]12;blue\x7"
+" endif
 
 " Display partial/incomplete commands.
 set showcmd
@@ -215,7 +209,8 @@ set shellslash
 " Omni completion function.
 set omnifunc=syntaxcomplete#Complete
 
-" Characters used to show invisibles with `list`. Other possible tab chars: ›‣⁍
+" Characters used to show invisibles with `list`.
+" Other possible tab chars: ›‣⁍.
 set listchars=tab:›\ ,trail:∙
 set list
 
@@ -336,10 +331,6 @@ endfun
 " Map to change current directory to the directory of the current buffer.
 nnoremap cd :cd %:p:h<CR>:pwd<CR>
 
-" Easy mapping to show only the current window. Or a map to Zoom toggling if
-" ZoomWin plugin is available.
-nnoremap <F9> <C-w>o
-
 " Turn off hlsearch temporarily.
 nnoremap <silent> <Leader>h :noh<CR>
 
@@ -354,7 +345,7 @@ nnoremap >< >>
 " Use `U` for redo. I never understood its default functionality anyway.
 nnoremap U <C-r>
 
-" F1 is goddamn close to <ESC>. I don't want to see help with F1.
+" F1 is very close to <ESC>. I don't want to see help with F1.
 noremap <F1> <Esc>
 inoremap <F1> <Esc>
 
@@ -527,18 +518,27 @@ nmap <leader>c  <Plug>Commentary
 xmap <leader>c  <Plug>Commentary
 " }}}
 
-" Command-T {{{
-Bundle 'git://git.wincent.com/command-t.git'
-let g:CommandTMatchWindowReverse = 1
-nnoremap <Leader>f :CommandT<CR>
-nnoremap <Leader>d :CommandTBuffer<CR>
-nnoremap <Leader>F :CommandTFlush<CR>:CommandT<CR>
+" " Command-T {{{
+" Bundle 'git://git.wincent.com/command-t.git'
+" let g:CommandTMatchWindowReverse = 1
+" nnoremap <Leader>f :CommandT<CR>
+" nnoremap <Leader>d :CommandTBuffer<CR>
+" nnoremap <Leader>F :CommandTFlush<CR>:CommandT<CR>
+" " }}}
+
+" ctrlp {{{
+Bundle 'kien/ctrlp.vim'
+let g:ctrlp_map = '<Leader>f'
+let g:ctrlp_extensions = ['tag']
+nnoremap <Leader>d :CtrlPBuffer<CR>
+nnoremap <Leader>t :CtrlPTag<CR>
+nnoremap <Leader>F :CtrlPClearCache<CR>
 " }}}
 
 " NerdTree {{{
 Bundle 'scrooloose/nerdtree'
 " Convenience map for toggling NerdTree window.
-nnoremap <silent> <F4> :silent! IP nerdtree<CR>:NERDTreeToggle<CR>
+nnoremap <silent> <F4> :NERDTreeToggle<CR>
 " Set the location of bookmarks for nerdtree.
 autocmd FileType nerdtree setlocal nolist
 let NERDTreeMinimalUI = 1
@@ -548,7 +548,9 @@ let NERDTreeDirArrows = 1
 " UltiSnips {{{
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsListSnippets = '<C-Tab>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " }}}
@@ -570,18 +572,39 @@ Bundle 'mattn/webapi-vim'
 " }}}
 
 " Powerline status {{{
-Bundle 'Lokaltog/vim-powerline'
-let g:Powerline_symbols = 'fancy'
+
+" Bundle 'Lokaltog/vim-powerline'
+" let g:Powerline_symbols = 'fancy'
+
+" Installed via `pip`, outside control of Vundle.
+set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
+
 " }}}
 
 " Quickrun.vim (thinca) {{{
 Bundle 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config.javascript = {
+            \ 'command': 'node'
+            \ }
 " }}}
 
 " Clam {{{
 Bundle 'sjl/clam.vim'
 nnoremap ! :Clam<Space>
 vnoremap ! :ClamVisual<Space>
+" }}}
+
+" " easytags {{{
+" " FIXME: This plugin is screwing with window size on startup of gvim from
+" " terminal.
+" Bundle 'xolox/vim-easytags'
+" let g:easytags_cmd = 'ctags-exuberant'
+" " }}}
+
+" TagBar {{{
+Bundle 'majutsushi/tagbar'
+nnoremap <silent> <F8> :TagbarToggle<CR>
 " }}}
 
 " Easymotion {{{
@@ -610,6 +633,13 @@ let g:notes_directory = '~/Dropbox/notes'
 Bundle 'mrtazz/simplenote.vim'
 source $HOME/.simplenoterc
 " }}}
+
+" " YankRing {{{
+" Bundle 'YankRing.vim'
+" fun! YRRunAfterMaps()
+"     nnoremap <silent> Y :<C-U>YRYankCount 'y$'<CR>
+" endfun
+" " }}}
 
 " File type sauces {{{
 
@@ -676,7 +706,6 @@ let g:syntastic_mode_map = {
     \ 'active_filetypes': [
         \ 'css',
         \ 'haskell',
-        \ 'html',
         \ 'javascript',
         \ 'python',
         \ 'sh',
@@ -719,20 +748,22 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'matchit.zip'
 Bundle 'kshenoy/vim-signature'
-Bundle 'YankRing.vim'
 " }}}
 
 " }}}
 
-" {{{ Fix for Vundle's changes to &rtp not loading the `ftdetect` scripts.
+" Miscellaneous fixes and source-es {{{
+
+" Fix for Vundle's changes to &rtp not loading the `ftdetect` scripts.
 filetype off
 filetype on
-" }}}
 
-" Miscellaneous {{{
+" Put the ~/.vim directory as the first item in `&rtp`.
+" This is so that ultisnips loads the snippets in the correct order.
+let &rtp = $VIMFILES . ',' . substitute(&rtp, $VIMFILES . ',', '', '')
 
 " Source evim.vim if running as evim.
-if v:progname =~? "evim"
+if v:progname =~? 'evim'
     source $VIMFILES/evim.vim
 endif
 
