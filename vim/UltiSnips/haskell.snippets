@@ -1,0 +1,15 @@
+snippet main "The main function" !b
+main :: IO (${1})
+main = ${2:putStrLn "In main"}
+endsnippet
+
+snippet fn "A funtion, with type signature" !b
+${1:functionName} :: ${2:Int -> Int}
+$1 ${3:args }= ${0:undefined}
+endsnippet
+
+snippet if "An if condition" !b
+if ${1:condition}
+  then ${2:truthy}
+  else ${3:falsy}
+endsnippet

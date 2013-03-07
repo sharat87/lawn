@@ -1,0 +1,25 @@
+snippet .new "New html file's base content" !b
+<!doctype html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>${1:New index}</title>
+
+<body>
+    $0
+endsnippet
+
+snippet scr "Include an external script file" !b
+<script src=${1}></script>
+endsnippet
+
+snippet scri "Include an inline script" !b
+<script>
+    $0
+</script>
+endsnippet
+
+snippet css "Include an external stylesheet" !b
+<link rel=stylesheet href=${1}>
+endsnippet
