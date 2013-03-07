@@ -50,3 +50,5 @@
   user = sharat87
 
 # vim: se et sw=2 sts=2 :
+[push]
+	default = simple

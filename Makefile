@@ -84,7 +84,8 @@ tools:
 	done
 
 update:
-	git submodule foreach git pull
+	@# git submodule foreach git pull
+	cd vim/vundle && git pull
 	vim +BundleInstall! +qall
 	$(MAKE) tools
 	$(MAKE) powerline
