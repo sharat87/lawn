@@ -13,7 +13,7 @@ $(function ($) {
         }
     };
 
-    var videoTitles = ['Video Lectures', 'Videos (inc. lectures)'];
+    var videoTitles = ['Video Lectures', 'Videos (inc. lectures)', 'Lectures'];
 
     // Videos progress counts.
     handle(videoTitles, function () {

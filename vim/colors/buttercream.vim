@@ -55,6 +55,6 @@ hi ModeMsg									gui=bold
 hi StatusLine									gui=reverse,bold
 hi StatusLineNC									gui=reverse
 hi VertSplit									gui=reverse
-hi Visual		guifg=LightGrey						gui=reverse
+hi Visual					guibg=#E5E583
 hi VisualNOS									gui=underline,bold
 hi Todo						guibg=#ccaa22			gui=bold,underline
