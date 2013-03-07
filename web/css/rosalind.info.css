@@ -1,10 +1,17 @@
-.problem-statement p {
-    font-size: 18px !important;
-    line-height: 24px !important;
+.problem-statement p,
+.problem-statement li,
+.problem-statement pre,
+.problem-statement code,
+.problem-statement blockquote p {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: normal;
 }
 
-.problem-statement pre, .problem-statement code {
-    font-size: 18px;
-    font-weight: normal;
-    font-family: Inconsolata-g;
+.problem-statement h2 {
+    font-size: 1.6em;
+}
+
+.problem-statement h3 {
+    font-size: 1.4em;
 }
