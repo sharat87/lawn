@@ -45,7 +45,8 @@ zsh-users/zsh-history-substring-search
 zsh-users/zsh-syntax-highlighting
 
 # Automatically source an environment script on cd-ing to a directory.
-kennethreitz/autoenv
+# kennethreitz/autoenv
+~/labs/autoenv --no-local-clone
 
 EOBUNDLES
 
