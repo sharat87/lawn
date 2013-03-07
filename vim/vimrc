@@ -113,7 +113,7 @@ set shiftround " Round off the indent to *n* shiftwidths.
 " Show a vertical line warning of my long lines.
 set textwidth=80
 " Adapted from http://stackoverflow.com/a/13731714/151048.
-let &colorcolumn = '+' . join(range(1, 90), ',+')
+let &colorcolumn = '+' . join(range(1, 900), ',+')
 
 " Make horizontal scrolling less horrible (via @stevelosh).
 set sidescroll=1
@@ -190,6 +190,8 @@ set winwidth=80
 "     let &t_si = "\<esc>]12;purple\x7"
 "     let &t_EI = "\<Esc>]12;blue\x7"
 " endif
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " Display partial/incomplete commands.
 set showcmd
@@ -645,14 +647,20 @@ source $HOME/.simplenoterc
 
 " Additional file types {{{
 Bundle 'derekwyatt/vim-scala'
-Bundle 'groenewege/vim-less'
 Bundle 'jnwhiteh/vim-golang'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'pangloss/vim-javascript'
 Bundle 'tpope/vim-markdown'
-Bundle 'othree/html5.vim'
-Bundle 'hail2u/vim-css3-syntax'
 Bundle 'wlangstroth/vim-racket'
+" }}}
+
+" Web - HTML, CSS and JavaScript {{{
+Bundle 'othree/html5.vim'
+Bundle 'indenthtml.vim'
+
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'groenewege/vim-less'
+
+Bundle 'pangloss/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
 " }}}
 
 " " Python {{{
@@ -714,6 +722,7 @@ let g:syntastic_mode_map = {
 
 let g:syntastic_python_checker = 'pyflakes'
 let g:syntastic_javascript_checker = 'jshint'
+let g:syntastic_javascript_jshint_conf = 'jshintrc'
 let g:syntastic_haskell_checker = 'hdevtools'
 
 " Powerline overrides this.
