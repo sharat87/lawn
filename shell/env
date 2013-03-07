@@ -3,7 +3,9 @@ export skip_global_compinit=1
 export EDITOR='vim'
 
 # Load RVM function
-[[ -s ~/apps/rvm/rvm/scripts/rvm ]] && source ~/apps/rvm/rvm/scripts/rvm
+if [ -s ~/apps/rvm/rvm/scripts/rvm ]; then
+    . ~/apps/rvm/rvm/scripts/rvm
+fi
 
 # Add all under ~/apps/*/bin directories to path
 export PATH=$(echo ~/apps/*/bin | tr \  :):$PATH
