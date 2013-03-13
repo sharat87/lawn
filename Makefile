@@ -1,5 +1,5 @@
-.PHONY: put update links tools compilations
-SHELL := /bin/bash
+.PHONY: put links tools update powerline compilations
+SHELL = /bin/bash
 
 # Each line consists of a `source` url and a `destination`, which is relative to
 # the home directory.
@@ -43,55 +43,40 @@ endef
 export LINKS
 
 put:
-	@test -d '_originals' && { \
-		echo '_originals already exists. Deleting it.'; \
-		rm -Rf _originals; \
-	}
-
-	mkdir _originals
+	rm -rf _originals/*
 	mkdir -p tmp/undo
-
-	git submodule init
-	git submodule update
-
+	git submodule init && git submodule update
 	$(MAKE) links
 	vim +BundleInstall +qall
-
-	$(MAKE) tools
-	$(MAKE) compilations
+	$(MAKE) tools compilations
 
 links:
-	@echo 'Setting up all links as specified in the `LINKS` variable.'
+	@echo Setting up LINKS.
 	@echo "$$LINKS" \
 		| sed -n 's,^\([^[:space:]]\+/\)\?\([^[:space:]]\+\),& .\2,p' \
 		| while read line; do \
 			source="$$(readlink -f $${line%% *})"; \
 			target="$(HOME)/$${line##* }"; \
 			test -e "$$target" && mv "$$target" _originals; \
-			cmd="ln -s $$source $$target"; \
-			echo "$$cmd"; \
-			$$cmd; \
+			ln -s "$$source" "$$target"; \
 		done
 
 tools:
-	@echo 'Downloading all tools as specified in the `TOOLS` variable.'
+	@echo Downloading TOOLS.
 	@echo "$$TOOLS" | while read line; do \
 		url="$${line% *}"; \
 		dst="$(HOME)/$${line#* }"; \
-		cmd="wget --no-check-certificate -O $$dst $$url"; \
-		echo $$cmd; \
-		$$cmd && chmod +x $$dst; \
+		wget --no-check-certificate -O "$$dst" "$$url" \
+			&& chmod +x "$$dst"; \
 	done
 
 update:
 	@# git submodule foreach git pull
 	cd vim/vundle && git pull
 	vim +BundleInstall! +qall
-	$(MAKE) tools
-	$(MAKE) powerline
-	$(MAKE) compilations
+	$(MAKE) tools powerline compilations
 
-poweline:
+powerline:
 	pip install --upgrade --user git+git://github.com/Lokaltog/powerline
 	wget --no-check-certificate -O ~/.fonts/PowerlineSymbols.otf \
 		https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -102,7 +87,7 @@ poweline:
 
 compilations:
 	@test -e vim/plugins/command-t && { \
-		echo 'Compiling command-t'; \
+		echo Compiling command-t; \
 		cd vim/plugins/command-t/ruby/command-t; \
 		ruby extconf.rb && $(MAKE); \
 	}
