@@ -62,7 +62,11 @@ function _z_precmd {
 antigen-bundle ~/labs/pip-app
 
 # Load the prompt theme.
-antigen-theme prose
+# antigen-theme prose
+
+# The powerline theme.
+.  ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+export PS1="$PS1 "
 
 # Tell Antigen that we're done.
 antigen-apply
