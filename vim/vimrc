@@ -501,36 +501,6 @@ aug END
 "             \ }
 " " }}}
 
-" " Syntastic (replaced by vim-dispatch) {{{
-" NeoBundle 'scrooloose/syntastic'
-
-" let g:syntastic_mode_map = {
-"     \ 'mode': 'passive',
-"     \ 'active_filetypes': [
-"         \ 'css',
-"         \ 'haskell',
-"         \ 'javascript',
-"         \ 'python',
-"         \ 'sh',
-"     \ ],
-" \ }
-
-" " FIXME: Go-lang's checker is building the whole directory and errors on
-" " multiple main method go-scripts. Address that and 'go' can be added as active.
-
-" let g:syntastic_csslint_options = '--ignore=adjoining-classes,' .
-"             \ 'universal-selector,box-sizing,box-model,ids'
-" let g:syntastic_haskell_checkers = ['hdevtools']
-" let g:syntastic_python_checkers = ['pyflakes']
-
-" " Run checking on file open.
-" " let g:syntastic_check_on_open = 1
-
-" " No tooltips in GVim with error messages.
-" let g:syntastic_enable_balloons = 0
-
-" " }}}
-
 " File type sauces {{{
 
 " Additional file types {{{
