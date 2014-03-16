@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if ! xset q | grep -Fq 'DPMS is Enabled'; then
-    xset +dpms
-    xset s on
-    notify-send 'Enabled sleeping'
-else
+if xset q | grep -Fq 'DPMS is Enabled'; then
     xset -dpms
     xset s off
     notify-send 'Disabled sleeping'
+else
+    xset +dpms
+    xset s on
+    notify-send 'Enabled sleeping'
 fi
 
 # if pgrep caffeine; then

@@ -12,7 +12,7 @@ endif
 " Set environment to 256 colours
 set t_Co=256
 
-let colors_name = "inspiration662167"
+let colors_name = "vibrant-dark"
 
 if version >= 700
   hi CursorLine     guibg=#000000 ctermbg=16

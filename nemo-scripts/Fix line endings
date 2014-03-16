@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+import os
+
+files = os.getenv('NAUTILUS_SCRIPT_SELECTED_FILE_PATHS').splitlines()
+
+for filename in (f for f in files if f):
+    text = None
+    with open(filename, 'rb') as f:
+        text = f.read().replace(b'\r', b'')
+    with open(filename, 'wb') as f:
+        f.write(text)

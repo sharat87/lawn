@@ -20,7 +20,7 @@ progress =
 # prompt = ~/lawn/hg/hg-prompt/prompt.py
 inotify = 
 # notify = ~/lawn/hg/notify.py
-hggit =
+# hggit =
 
 [alias]
 clog = glog --style compact

@@ -1,4 +1,0 @@
-#!/bin/sh
-rlwrap -C clojure java \
-    -classpath ~/apps/clojure-1.4.0/clojure-1.4.0.jar:.:$CLASSPATH \
-    clojure.main "$@"

@@ -1,8 +1,8 @@
 # Python compiled sources
 *.pyc
 
-# vim swap files
-*.swp
+# Python virtualenv
+/.pyenv
 
 # vim help tags
 doc/tags

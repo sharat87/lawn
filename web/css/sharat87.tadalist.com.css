@@ -1,9 +1,0 @@
-#toppromo, #footer {
-    visibility: hidden;
-    height: 0;
-}
-
-#incomplete_items #item_completed {
-    -moz-transform: scale(1.6);
-    -webkit-transform: scale(1.6);
-}

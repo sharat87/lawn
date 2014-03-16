@@ -1,7 +1,0 @@
-#!/bin/bash
-
-count="$(ls ~/Mail/sskcal/inbox/new | wc -l)"
-
-if [[ ! $count == 0 ]]; then
-    echo "$count New mail(s)"
-fi

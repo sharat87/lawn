@@ -7,6 +7,8 @@ bg=dark
 
 col -b |
 
+# $vim -NMu NONE '+ls' -
+
 $vim -NMu NONE -c 'syn on | filetype plugin on
     se ft=man nomod bg='$bg' ic scs is hls nosol mouse=a | noh
 

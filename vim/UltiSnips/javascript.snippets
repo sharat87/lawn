@@ -6,42 +6,80 @@ snippet .new "New javascript file template" !b
 }());
 endsnippet
 
-snippet f "An anonymous function"
-function ($1) {
-    $0
-}${2:);}
+snippet f "An anonymous function" !w
+function $1($2) {
+    ${3:'use strict';}
+    ${VISUAL}$0
+}
 endsnippet
 
-snippet fn "A named function definition" !b
-function ${1:init}($2) {
+snippet if "if statement" !
+if (${1:false}) {
     $0
 }
 endsnippet
 
-snippet for "A sane for loop" !b
+snippet ife "if-else statement" !b
+if (${1:false}) {
+    $2
+} else {
+    ${3:$2}
+}
+endsnippet
+
+snippet for "straight for loop" !b
 for (var ${2:i} = 0, len = ${1:things}.length; $2 < len; ++$2) {
     ${3:$1[$2]}$0
 }
 endsnippet
 
+snippet forr "reversed for loop" !b
+for (var ${2:i} = ${1:things}.length; $2-- > 0;) {
+    ${3:$1[$2]}$0
+}
+endsnippet
+
 # Console snippets.
-snippet cl "console log" !b
+snippet cl "console log" !
 console.log('${1:break ${2:1}}');
 endsnippet
 
-snippet clv "console log a variable/expression" !b
-console.log('${2:$1 = }', ${1});
+snippet clv "console log a variable/expression" !
+console.log('${2:$1}:', ${1});
+endsnippet
+
+snippet ce "console error" !
+console.error('${1:break ${2:1}}');
+endsnippet
+
+snippet cev "console error a variable/expression" !
+console.error('${2:$1}:', ${1});
+endsnippet
+
+snippet ct "console trace" !
+console.trace();
 endsnippet
 
 # Snippets for jasmine tests.
 snippet ds "A `describe` block" !b
 describe("${1:Program works}", function () {
+    'use strict';
     $0
 });
 endsnippet
 
 snippet it "An `it` block" !b
 it("${1:kicks ass}", function () {
+    'use strict';
     $0
 });
+endsnippet
+
+snippet xhr "Make a XMLHttpRequest" !
+var xhr = new XMLHttpRequest();
+xhr.open('${1:POST}', '${2:path/to/api}', true);
+xhr.addEventListener('load', function () {
+    console.log('Success: ' + xhr.responseText);
+});
+xhr.send(${3:'banana=yellow'});
 endsnippet

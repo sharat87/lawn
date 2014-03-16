@@ -1,1 +1,0 @@
-do ($ '#deletekeypage').hide

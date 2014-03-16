@@ -1,6 +1,5 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
-" Used On: (G)Vim 7.3 and 7.2 on Ubuntu Natty(current), Maverick, Karmic and
-"       Lucid, and Windows 7
+" Used On: (G)Vim 7.3 on Linux
 " Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 fdm=marker :
 
 " Use Vim settings, rather then Vi settings (much better!).
@@ -10,15 +9,11 @@ set nocompatible
 " Utilities {{{
 
 " Find out if we are on windows.
-let s:is_windows = has("win16") || has("win32") || has("win64")
+let s:is_windows = has('win32') || has('win64')
 
 " Define the VIMFILES directory, if not already done.
 if !exists('$VIMFILES')
-    if s:is_windows
-        let $VIMFILES = 'C:/tools/Vim/vimfiles'
-    else
-        let $VIMFILES = $HOME . '/.vim'
-    endif
+    let $VIMFILES = s:is_windows ? 'C:/tools/Vim/vimfiles' : $HOME . '/.vim'
 endif
 
 " Define my lawn's temp directory.
@@ -26,64 +21,54 @@ if !exists('$LAWN_TMP')
     let $LAWN_TMP = $HOME . '/lawn/tmp'
 endif
 
-" Is vimrc running for the first time. e.g., not run with `source`.
-let s:first_time = !exists('g:vimrc_done')
-let g:vimrc_done = 1
+" Load Neobundle.
+if has('vim_starting')
+    set rtp+=$VIMFILES/bundles/neobundle.vim
+endif
+call neobundle#rc($VIMFILES . '/bundles/')
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Load Vundle.
-set rtp+=$VIMFILES/vundle
-call vundle#rc($VIMFILES . '/plugins')
-
-set path=./**
+set path=.,./**,,
 
 " }}}
 
 " Options {{{
 
-if has('gui_running') && s:first_time
+if has('gui_running') && has('vim_starting')
 
-    if s:is_windows
-        set guifont=Consolas:h14:cANSI
-    else
-        set guifont=Monaco\ 14
-    endif
-
-    " GUI options.
-    set go+=b " enable horizontal scrollbar
-    set go-=T " remove toolbar
-    set go-=t " remove tearoff from menus
-    set go-=e " Do not use a gui tab bar
-    set go+=c " user console like dialogs instead of GUI ones
-    set go-=m " user console like dialogs instead of GUI ones
-
+    exe 'set guifont=' . (s:is_windows ? 'Consolas:h14:cANSI' : 'Source\ Code\ Pro\ 16')
     set lines=30 columns=84
+
+    " Minial GUI please.
+    set go+=b " enable horizontal scrollbar
+    set go-=T " Remove toolbar
+    set go-=e " Do not use a gui tab bar
+    set go-=m " Hide the menubar
+    set go+=c " user console like dialogs instead of GUI ones
 
 endif
 
 " Set the default colorscheme {{{
 
-" Solarized {{{
-Bundle 'altercation/vim-colors-solarized'
-" Solarized bg switcher.
-call togglebg#map('<F5>')
-set bg=dark
 set t_Co=256
+
+NeoBundle 'altercation/vim-colors-solarized'
 let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
 let g:solarized_bold = 0
 let g:solarized_italic = 0
 let g:solarized_visibility = 'low'
 let g:solarized_hitrail = 1
-" }}}
-" Hemisu {{{
-Bundle 'noahfrederick/Hemisu'
-" }}}
-" Tomorrow {{{
-Bundle 'chriskempson/vim-tomorrow-theme'
-" }}}
 
-" Colors are not as good with these 256 thingies turned on.
-colorscheme Tomorrow-Night
+NeoBundle 'junegunn/seoul256.vim'
+let g:seoul256_background = 235
+
+NeoBundle 'noahfrederick/Hemisu'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
+NeoBundle 'morhetz/gruvbox'
+
+colorscheme seoul256
 
 " }}}
 
@@ -103,21 +88,16 @@ autocmd BufReadPost *
             \ endif
 
 " Indenting settings.
-set tabstop=4 " Displayed size of a tab character.
-" set softtabstop=4 " No. of spaces that make up a single indent.
-set smarttab
-set shiftwidth=4 " No. of display space to be shifted per indent.
-set expandtab " Use spaces instead of tabs to indent.
-set shiftround " Round off the indent to *n* shiftwidths.
+set smarttab expandtab tabstop=4 shiftwidth=4 shiftround
 
 " Show a vertical line warning of my long lines.
 set textwidth=80
 " Adapted from http://stackoverflow.com/a/13731714/151048.
-let &colorcolumn = '+' . join(range(1, 900), ',+')
+" let &colorcolumn = '+' . join(range(1, 900), ',+')
+set colorcolumn=+1
 
 " Make horizontal scrolling less horrible (via @stevelosh).
-set sidescroll=1
-set sidescrolloff=10
+set sidescroll=1 sidescrolloff=10
 
 " Turn on syntax highlighting.
 syntax on
@@ -135,32 +115,31 @@ set hidden
 set ignorecase
 
 " Highlight last used search term.
-if s:first_time
+if has('vim_starting')
     set hlsearch
 endif
 
 " Show the matched character for an annoyingly long time period.
-set showmatch
-set matchtime=3
+set showmatch matchtime=3
 
 " Do incremental search.
 set incsearch
+
+" File name chars for file name completion.
+set isfname-=\=
 
 " Blank lines piss me off when doing block selections!
 set virtualedit=block
 
 " No swap files, no backup and no magic atomic saving. Let `inotifywait` work
 " right.
-set nobackup
-set nowritebackup
-set noswapfile
+set nobackup nowritebackup noswapfile
 
 " Store undofiles (persistent-undo).
-set undodir=$LAWN_TMP/undo//,.
-set undofile
+set undofile undodir=$LAWN_TMP/undo//,.
 
 " Lines to save from command line history.
-set history=5000
+set history=9000
 
 " Disable word-wrap.
 set nowrap
@@ -169,7 +148,7 @@ set nowrap
 set nostartofline
 
 " Enable line numbers.
-set number
+set number relativenumber
 
 " Show the cursor position all the time.
 set ruler
@@ -181,7 +160,7 @@ set guicursor=i-ci:ver5
 set cursorline
 
 " Minimum dimensions for window with focus.
-set winheight=20
+" set winheight=20
 set winwidth=80
 
 " " Set the cursor changes in terminal.
@@ -200,7 +179,7 @@ set showcmd
 set wildmenu
 
 " Ignore these files when autocompleting.
-set wildignore=*.pyc,*.o,*.class,*/.hg/*,*/.svn/*,*/.git/*
+set wildignore+=*.pyc,*.class,*.pdf,*.png
 
 " Ignore case in filename completions and then some.
 set wildignorecase
@@ -217,31 +196,31 @@ set listchars=tab:›\ ,trail:∙
 set list
 
 " Use blowfish encryption by default.
-if has('&cryptmethod')
-    set cryptmethod=blowfish
-endif
+set cryptmethod=blowfish
 
 " Enable concealing everywhere.
 if has('conceal')
-
     set concealcursor=nvic
-
     " Toggle concealing.
-    nnoremap <silent> <F3> :call <SID>ToggleConceal(2)<CR>
-    fun! <SID>ToggleConceal(value)
-        exe 'set conceallevel=' . (&conceallevel == 0 ? a:value : 0)
-    endfun
-
+    nnoremap <silent> <F3> :exe 'set conceallevel=' . (&conceallevel == 0 ? 2 : 0)<CR>
 endif
 
-" Always show status line.
-set laststatus=2
+" No status line please.
+set laststatus=0
 
-" Show the title line.
+" Show me info in the ruler.
+set rulerformat=%40(%=%m%f\ %y\ %#ssk_bold#%l%#ssk_norm#:%c\ %p%)
+hi ssk_norm term=NONE cterm=NONE gui=NONE
+hi ssk_bold term=bold cterm=bold gui=bold
+
+" Manage the window title.
 set title
 
-" Highlight VCS conflict markers.
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" Use Ag for :grep command
+if executable('ag')
+    set grepprg=ag\ --nocolor\ --nogroup\ --column
+    set grepformat=%f:%l:%c:%m
+endif
 
 " }}}
 
@@ -252,11 +231,11 @@ let mapleader = ','
 let maplocalleader = '\'
 
 " Quickly edit my vimrc.
-nnoremap <Leader>ev :e $MYVIMRC<CR>
+nnoremap cv :e $MYVIMRC<CR>
 
 " Maps that make more sense.
 nnoremap Y y$
-nnoremap <silent> Q :wqa<CR>
+nnoremap Q :wqa<CR>
 nnoremap j gj
 nnoremap gj j
 nnoremap k gk
@@ -267,19 +246,11 @@ nnoremap d. dd
 nnoremap y. yy
 nnoremap c. cc
 nnoremap g. gg
-
-" Fix linewise visual selection of various text objects.
 nnoremap v. V
-nnoremap v.it vitVkoj
-nnoremap v.at vatV
-nnoremap v.ab vabV
-nnoremap v.aB vaBV
 
 " I don't need the default functionality of `-` and `_`.
-nnoremap - ;
-nnoremap _ ,
-vnoremap - ;
-vnoremap _ ,
+nnoremap <Leader>; ,
+vnoremap <Leader>; ,
 
 " A use for the unused Arrow keys :).
 nnoremap <Up> <C-y>
@@ -299,17 +270,15 @@ vnoremap ' `
 nnoremap ` <C-w>
 nnoremap `` <C-w><C-w>
 
-" My remapping of <C-^>. If there is no alternate file, then switch to next
-" file. Use <Space> to toggle to alternate buffer.
+" My remapping of <C-^>. If there is no alternate file, then switch to next file.
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode.
-vnoremap <silent> <C-k> <ESC>
-snoremap <silent> <C-k> <ESC>
+noremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
 
 " Insert digraphs (<C-k> taken above).
-inoremap <silent> <C-y> <C-k>
+lnoremap <silent> <C-y> <C-k>
 
 " Easy backspacing.
 inoremap <silent> <C-o> <C-w>
@@ -318,6 +287,22 @@ cnoremap <C-o> <C-w>
 " Navigating history on command line intelligently.
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+" Toggle light/dark colorscheme.
+nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
+fun! <SID>ToggleBg()
+    let cname = g:colors_name
+    exe 'set bg=' . (&bg == 'dark' ? 'light' : 'dark')
+    if cname == 'Tomorrow-Night'
+        colorscheme Tomorrow
+    elseif cname == 'Tomorrow'
+        colorscheme Tomorrow-Night
+    elseif cname == 'seoul256'
+        colo seoul256-light
+    elseif cname == 'seoul256-light'
+        colo seoul256
+    endif
+endfun
 
 " Save all modified buffers.
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
@@ -340,28 +325,15 @@ nnoremap <silent> <Leader>h :noh<CR>
 nnoremap <Space> :
 vnoremap <Space> :
 
-" Repeating keys is not as awesome.
-nnoremap <> <<
-nnoremap >< >>
-
 " Use `U` for redo. I never understood its default functionality anyway.
 nnoremap U <C-r>
 
-" F1 is very close to <ESC>. I don't want to see help with F1.
-noremap <F1> <Esc>
-inoremap <F1> <Esc>
-
-" Paragraph jumping. Slightly flaky.
+" Paragraph jumping. FIXME: Slightly flaky.
 nnoremap <C-j> }j^
 nnoremap <C-k> k{j^
 
 " Open a Quickfix window for the last search.
-nnoremap <silent> <Leader>/ :execute 'vimgrep /' . @/ . '/g %'<CR>:copen<CR>
-
-" Ack for the last search.
-nnoremap <silent> <Leader>? :execute "Ack! '" .
-            \ substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""),
-            \ "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <silent> <Leader>/ :exe 'vimgrep /' . @/ . '/ %'<CR>:copen<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -370,27 +342,10 @@ fun! s:VSetSearch()
   norm! gvy
   let @/='\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
   let @@=temp
-endfunction
+endfun
 
 vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
-
-" Replace consecutive blank lines with a single blank line.
-nnoremap <silent> <Leader>xx :call <SID>PurgeExtraBlankLines()<CR>
-fun! <SID>PurgeExtraBlankLines()
-    if getline('.') != ''
-        return
-    endif
-    normal k
-    while getline('.') == ''
-        normal ddk
-    endwhile
-    normal jj
-    while getline('.') == ''
-        normal dd
-    endwhile
-    normal k
-endfun
 
 " Strip all trailing spaces in the whole file.
 nnoremap <silent> <Leader>xt :call <SID>StripTrailingSpaces()<CR>
@@ -404,7 +359,7 @@ fun! <SID>StripTrailingSpaces()
 endfun
 
 " Show highlighting groups for word under cursor.
-nnoremap <C-S-P> :call <SID>SynStack()<CR>
+nnoremap <C-P> :call <SID>SynStack()<CR>
 fun! <SID>SynStack()
     if !exists("*synstack")
         echo 'Nothing appropriate'
@@ -418,6 +373,8 @@ endfun
 " r for rectangle brackets.
 onoremap ar a]
 onoremap ir i]
+nnoremap var va]
+nnoremap vir vi]
 
 " a for angle brackets.
 onoremap aa a>
@@ -426,76 +383,42 @@ onoremap ia i>
 " c for curly brackets.
 onoremap ac a}
 onoremap ic i}
-
-" Act on the next occuring text-object in the current line.
-
-fun! <SID>ObMapper(char, ...)
-    let key = a:0 ? a:1 : a:char
-    exe 'vnoremap <silent> in' . key . ' :<C-U>normal! f' . a:char . 'vi' . key . '<CR>'
-    exe 'onoremap <silent> in' . key . ' :<C-U>normal! f' . a:char . 'vi' . key . '<CR>'
-    exe 'vnoremap <silent> an' . key . ' :<C-U>normal! f' . a:char . 'va' . key . '<CR>'
-    exe 'onoremap <silent> an' . key . ' :<C-U>normal! f' . a:char . 'va' . key . '<CR>'
-endfun
-
-" Next ().
-call <SID>ObMapper('(', 'b')
-call <SID>ObMapper('(')
-
-" Next {}
-call <SID>ObMapper('{', 'B')
-call <SID>ObMapper('{', 'c')
-call <SID>ObMapper('{')
-
-" Next [].
-call <SID>ObMapper('[', 'r')
-call <SID>ObMapper('[')
-
-" Next <>.
-call <SID>ObMapper('<', 'a')
-call <SID>ObMapper('<')
-
-" Highlight word (Taken from sjl's vimrc).
-nnoremap <silent> <Leader>ma :execute 'match InterestingWordA /\<<C-r><C-w>\>/'<CR>
-nnoremap <silent> <Leader>ms :execute '2match InterestingWordS /\<<C-r><C-w>\>/'<CR>
-nnoremap <silent> <Leader>md :execute '3match InterestingWordD /\<<C-r><C-w>\>/'<CR>
-nnoremap <silent> <Leader>Ma :execute 'match'<CR>
-nnoremap <silent> <Leader>Ms :execute '2match'<CR>
-nnoremap <silent> <Leader>Md :execute '3match'<CR>
-highlight InterestingWordA guifg=#000000 guibg=#FFA700
-highlight InterestingWordS guifg=#000000 guibg=#53FF00
-highlight InterestingWordD guifg=#000000 guibg=#FF74F8
-
-" Sometimes mistakenly hit Caps/Ctrl when meaning to hit Shift.
-imap <C-'> "
-
-" Insertion helpers, easier typing of some hard-to-get characters using `Alt`.
-imap <A-p> +
-imap <A-i> -
-imap <A-o> _
-imap <A-l> =
-imap <A-j> (
-imap <A-k> )
+onoremap vac va}
+onoremap vic vi}
 
 " }}}
 
-" Custom Commands {{{
+" Utility functions and custom commands {{{
 
-" A C command to do simple/complex calculations by evaluating the given
-" expression as a python expression (with math module imported).
-command! -nargs=+ C :py print <args>
-py from math import *
+" Command to automatically :make current buffer on save.
+command! Automake call <SID>Automake()
+fun! s:Automake()
+    aug automakes
+        au BufWritePost <buffer> silent Make
+    aug END
+endfun
+
+" Command to create/edit a local ftplugin file.
+command! -nargs=? -complete=customlist,<SID>FtpluginComplete OpenFtplugin
+            \ exe 'edit ' . $VIMFILES . '/after/ftplugin/' .
+            \ (strlen('<args>') > 0 ? '<args>' : &ft) . '.vim'
+fun! s:FtpluginComplete(lead, line, pos)
+    return map(glob($VIMFILES . '/after/ftplugin/' . a:lead . '*.vim', 1, 1),
+                \ "substitute(v:val, '^.*/\\([^/]\\+\\)\\.vim', '\\1', '')")
+endfun
+
+" Command to create/edit a local compiler file.
+command! -nargs=1 -complete=customlist,<SID>CompilerComplete
+            \ OpenCompiler edit $VIMFILES/after/compiler/<args>.vim
+fun! s:CompilerComplete(lead, line, pos)
+    return map(glob($VIMFILES . '/after/compiler/' . a:lead . '*.vim', 1, 1),
+                \ "substitute(v:val, '^.*/\\([^/]\\+\\)\\.vim', '\\1', '')")
+endfun
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made. Only define it when not
 " defined already.
 command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
-
-" Sudo write.
-if executable('sudo') && executable('tee')
-  command! W
-        \ execute 'w !sudo tee % > /dev/null' |
-        \ setlocal nomodified
-endif
 
 " }}}
 
@@ -511,45 +434,38 @@ let g:html_indent_tags = ''
 
 " }}}
 
-" Plugins {{{
+" Plugins and their configs {{{
+
+" Netrw & Vinegar {{{
+" Netrw is already available by default.
+NeoBundle 'tpope/vim-vinegar'
+
+let g:netrw_home = $LAWN_TMP
+
+let g:netrw_sort_options = 'i'
+
+" Switch between the four styles with the `i` key. See `:h netrw-i`.
+let g:netrw_liststyle = 4
+
+" }}}
 
 " Commentary {{{
-Bundle 'tpope/vim-commentary'
-nmap <leader>cc <Plug>CommentaryLine
-nmap <leader>c  <Plug>Commentary
-xmap <leader>c  <Plug>Commentary
+NeoBundle 'tpope/vim-commentary'
+nmap gs <Plug>CommentaryLine
 " }}}
-
-" " Command-T {{{
-" Bundle 'git://git.wincent.com/command-t.git'
-" let g:CommandTMatchWindowReverse = 1
-" nnoremap <Leader>f :CommandT<CR>
-" nnoremap <Leader>d :CommandTBuffer<CR>
-" nnoremap <Leader>F :CommandTFlush<CR>:CommandT<CR>
-" " }}}
 
 " ctrlp {{{
-Bundle 'kien/ctrlp.vim'
+NeoBundle 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>f'
-let g:ctrlp_extensions = ['tag']
 nnoremap <Leader>d :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPTag<CR>
+nnoremap <Leader>l :CtrlPLine<CR>
 nnoremap <Leader>F :CtrlPClearCache<CR>
-" }}}
-
-" NerdTree {{{
-Bundle 'scrooloose/nerdtree'
-" Convenience map for toggling NerdTree window.
-nnoremap <silent> <F4> :NERDTreeToggle<CR>
-" Set the location of bookmarks for nerdtree.
-autocmd FileType nerdtree setlocal nolist
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
 " }}}
 
 " UltiSnips {{{
-Bundle 'SirVer/ultisnips'
-let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+NeoBundle 'SirVer/ultisnips'
+let g:UltiSnipsSnippetsDir = $VIMFILES . '/UltiSnips'
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<Tab>'
 let g:UltiSnipsListSnippets = '<C-Tab>'
@@ -557,231 +473,197 @@ let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " }}}
 
-" Gundo {{{
-Bundle 'sjl/gundo.vim'
-" Toggle.
-nnoremap <F10> :GundoToggle<CR>
+" Dispatch {{{
+NeoBundle 'tpope/vim-dispatch'
+aug dispatches
+    au!
+aug END
 " }}}
 
-" Gist interaction plugin {{{
-Bundle 'mattn/gist-vim'
-Bundle 'mattn/webapi-vim'
-" }}}
-
-" Powerline status {{{
-
-" Bundle 'Lokaltog/vim-powerline'
-" let g:Powerline_symbols = 'fancy'
-
-" Installed via `pip`, outside control of Vundle.
-set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
-
-" }}}
-
-" Quickrun.vim (thinca) {{{
-Bundle 'thinca/vim-quickrun'
-let g:quickrun_config = {}
-let g:quickrun_config.javascript = {
-            \ 'command': 'node'
-            \ }
-" }}}
-
-" Clam {{{
-Bundle 'sjl/clam.vim'
-nnoremap ! :Clam<Space>
-vnoremap ! :ClamVisual<Space>
-" }}}
-
-" " easytags {{{
-" " FIXME: This plugin is screwing with window size on startup of gvim from
-" " terminal.
-" Bundle 'xolox/vim-easytags'
-" let g:easytags_cmd = 'ctags-exuberant'
+" " Quickrun.vim (thinca) (replaced by vim-dispatch) {{{
+" " TODO: Set `makeprg` for filetypes and get rid of this plugin?
+" NeoBundle 'thinca/vim-quickrun'
+" let g:quickrun_config = {
+"             \ 'javascript': { 'command': 'node' },
+"             \ 'python': { 'command': 'python3' },
+"             \ }
 " " }}}
 
-" TagBar {{{
-Bundle 'majutsushi/tagbar'
-nnoremap <silent> <F8> :TagbarToggle<CR>
-" }}}
+" " Syntastic (replaced by vim-dispatch) {{{
+" NeoBundle 'scrooloose/syntastic'
 
-" Easymotion {{{
-Bundle 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = ';'
-let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvz'
-" }}}
+" let g:syntastic_mode_map = {
+"     \ 'mode': 'passive',
+"     \ 'active_filetypes': [
+"         \ 'css',
+"         \ 'haskell',
+"         \ 'javascript',
+"         \ 'python',
+"         \ 'sh',
+"     \ ],
+" \ }
 
-" vim-pad {{{
-Bundle 'fmoralesc/vim-pad'
-let g:pad_dir = '~/Dropbox/pad'
-let g:pad_window_height = 10
-let g:pad_highlighting_variant = 1
-let g:pad_use_default_mappings = 0
-nmap <silent> <Leader>l <Plug>ListPads
-nmap <silent> <Leader>a <Plug>OpenPad
-nmap <silent> <Leader>s <Plug>SearchPads
-" }}}
+" " FIXME: Go-lang's checker is building the whole directory and errors on
+" " multiple main method go-scripts. Address that and 'go' can be added as active.
 
-" vim-notes (xolox) {{{
-Bundle 'xolox/vim-notes'
-let g:notes_directory = '~/Dropbox/notes'
-" }}}
+" let g:syntastic_csslint_options = '--ignore=adjoining-classes,' .
+"             \ 'universal-selector,box-sizing,box-model,ids'
+" let g:syntastic_haskell_checkers = ['hdevtools']
+" let g:syntastic_python_checkers = ['pyflakes']
 
-" simplenote-vim {{{
-Bundle 'mrtazz/simplenote.vim'
-source $HOME/.simplenoterc
-" }}}
+" " Run checking on file open.
+" " let g:syntastic_check_on_open = 1
 
-" " YankRing {{{
-" Bundle 'YankRing.vim'
-" fun! YRRunAfterMaps()
-"     nnoremap <silent> Y :<C-U>YRYankCount 'y$'<CR>
-" endfun
+" " No tooltips in GVim with error messages.
+" let g:syntastic_enable_balloons = 0
+
 " " }}}
 
 " File type sauces {{{
 
 " Additional file types {{{
-Bundle 'derekwyatt/vim-scala'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'tpope/vim-markdown'
-Bundle 'wlangstroth/vim-racket'
+NeoBundle 'alunny/pegjs-vim'
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'estin/htmljinja'
+NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'wlangstroth/vim-racket'
 " }}}
 
 " Web - HTML, CSS and JavaScript {{{
-Bundle 'othree/html5.vim'
-Bundle 'indenthtml.vim'
-
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'groenewege/vim-less'
-
-Bundle 'pangloss/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
+NeoBundle 'othree/html5.vim'
+NeoBundle 'indenthtml.vim'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'gkz/vim-ls'
+NeoBundle 'wavded/vim-stylus'
 " }}}
-
-" " Python {{{
-" Bundle 'kevinw/pyflakes-vim'
-" " }}}
-
-" " Javscript {{{
-" Bundle 'wookiehangover/jshint.vim'
-" " }}}
 
 " Haskell {{{
 
-" Unicode conceals.
-Bundle 'Twinside/vim-haskellConceal'
-
 " Indentation.
-Bundle 'indenthaskell.vim'
+NeoBundle 'indenthaskell.vim'
 let g:haskell_indent_if = 2
 let g:haskell_indent_case = 2
 
-" Omni Completion.
-Bundle 'ujihisa/neco-ghc'
-au FileType haskell setl omnifunc=necoghc#omnifunc
-
 " Type and info about identifier under cursor.
-Bundle 'bitc/vim-hdevtools'
+NeoBundle 'bitc/vim-hdevtools'
 au FileType haskell nnoremap <buffer> K :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <silent> <C-S-K> :HdevtoolsClear<CR>
 
 " }}}
 
 " Clojure {{{
-Bundle 'VimClojure'
+NeoBundle 'VimClojure'
 " Colorful matching parentheses.
 let vimclojure#ParenRainbow = 1
 " Special indenting rules for def* and with-* forms.
 let vimclojure#FuzzyIndent = 1
-" Je wanty le nailgun.
-" let vimclojure#WantNailgun = 1
-" let vimclojure#NailgunClient = $VIMFILES . '/ng-client/ng'
-" let vimclojure#SplitPos = 'bottom'
 " }}}
-
-" }}}
-
-" Syntastic {{{
-Bundle 'scrooloose/syntastic'
-
-let g:syntastic_mode_map = {
-    \ 'mode': 'passive',
-    \ 'active_filetypes': [
-        \ 'css',
-        \ 'haskell',
-        \ 'javascript',
-        \ 'python',
-        \ 'sh',
-    \ ],
-\ }
-
-let g:syntastic_python_checker = 'pyflakes'
-let g:syntastic_javascript_checker = 'jshint'
-let g:syntastic_javascript_jshint_conf = 'jshintrc'
-let g:syntastic_haskell_checker = 'hdevtools'
-
-" Powerline overrides this.
-" let g:syntastic_stl_format = '[%E{Err: %feL #%e}%B{, }%W{Warn: %fwL #%w}]'
-
-" Run checking on file open.
-" let g:syntastic_check_on_open = 1
-
-" No tooltips in GVim with error messages.
-let g:syntastic_enable_balloons = 0
 
 " }}}
 
 " Text objects {{{
-Bundle 'kana/vim-textobj-user'
-Bundle 'kana/vim-textobj-entire'
-Bundle 'michaeljsmith/vim-indent-object'
+NeoBundle 'kana/vim-textobj-user'
+
+NeoBundle 'kana/vim-textobj-entire'
+NeoBundle 'michaeljsmith/vim-indent-object'
+
+" Defines `ay` and `iy` for syntax regions.
+NeoBundle 'kana/vim-textobj-syntax'
+
+" Defines `a,` and `i,` for function arguments.
+NeoBundle 'sgur/vim-textobj-parameter'
+
+" Next brackets in line {{{
+
+fun! NextSurroundA(bracket)
+    exe 'normal! f' . a:bracket
+    let head_pos = getpos('.')
+    normal! %
+    let tail_pos = getpos('.')
+    return ['v', head_pos, tail_pos]
+endfun
+
+fun! NextSurroundI(bracket)
+    exe 'normal! f' . a:bracket . 'l'
+    let head_pos = getpos('.')
+    normal! h%h
+    let tail_pos = getpos('.')
+    return ['v', head_pos, tail_pos]
+endfun
+
+" Defines a function that calls NextSurroundA or NextSurroundI according to the
+" a:type argument, passing it the a:bracket. The a:name is just included in the
+" name of the newly defined function. Returnes the name of the new function.
+fun! NextSurrounder(name, bracket, type)
+    let fname = 'NextSurrounder' . a:name . a:type
+    exe 'fun! ' . fname . "()\n" .
+                \ 'return NextSurround' . a:type . "('" . a:bracket . "')\n" .
+                \ 'endfun'
+    return fname
+endfun
+
+call textobj#user#plugin('nexts', {
+            \   'paren': {
+            \     'select-a-function': NextSurrounder('paren', '(', 'A'),
+            \     'select-a': 'anb',
+            \     'select-i-function': NextSurrounder('paren', '(', 'I'),
+            \     'select-i': 'inb',
+            \   },
+            \   'bracket': {
+            \     'select-a-function': NextSurrounder('bracket', '[', 'A'),
+            \     'select-a': 'anr',
+            \     'select-i-function': NextSurrounder('bracket', '[', 'I'),
+            \     'select-i': 'inr',
+            \   },
+            \   'brace': {
+            \     'select-a-function': NextSurrounder('brace', '{', 'A'),
+            \     'select-a': 'anc',
+            \     'select-i-function': NextSurrounder('brace', '{', 'I'),
+            \     'select-i': 'inc',
+            \   },
+            \   'angle': {
+            \     'select-a-function': NextSurrounder('angle', '<', 'A'),
+            \     'select-a': 'ana',
+            \     'select-i-function': NextSurrounder('angle', '<', 'I'),
+            \     'select-i': 'ina',
+            \   },
+            \ })
+
 " }}}
 
-" Version Control Systems integration {{{
+" }}}
 
-" " VCSCommand {{{
-" Bundle 'vcscommand.vim'
-" let g:VCSCommandMapPrefix = '<Leader>v'
-" " }}}
-
-" Git {{{
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
+" Misc plugins {{{
+NeoBundle 'bkad/CamelCaseMotion'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'matchit.zip'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-ragtag'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
 " }}}
 
 " }}}
 
-" Functionality plugins {{{
-Bundle 'AndrewRadev/linediff.vim'
-Bundle 'bkad/CamelCaseMotion'
-Bundle 'godlygeek/tabular'
-Bundle 'mileszs/ack.vim'
-Bundle 'sjl/strftimedammit.vim'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-eunuch'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'matchit.zip'
-Bundle 'kshenoy/vim-signature'
-" }}}
+" Miscellaneous fixes {{{
 
-" }}}
-
-" Miscellaneous fixes and source-es {{{
-
-" Fix for Vundle's changes to &rtp not loading the `ftdetect` scripts.
+" Fix for Neobundle's changes to &rtp not loading the `ftdetect` scripts.
 filetype off
 filetype on
 
 " Put the ~/.vim directory as the first item in `&rtp`.
 " This is so that ultisnips loads the snippets in the correct order.
 let &rtp = $VIMFILES . ',' . substitute(&rtp, $VIMFILES . ',', '', '')
-
-" Source evim.vim if running as evim.
-if v:progname =~? 'evim'
-    source $VIMFILES/evim.vim
-endif
 
 " }}}

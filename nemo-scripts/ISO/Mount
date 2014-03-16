@@ -1,0 +1,17 @@
+#!/bin/bash
+# mount
+
+gksudo -k /bin/echo
+
+BASENAME=`basename $NEMO_SCRIPT_SELECTED_FILE_PATHS .iso`
+MOUNTDIR="/tmp/iso-mounts/$BASENAME"
+mkdir -p "$MOUNTDIR"
+
+if sudo mount -o loop -t iso9660 "$NEMO_SCRIPT_SELECTED_FILE_PATHS" "$MOUNTDIR"; then
+    if zenity --question --title "ISO Mounter" --text "Mounted. Open Volume?"; then
+        nemo "$MOUNTDIR" --no-desktop
+    fi
+else
+    rmdir "$MOUNTDIR"
+    zenity --error --title "ISO Mounter" --text "Cannot mount $BASENAME!"
+fi

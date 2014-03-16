@@ -12,6 +12,7 @@ aug END
 " {{{ Comment Strings
 aug user-cstrings | au!
     au FileType r setl cms=#\ %s
+    au FileType stylus setl cms=//\ %s
 aug END
 " }}}
 
@@ -24,11 +25,8 @@ aug user-ftprefs | au!
     " Set spell when composing mails.
     au FileType mail setl spell
 
-    " Don't scan `current and included files` for python.
-    au FileType python setl cpt-=i
-
     " Two space indenting for certain languages.
-    au FileType ruby,coffee,haskell setl sts=2 ts=2 sw=2
+    au FileType ruby,coffee,ls,html,htmldjango,stylus,haskell,r setl sts=2 ts=2 sw=2
 
     " Need to explicitly turn on auto indentation for haskell files.
     au FileType haskell setl ai

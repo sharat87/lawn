@@ -1,0 +1,93 @@
+command! -nargs=1 Daemon call <SID>Daemon('<args>')
+
+python _daemon_procs = {}
+
+fun! s:Daemon(cmd)
+    echomsg len(a:cmd)
+    vnew
+    set bt=nofile ft=daemon
+    nnoremap q :q<CR>
+    python <<EOPYTHON
+
+import vim
+import subprocess as sp
+from threading import Thread
+from Queue import Queue, Empty
+
+class Daemon(object):
+
+    _daemons = []
+
+    def __init__(self, cmd):
+        Daemon._daemons.append(self)
+
+        self.cmd = cmd
+        self.buffer = vim.current.buffer
+
+        vim.current.buffer[0] = '$ ' + cmd
+        vim.current.buffer.append('∙' * 80)
+
+    def start(self):
+        self.proc = sp.Popen(cmd, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+
+        self.out_queue = Queue()
+        self.err_queue = Queue()
+
+        stdout_th = Thread(target=self.reader,
+                args=(self.proc.stdout, self.out_queue))
+        stdout_th.daemon = True
+        stdout_th.start()
+
+        stderr_th = Thread(target=self.reader,
+                args=(self.proc.stderr, self.err_queue))
+        stderr_th.daemon = True
+        stderr_th.start()
+
+        watcher_th = Thread(target=self.watcher)
+        watcher_th.start()
+
+    def watcher(self):
+        while self.proc.poll() is None:
+            while True:
+                try:
+                    out_line = self.out_queue.get(True, .1)
+                except Empty:
+                    break
+                else:
+                    self.buffer.append(out_line)
+
+            while True:
+                try:
+                    err_line = self.err_queue.get(True, .1)
+                except Empty:
+                    break
+                else:
+                    self.buffer.append(err_line)
+
+    def reader(self, file, queue):
+        for line in file:
+            queue.put(line)
+            if self.proc.poll() is not None:
+                break
+
+    def kill(self):
+        self.proc.kill()
+
+
+cmd = vim.eval('a:cmd')
+Daemon(cmd).start()
+
+EOPYTHON
+endfun
+
+fun! s:KillProcs()
+    python <<EOPYTHON
+for d in Daemon._daemons:
+    d.kill()
+EOPYTHON
+endfun
+
+aug daemon
+    au!
+    au VimLeavePre * call <SID>KillProcs()
+aug END

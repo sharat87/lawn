@@ -1,2 +1,0 @@
-colorscheme tango
-set nolist

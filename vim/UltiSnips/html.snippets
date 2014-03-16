@@ -1,20 +1,17 @@
 snippet .new "New html file's base content" !b
 <!doctype html>
-<html>
+<html lang=en-US>
+<meta charset=utf-8>
+<title>${1:New index}</title>
 
-<head>
-    <meta charset=utf-8>
-    <title>${1:New index}</title>
-
-<body>
-    $0
+$0
 endsnippet
 
-snippet scr "Include an external script file" !b
+snippet js "Include an external script file" !b
 <script src=${1}></script>
 endsnippet
 
-snippet scri "Include an inline script" !b
+snippet jsi "Include an inline script" !b
 <script>
     $0
 </script>
