@@ -454,13 +454,25 @@ NeoBundle 'tpope/vim-commentary'
 nmap gs <Plug>CommentaryLine
 " }}}
 
-" ctrlp {{{
-NeoBundle 'kien/ctrlp.vim'
-let g:ctrlp_map = '<Leader>f'
-nnoremap <Leader>d :CtrlPBuffer<CR>
-nnoremap <Leader>l :CtrlPLine<CR>
-nnoremap <Leader>F :CtrlPClearCache<CR>
-let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
+" " ctrlp {{{
+" NeoBundle 'kien/ctrlp.vim'
+" let g:ctrlp_map = '<Leader>f'
+" nnoremap <Leader>d :CtrlPBuffer<CR>
+" nnoremap <Leader>l :CtrlPLine<CR>
+" nnoremap <Leader>F :CtrlPClearCache<CR>
+" let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
+" " }}}
+
+" Unite {{{
+NeoBundle 'Shougo/unite.vim'
+let g:unite_prompt = '❯ '
+let g:unite_enable_start_insert = 1
+" let g:unite_split_rule = 'botright'
+" let g:unite_winheight = 12
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#custom#source('file_rec', 'ignore_pattern', 'tmp/\|__pycache__/\|node_modules/')
+nnoremap <silent> <Leader>f :<C-u>Unite -no-split -buffer-name=files buffer file_rec<CR>
+nnoremap <silent> <Leader>d :<C-u>Unite -no-split -buffer-name=buffers buffer<CR>
 " }}}
 
 " UltiSnips {{{
