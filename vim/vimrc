@@ -37,15 +37,13 @@ set path=.,./**,,
 
 if has('gui_running') && has('vim_starting')
 
-    exe 'set guifont=' . (s:is_windows ? 'Consolas:h14:cANSI' : 'Source\ Code\ Pro\ 16')
+    exe 'set guifont=' . escape(s:is_windows ? 'Consolas:h14:cANSI' : 'Fira Mono 16', ' ')
     set lines=30 columns=84
 
     " Minial GUI please.
-    set go+=b " enable horizontal scrollbar
-    set go-=T " Remove toolbar
-    set go-=e " Do not use a gui tab bar
-    set go-=m " Hide the menubar
-    set go+=c " user console like dialogs instead of GUI ones
+    set go+=b " Enable horizontal scrollbar
+    set go+=c " User console like dialogs instead of GUI ones
+    set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
 
 endif
 
@@ -150,9 +148,6 @@ set nostartofline
 " Enable line numbers.
 set number relativenumber
 
-" Show the cursor position all the time.
-set ruler
-
 " Super thin cursor in insert mode.
 set guicursor=i-ci:ver5
 
@@ -209,9 +204,23 @@ endif
 set laststatus=0
 
 " Show me info in the ruler.
-set rulerformat=%40(%=%m%f\ %y\ %#ssk_bold#%l%#ssk_norm#:%c\ %p%)
-hi ssk_norm term=NONE cterm=NONE gui=NONE
-hi ssk_bold term=bold cterm=bold gui=bold
+let s:ruler = '%40(%=' . join([
+            \ '%#Error#%{MixedIndentMsg()}%*',
+            \ '%#Error#%{TrailingSpaceMsg()}%*',
+            \ '%#Error#%{EncodingMsg()}%*',
+            \ '%m%f │ %{&ft} %l%*:%c %p%%%)',
+            \ ])
+exec 'set ruler rulerformat=' . escape(s:ruler, ' ')
+fun! TrailingSpaceMsg()
+    return search('\s$', 'nw') ? '[∙∙∙$]' : ''
+endfun
+fun! MixedIndentMsg()
+    " Taken from vim-airline
+    return search('\v(^\t+ +)|(^ +\t+)', 'nw') ? '[›∙∙∙]' : ''
+endfun
+fun! EncodingMsg()
+    return &fenc != 'utf-8' && &fenc != '' ? '[' . &fenc . ']' : ''
+endfun
 
 " Manage the window title.
 set title
@@ -274,11 +283,11 @@ nnoremap `` <C-w><C-w>
 nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
 
 " Easier way to go to normal mode.
-noremap <silent> <C-k> <ESC>
+vnoremap <silent> <C-k> <ESC>
 inoremap <silent> <C-k> <ESC>
 
 " Insert digraphs (<C-k> taken above).
-lnoremap <silent> <C-y> <C-k>
+inoremap <silent> <C-y> <C-k>
 
 " Easy backspacing.
 inoremap <silent> <C-o> <C-w>
@@ -391,11 +400,14 @@ onoremap vic vi}
 " Utility functions and custom commands {{{
 
 " Command to automatically :make current buffer on save.
-command! Automake call <SID>Automake()
-fun! s:Automake()
+command! -bang Automake call <SID>Automake(<bang>)
+fun! s:Automake(bang)
     aug automakes
         au BufWritePost <buffer> silent Make
     aug END
+    if a:bang == '!'
+        Make
+    endif
 endfun
 
 " Command to create/edit a local ftplugin file.
@@ -430,6 +442,7 @@ let g:is_bash = 1
 
 " HTML {{{
 let g:html_indent_tags = ''
+let g:html_indent_autotags = 'html,head,body,li'
 " }}}
 
 " }}}
@@ -471,7 +484,7 @@ let g:unite_enable_start_insert = 1
 " let g:unite_winheight = 12
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#custom#source('file_rec', 'ignore_pattern', 'tmp/\|__pycache__/\|node_modules/')
-nnoremap <silent> <Leader>f :<C-u>Unite -no-split -buffer-name=files buffer file_rec<CR>
+nnoremap <silent> <Leader>f :<C-u>Unite -no-split -buffer-name=files file_rec<CR>
 nnoremap <silent> <Leader>d :<C-u>Unite -no-split -buffer-name=buffers buffer<CR>
 " }}}
 

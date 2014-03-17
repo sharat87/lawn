@@ -1,8 +1,4 @@
-# Python compiled sources
-*.pyc
-
-# Python virtualenv
+__pycache__
 /.pyenv
-
-# vim help tags
 doc/tags
+Session.vim
