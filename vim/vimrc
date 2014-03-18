@@ -520,8 +520,13 @@ NeoBundle 'wavded/vim-stylus'
 
 " Web - HTML, CSS and JavaScript {{{
 NeoBundle 'othree/html5.vim'
-NeoBundle 'pangloss/vim-javascript'
 let g:html_exclude_tags = ['html', 'head', 'body'] " Exclude from indentation
+
+NeoBundle 'pangloss/vim-javascript'
+
+NeoBundle 'Valloric/MatchTagAlways'
+let g:mta_filetypes = {'html': 1, 'xml': 1, 'htmljinja': 1}
+let g:mta_use_matchparen_group = 0
 " }}}
 
 " Haskell {{{

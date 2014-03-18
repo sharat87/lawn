@@ -19,7 +19,6 @@ syn include @Shell syntax/sh.vim
 
 syn match cramComment /^[^ ].*$/
 syn region cramOutput start=/^  [^$>]/ start=/^  $/ end=/\v.(\n\n*[^ ])\@=/me=s end=/^  [$>]/me=e-3 end=/^$/ fold containedin=cramBlock
-syn match cramOutputKeyword / (no-eol)$/ containedin=cramOutput
 syn match cramCommandStart /^  \$ / containedin=cramCommand
 syn region cramCommand start=/^  \$ /hs=s+4,rs=s+4 end=/^  [^>]/me=e-3 end=/^  $/me=e-2 containedin=cramBlock contains=@Shell keepend
 syn region cramBlock start=/^  /ms=e-2 end=/\v.(\n\n*[^ ])\@=/me=s end=/^$/me=e-1 fold keepend
@@ -27,7 +26,6 @@ syn region cramBlock start=/^  /ms=e-2 end=/\v.(\n\n*[^ ])\@=/me=s end=/^$/me=e-
 hi link cramCommandStart Keyword
 hi link cramComment Normal
 hi link cramOutput Comment
-hi link cramOutputKeyword Identifier
 
 if exists("cram_fold")
   setlocal foldmethod=syntax
