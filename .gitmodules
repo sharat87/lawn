@@ -1,9 +1,0 @@
-[submodule "mutt/solarized-colors"]
-	path = mutt/solarized-colors
-	url = https://github.com/altercation/mutt-colors-solarized.git
-[submodule "mail/offlineimap"]
-	path = mail/offlineimap
-	url = https://github.com/spaetz/offlineimap.git
-[submodule "vim/vundle"]
-	path = vim/vundle
-	url = https://github.com/gmarik/vundle.git
