@@ -1,6 +1,6 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
 " Used On: (G)Vim 7.4 on Linux and Windows
-" Modeline: vim: set ft=vim et sts=4 ts=8 sw=4 fdm=marker :
+" Modeline: vim: set ft=vim fdm=marker :
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -9,11 +9,11 @@ set nocompatible
 " Helpers {{{
 
 " Find out if we are on windows.
-let s:is_windows = has('win32') || has('win64')
+let s:iswin = has('win32') || has('win64')
 
 " Define the VIMFILES directory, if not already done.
 if !exists('$VIMFILES')
-    let $VIMFILES = s:is_windows ? 'C:/tools/Vim/vimfiles' : $HOME . '/.vim'
+    let $VIMFILES = s:iswin ? 'C:/tools/Vim/vimfiles' : $HOME . '/.vim'
 endif
 
 " Define my lawn's temp directory.
@@ -36,40 +36,23 @@ set path=.,./**,,
 " Options {{{
 
 if has('gui_running') && has('vim_starting')
-
-    exe 'set guifont=' . escape(s:is_windows ? 'Consolas:h14:cANSI' : 'Fira Mono 16', ' ')
+    exe 'set guifont=' . escape(s:iswin ? 'Consolas:h14:cANSI' : 'Fira Mono 16', ' ')
     set lines=30 columns=84
-
-    " Minial GUI please.
     set go+=b " Enable horizontal scrollbar
     set go+=c " User console like dialogs instead of GUI ones
     set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
-
 endif
 
-" Set the default colorscheme {{{
-
-set t_Co=256
-
+" Colorscheme stuff {{{
 NeoBundle 'altercation/vim-colors-solarized'
-let g:solarized_termcolors = 256
-let g:solarized_termtrans = 1
-let g:solarized_bold = 0
-let g:solarized_italic = 0
-let g:solarized_visibility = 'low'
-let g:solarized_hitrail = 1
-
-NeoBundle 'junegunn/seoul256.vim'
-let g:seoul256_background = 235
-
-NeoBundle 'noahfrederick/Hemisu'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'morhetz/gruvbox'
+NeoBundle 'noahfrederick/Hemisu'
 
 if has('vim_starting')
-    colorscheme seoul256
+    set t_Co=256 bg=dark
+    colorscheme gruvbox
 endif
-
 " }}}
 
 " Load a vimrc from current directory.
