@@ -13,7 +13,7 @@ let s:iswin = has('win32') || has('win64')
 
 " Define the VIMFILES directory, if not already done.
 if !exists('$VIMFILES')
-    let $VIMFILES = s:iswin ? 'C:/tools/Vim/vimfiles' : $HOME . '/.vim'
+    let $VIMFILES = s:iswin ? 'C:/tools/Vim/vimfiles' : $HOME . '/lawn/vim'
 endif
 
 " Define my lawn's temp directory.
@@ -37,7 +37,6 @@ set path=.,./**,,
 
 if has('gui_running') && has('vim_starting')
     exe 'set guifont=' . escape(s:iswin ? 'Consolas:h14:cANSI' : 'Fira Mono 16', ' ')
-    set lines=30 columns=84
     set go+=b " Enable horizontal scrollbar
     set go+=c " User console like dialogs instead of GUI ones
     set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
@@ -243,8 +242,8 @@ let g:ctrlp_status_func = {'main': 'CtrlpStatusMain'}
 let mapleader = ','
 let maplocalleader = '\'
 
-" Quickly edit my vimrc.
-nnoremap cv :e $MYVIMRC<CR>
+" Quickly edit my vimrc. Using this path lets fugitive commands work.
+nnoremap cv :e $VIMFILES/vimrc<CR>
 
 " Maps that make more sense.
 nnoremap Y y$
