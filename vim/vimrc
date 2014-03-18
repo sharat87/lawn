@@ -2,10 +2,6 @@
 " Used On: (G)Vim 7.4 on Linux and Windows
 " Modeline: vim: set ft=vim fdm=marker :
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-
 " Helpers {{{
 
 " Find out if we are on windows.
