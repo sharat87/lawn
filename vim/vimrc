@@ -66,7 +66,9 @@ NeoBundle 'noahfrederick/Hemisu'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'morhetz/gruvbox'
 
-colorscheme seoul256
+if has('vim_starting')
+    colorscheme seoul256
+endif
 
 " }}}
 
@@ -100,7 +102,7 @@ set sidescroll=1 sidescrolloff=10
 " Turn on syntax highlighting.
 syntax on
 
-" Make backspace act sane (i.e., non vi-compatible).
+" Make backspace work everywhere.
 set backspace=indent,eol,start
 
 " Enable mouse.
@@ -117,11 +119,11 @@ if has('vim_starting')
     set hlsearch
 endif
 
-" Show the matched character for an annoyingly long time period.
-set showmatch matchtime=3
-
 " Do incremental search.
 set incsearch
+
+" Show the matched character for an annoyingly long time period.
+set showmatch matchtime=3
 
 " File name chars for file name completion.
 set isfname-=\=
@@ -129,8 +131,7 @@ set isfname-=\=
 " Blank lines piss me off when doing block selections!
 set virtualedit=block
 
-" No swap files, no backup and no magic atomic saving. Let `inotifywait` work
-" right.
+" No swap files, no backup and no magic atomic saving.
 set nobackup nowritebackup noswapfile
 
 " Store undofiles (persistent-undo).
@@ -182,9 +183,6 @@ set wildignorecase
 " Use / instead of \ in file name completion among other places.
 set shellslash
 
-" Omni completion function.
-set omnifunc=syntaxcomplete#Complete
-
 " Characters used to show invisibles with `list`.
 " Other possible tab chars: ›‣⁍.
 set listchars=tab:›\ ,trail:∙
@@ -200,36 +198,59 @@ if has('conceal')
     nnoremap <silent> <F3> :exe 'set conceallevel=' . (&conceallevel == 0 ? 2 : 0)<CR>
 endif
 
-" No status line please.
-set laststatus=0
-
-" Show me info in the ruler.
-let s:ruler = '%40(%=' . join([
-            \ '%#Error#%{MixedIndentMsg()}%*',
-            \ '%#Error#%{TrailingSpaceMsg()}%*',
-            \ '%#Error#%{EncodingMsg()}%*',
-            \ '%m%f │ %{&ft} %l%*:%c %p%%%)',
-            \ ])
-exec 'set ruler rulerformat=' . escape(s:ruler, ' ')
-fun! TrailingSpaceMsg()
-    return search('\s$', 'nw') ? '[∙∙∙$]' : ''
-endfun
-fun! MixedIndentMsg()
-    " Taken from vim-airline
-    return search('\v(^\t+ +)|(^ +\t+)', 'nw') ? '[›∙∙∙]' : ''
-endfun
-fun! EncodingMsg()
-    return &fenc != 'utf-8' && &fenc != '' ? '[' . &fenc . ']' : ''
-endfun
-
-" Manage the window title.
-set title
-
 " Use Ag for :grep command
 if executable('ag')
     set grepprg=ag\ --nocolor\ --nogroup\ --column
     set grepformat=%f:%l:%c:%m
 endif
+
+" Manage the window title.
+set title
+
+" No status line please.
+set laststatus=0
+
+" Ruler of the worlds! {{{
+let s:ruler = '%40(%=' . join([
+            \ '%#Error#%{MixedIndentRuler()}%*',
+            \ '%#Error#%{TrailingSpaceRuler()}%*',
+            \ '%#Error#%{EncodingRuler()}%*',
+            \ '%{InfoRuler()}',
+            \ ]) . '%)'
+exec 'set ruler rulerformat=' . escape(s:ruler, ' ')
+fun! TrailingSpaceRuler()
+    return search('\s$', 'nw') ? '[∙∙∙$]' : ''
+endfun
+fun! MixedIndentRuler()
+    " Adapted from vim-airline
+    return search('\v(^\t+ +)|(^ +\t+)', 'nw') ? '[›∙∙∙]' : ''
+endfun
+fun! EncodingRuler()
+    return &fenc != 'utf-8' && &fenc != '' ? '[' . &fenc . ']' : ''
+endfun
+fun! InfoRuler()
+    if &ft == 'help'
+        return ':h ' . expand('%:t') . ' --' . (100 * line('.') / line('$')) . '%-- '
+    elseif bufname('%') == 'ControlP'
+        return (exists('b:stlmain') ? b:stlmain : '') . ' ∥ ctrlp'
+    endif
+    return join([
+                \ (&modified ? '+' : ''),
+                \ substitute(bufname('%'), '^' . $HOME, '~', ''),
+                \ line('.') . ':' . col('.'),
+                \ (100 * line('.') / line('$')) . '%',
+                \ ])
+endfun
+fun! CtrlpStatusMain(focus, byfname, regex, prev, item, next, marked)
+    let b:stlmain = join([
+                \ '╱' . a:byfname . '╱',
+                \ a:regex ? '/re' : '',
+                \ a:marked == ' <->' ? '' : a:marked,
+                \ '{' . a:item . '}',
+                \ ])
+endfun
+let g:ctrlp_status_func = {'main': 'CtrlpStatusMain'}
+" }}}
 
 " }}}
 
@@ -297,6 +318,13 @@ cnoremap <C-o> <C-w>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" Run the current buffer appropriately.
+let g:runners = {
+            \ 'javascript': 'node',
+            \ 'python': 'python3',
+            \ }
+nnoremap <Leader>r :exe '!time ' . g:runners[&ft] . ' %'<CR>
+
 " Toggle light/dark colorscheme.
 nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
 fun! <SID>ToggleBg()
@@ -346,15 +374,14 @@ nnoremap <silent> <Leader>/ :exe 'vimgrep /' . @/ . '/ %'<CR>:copen<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
+vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
+vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 fun! s:VSetSearch()
   let temp=@@
   norm! gvy
   let @/='\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
   let @@=temp
 endfun
-
-vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
-vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
 " Strip all trailing spaces in the whole file.
 nnoremap <silent> <Leader>xt :call <SID>StripTrailingSpaces()<CR>
@@ -370,11 +397,11 @@ endfun
 " Show highlighting groups for word under cursor.
 nnoremap <C-P> :call <SID>SynStack()<CR>
 fun! <SID>SynStack()
-    if !exists("*synstack")
+    if exists('*synstack')
+        echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    else
         echo 'Nothing appropriate'
-        return
     endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfun
 
 " Text object shortcuts.
@@ -400,31 +427,27 @@ onoremap vic vi}
 " Utility functions and custom commands {{{
 
 " Command to automatically :make current buffer on save.
-command! -bang Automake call <SID>Automake(<bang>)
-fun! s:Automake(bang)
+command! Automake call <SID>Automake()
+command! Make call <SID>SilentMake()
+fun! s:Automake()
     aug automakes
-        au BufWritePost <buffer> silent Make
+        au BufWritePost <buffer> Make
     aug END
-    if a:bang == '!'
-        Make
-    endif
+endfun
+fun! s:SilentMake()
+    silent make | cwindow
 endfun
 
-" Command to create/edit a local ftplugin file.
-command! -nargs=? -complete=customlist,<SID>FtpluginComplete OpenFtplugin
-            \ exe 'edit ' . $VIMFILES . '/after/ftplugin/' .
-            \ (strlen('<args>') > 0 ? '<args>' : &ft) . '.vim'
-fun! s:FtpluginComplete(lead, line, pos)
-    return map(glob($VIMFILES . '/after/ftplugin/' . a:lead . '*.vim', 1, 1),
-                \ "substitute(v:val, '^.*/\\([^/]\\+\\)\\.vim', '\\1', '')")
-endfun
-
-" Command to create/edit a local compiler file.
-command! -nargs=1 -complete=customlist,<SID>CompilerComplete
-            \ OpenCompiler edit $VIMFILES/after/compiler/<args>.vim
-fun! s:CompilerComplete(lead, line, pos)
-    return map(glob($VIMFILES . '/after/compiler/' . a:lead . '*.vim', 1, 1),
-                \ "substitute(v:val, '^.*/\\([^/]\\+\\)\\.vim', '\\1', '')")
+" Load the command's output in a new tab.
+" Taken from: http://vim.wikia.com/wiki/Capture_ex_command_output
+command! -nargs=+ -complete=command R call <SID>TabMessage(<q-args>)
+fun! <SID>TabMessage(cmd)
+    redir => output
+    silent execute a:cmd
+    redir END
+    tabnew
+    silent put=output
+    set nomodified
 endfun
 
 " Convenient command to see the difference between the current buffer and the
@@ -440,11 +463,6 @@ command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | di
 let g:is_bash = 1
 " }}}
 
-" HTML {{{
-let g:html_indent_tags = ''
-let g:html_indent_autotags = 'html,head,body,li'
-" }}}
-
 " }}}
 
 " Plugins and their configs {{{
@@ -454,12 +472,7 @@ let g:html_indent_autotags = 'html,head,body,li'
 NeoBundle 'tpope/vim-vinegar'
 
 let g:netrw_home = $LAWN_TMP
-
 let g:netrw_sort_options = 'i'
-
-" Switch between the four styles with the `i` key. See `:h netrw-i`.
-let g:netrw_liststyle = 4
-
 " }}}
 
 " Commentary {{{
@@ -470,6 +483,7 @@ nmap gs <Plug>CommentaryLine
 " ctrlp {{{
 NeoBundle 'kien/ctrlp.vim'
 let g:ctrlp_map = '<Leader>f'
+nnoremap <Leader><Leader> :CtrlP<C-d>
 nnoremap <Leader>d :CtrlPBuffer<CR>
 nnoremap <Leader>l :CtrlPLine<CR>
 nnoremap <Leader>F :CtrlPClearCache<CR>
@@ -486,21 +500,10 @@ let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " }}}
 
-" Dispatch {{{
-NeoBundle 'tpope/vim-dispatch'
-aug dispatches
-    au!
-aug END
+" Autopairs {{{
+NeoBundle 'jiangmiao/auto-pairs'
+let g:AutoPairsCenterLine = 0
 " }}}
-
-" " Quickrun.vim (thinca) (replaced by vim-dispatch) {{{
-" " TODO: Set `makeprg` for filetypes and get rid of this plugin?
-" NeoBundle 'thinca/vim-quickrun'
-" let g:quickrun_config = {
-"             \ 'javascript': { 'command': 'node' },
-"             \ 'python': { 'command': 'python3' },
-"             \ }
-" " }}}
 
 " File type sauces {{{
 
@@ -510,18 +513,15 @@ NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'estin/htmljinja'
 NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'tpope/vim-markdown'
-NeoBundle 'wlangstroth/vim-racket'
+NeoBundle 'gkz/vim-ls'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'wavded/vim-stylus'
 " }}}
 
 " Web - HTML, CSS and JavaScript {{{
 NeoBundle 'othree/html5.vim'
-NeoBundle 'indenthtml.vim'
-NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'gkz/vim-ls'
-NeoBundle 'wavded/vim-stylus'
+let g:html_exclude_tags = ['html', 'head', 'body'] " Exclude from indentation
 " }}}
 
 " Haskell {{{
@@ -623,9 +623,7 @@ call textobj#user#plugin('nexts', {
 " Misc plugins {{{
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'matchit.zip'
-NeoBundle 'sjl/gundo.vim'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-eunuch'
@@ -644,9 +642,5 @@ NeoBundle 'tpope/vim-unimpaired'
 " Fix for Neobundle's changes to &rtp not loading the `ftdetect` scripts.
 filetype off
 filetype on
-
-" Put the ~/.vim directory as the first item in `&rtp`.
-" This is so that ultisnips loads the snippets in the correct order.
-let &rtp = $VIMFILES . ',' . substitute(&rtp, $VIMFILES . ',', '', '')
 
 " }}}

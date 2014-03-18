@@ -1,41 +1,46 @@
 snippet .new "New javascript file template" !b
 (function () {
 
-    $0
+	$0
 
 }());
 endsnippet
 
+snippet us "use strict" b
+'use strict';
+endsnippet
+
 snippet f "An anonymous function" !w
 function $1($2) {
-    ${3:'use strict';}
-    ${VISUAL}$0
+	${VISUAL}$0
 }
 endsnippet
 
 snippet if "if statement" !
 if (${1:false}) {
-    $0
+	$0
 }
 endsnippet
 
 snippet ife "if-else statement" !b
 if (${1:false}) {
-    $2
+	$2
 } else {
-    ${3:$2}
+	$3
 }
 endsnippet
 
 snippet for "straight for loop" !b
 for (var ${2:i} = 0, len = ${1:things}.length; $2 < len; ++$2) {
-    ${3:$1[$2]}$0
+	var $3 = $1[$2];
+	$0
 }
 endsnippet
 
 snippet forr "reversed for loop" !b
 for (var ${2:i} = ${1:things}.length; $2-- > 0;) {
-    ${3:$1[$2]}$0
+	var $3 = $1[$2];
+	$0
 }
 endsnippet
 
@@ -60,26 +65,26 @@ snippet ct "console trace" !
 console.trace();
 endsnippet
 
+snippet xhr "Make a XMLHttpRequest" !
+var ${1:xhr} = new XMLHttpRequest();
+$1.open('${2:POST}', '${3:path/to/api}', true);
+$1.addEventListener('load', function () {
+	console.log('Success: ' + $1.responseText);$0
+});
+$1.send(${4:'banana=yellow'});
+endsnippet
+
 # Snippets for jasmine tests.
 snippet ds "A `describe` block" !b
 describe("${1:Program works}", function () {
-    'use strict';
-    $0
+	'use strict';
+	$0
 });
 endsnippet
 
 snippet it "An `it` block" !b
 it("${1:kicks ass}", function () {
-    'use strict';
-    $0
+	'use strict';
+	$0
 });
-endsnippet
-
-snippet xhr "Make a XMLHttpRequest" !
-var xhr = new XMLHttpRequest();
-xhr.open('${1:POST}', '${2:path/to/api}', true);
-xhr.addEventListener('load', function () {
-    console.log('Success: ' + xhr.responseText);
-});
-xhr.send(${3:'banana=yellow'});
 endsnippet
