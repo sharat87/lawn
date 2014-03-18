@@ -192,48 +192,6 @@ set title
 " No status line please.
 set laststatus=0
 
-" Ruler of the worlds! {{{
-let s:ruler = '%40(%=' . join([
-            \ '%#Error#%{MixedIndentRuler()}%*',
-            \ '%#Error#%{TrailingSpaceRuler()}%*',
-            \ '%#Error#%{EncodingRuler()}%*',
-            \ '%{InfoRuler()}',
-            \ ]) . '%)'
-exec 'set ruler rulerformat=' . escape(s:ruler, ' ')
-fun! TrailingSpaceRuler()
-    return search('\s$', 'nw') ? '[∙∙∙$]' : ''
-endfun
-fun! MixedIndentRuler()
-    " Adapted from vim-airline
-    return search('\v(^\t+ +)|(^ +\t+)', 'nw') ? '[›∙∙∙]' : ''
-endfun
-fun! EncodingRuler()
-    return &fenc != 'utf-8' && &fenc != '' ? '[' . &fenc . ']' : ''
-endfun
-fun! InfoRuler()
-    if &ft == 'help'
-        return ':h ' . expand('%:t') . ' --' . (100 * line('.') / line('$')) . '%-- '
-    elseif bufname('%') == 'ControlP'
-        return (exists('b:stlmain') ? b:stlmain : '') . ' ∥ ctrlp'
-    endif
-    return join([
-                \ (&modified ? '+' : ''),
-                \ substitute(bufname('%'), '^' . $HOME, '~', ''),
-                \ line('.') . ':' . col('.'),
-                \ (100 * line('.') / line('$')) . '%',
-                \ ])
-endfun
-fun! CtrlpStatusMain(focus, byfname, regex, prev, item, next, marked)
-    let b:stlmain = join([
-                \ '╱' . a:byfname . '╱',
-                \ a:regex ? '/re' : '',
-                \ a:marked == ' <->' ? '' : a:marked,
-                \ '{' . a:item . '}',
-                \ ])
-endfun
-let g:ctrlp_status_func = {'main': 'CtrlpStatusMain'}
-" }}}
-
 " }}}
 
 " Mappings {{{
