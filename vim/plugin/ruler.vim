@@ -24,14 +24,14 @@ fun! EncodingRuler()
 endfun
 
 fun! InfoRuler()
-    if &ft == 'help'
+    if exists('b:ruler')
+        return b:ruler
+
+    elseif &ft == 'help'
         return ':h ' . expand('%:t') . ' --' . (100 * line('.') / line('$')) . '%-- '
 
     elseif &ft == 'qf'
         return '‹' . getline('$') . '› quickfix'
-
-    elseif bufname('%') == 'ControlP'
-        return (exists('b:stlmain') ? b:stlmain : '') . ' ∥ ctrlp'
 
     else
         return join([
@@ -46,11 +46,12 @@ endfun
 
 " Ctrlp {{{
 fun! CtrlpStatusMain(focus, byfname, regex, prev, item, next, marked)
-    let b:stlmain = join([
+    let b:ruler = join([
                 \ '╱' . a:byfname . '╱',
                 \ a:regex ? '/re' : '',
                 \ a:marked == ' <->' ? '' : a:marked,
                 \ '{' . a:item . '}',
+                \ '∥ ctrlp',
                 \ ])
 endfun
 
