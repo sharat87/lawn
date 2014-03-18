@@ -128,12 +128,6 @@ rr () {
     done
 }
 
-# Update vimfiles and lawn
-lawn-files-update () {
-    (cd ~/lawn && make update)
-    notify-send 'lawn-mowing finished'
-}
-
 dostow () {
     # First, do `make install` the app with a prefix of `/opt/<app-name>` and then run `dostow <app-name>`.
     sudo xstow -target /usr/local "/opt/$1"
