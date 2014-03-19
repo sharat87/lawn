@@ -1,5 +1,5 @@
 compiler frosted
-" Automake
+Automake
 
 " Bigger text width for python please.
 setl tw=100

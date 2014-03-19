@@ -31,7 +31,7 @@ fun! InfoRuler()
         return ':h ' . expand('%:t') . ' --' . (100 * line('.') / line('$')) . '%-- '
 
     elseif &ft == 'qf'
-        return '‹' . getline('$') . '› quickfix'
+        return '‹' . line('$') . '› quickfix'
 
     else
         return join([

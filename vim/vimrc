@@ -1,6 +1,6 @@
 " Author: Shrikant Sharat Kandula <shrikantsharat.k@gmail.com>
 " Used On: (G)Vim 7.4 on Linux and Windows
-" Modeline: vim: set ft=vim fdm=marker :
+" Vim: set ft=vim fdm=marker :
 
 " Helpers {{{
 
@@ -24,8 +24,6 @@ endif
 call neobundle#rc($VIMFILES . '/bundles/')
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-set path=.,./**,,
 
 " }}}
 
@@ -53,14 +51,11 @@ endif
 " Load a vimrc from current directory.
 set secure exrc
 
-" Enable File type detection.
-" Also load indent files, to automatically do language-dependent indenting.
+" Enable File type specific goodies.
 filetype plugin indent on
 
-" When editing a file, jump to the last known cursor position. Don't do it when
-" the position is invalid or when inside an event handler (happens when dropping
-" a file on gvim).
-autocmd BufReadPost *
+" When editing a file, jump to the last known cursor position.
+au BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \     exe 'normal! g`"' |
             \ endif
@@ -69,10 +64,7 @@ autocmd BufReadPost *
 set smarttab expandtab tabstop=4 shiftwidth=4 shiftround
 
 " Show a vertical line warning of my long lines.
-set textwidth=80
-" Adapted from http://stackoverflow.com/a/13731714/151048.
-" let &colorcolumn = '+' . join(range(1, 900), ',+')
-set colorcolumn=+1
+set textwidth=80 colorcolumn=+1
 
 " Make horizontal scrolling less horrible (via @stevelosh).
 set sidescroll=1 sidescrolloff=10
@@ -185,7 +177,7 @@ endif
 " Manage the window title.
 set title
 
-" No status line please.
+" No status line please. There's an awesome ruler from `plugin/ruler.vim`.
 set laststatus=0
 
 " }}}
@@ -214,7 +206,7 @@ nnoremap c. cc
 nnoremap g. gg
 nnoremap v. V
 
-" I don't need the default functionality of `-` and `_`.
+" I use `,` for leader, but need its default functionality too.
 nnoremap <Leader>; ,
 vnoremap <Leader>; ,
 
@@ -232,7 +224,7 @@ inoremap <Right> <C-t>
 nnoremap ' `
 vnoremap ' `
 
-" ` is easier to reach than <C-w>.
+" ` is easier to hit than <C-w>.
 nnoremap ` <C-w>
 nnoremap `` <C-w><C-w>
 
@@ -256,10 +248,10 @@ cnoremap <C-n> <Down>
 
 " Run the current buffer appropriately.
 let g:runners = {
-            \ 'javascript': 'node',
-            \ 'python': 'python3',
+            \ 'javascript': 'node %',
+            \ 'python': 'python3 %',
             \ }
-nnoremap <Leader>r :exe '!time ' . g:runners[&ft] . ' %'<CR>
+nnoremap <Leader>r :exe '!time ' . g:runners[&ft]<CR>
 
 " Toggle light/dark colorscheme.
 nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
@@ -284,7 +276,7 @@ fun! <SID>SuperEnterKey()
     if &buftype == 'quickfix'
         .cc
     elseif expand('%') != ''
-        wa
+        wall
     endif
 endfun
 
@@ -306,22 +298,22 @@ nnoremap <C-j> }j^
 nnoremap <C-k> k{j^
 
 " Open a Quickfix window for the last search.
-nnoremap <silent> <Leader>/ :exe 'vimgrep /' . @/ . '/ %'<CR>:copen<CR>
+nnoremap <silent> g/ :vimgrep /<C-r>// % \| copen<CR>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
 vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 fun! s:VSetSearch()
-  let temp=@@
+  let temp = @@
   norm! gvy
-  let @/='\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@=temp
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
 endfun
 
 " Strip all trailing spaces in the whole file.
 nnoremap <silent> <Leader>xt :call <SID>StripTrailingSpaces()<CR>
-fun! <SID>StripTrailingSpaces()
+fun! s:StripTrailingSpaces()
     let _s = @/
     let l = line('.')
     let c = col('.')
@@ -332,46 +324,40 @@ endfun
 
 " Show highlighting groups for word under cursor.
 nnoremap <C-P> :call <SID>SynStack()<CR>
-fun! <SID>SynStack()
-    if exists('*synstack')
-        echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-    else
-        echo 'Nothing appropriate'
-    endif
+fun! s:SynStack()
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfun
 
 " Text object shortcuts.
 
-" r for rectangle brackets.
-onoremap ar a]
-onoremap ir i]
-nnoremap var va]
-nnoremap vir vi]
+fun! s:TextObjectAlias(alias, pack)
+    exe 'onoremap a' . a:alias . ' a' . a:pack[1]
+    exe 'onoremap i' . a:alias . ' i' . a:pack[1]
+    exe 'nnoremap va' . a:alias . ' va' . a:pack[1]
+    exe 'nnoremap vi' . a:alias . ' vi' . a:pack[1]
+    let g:surround_{char2nr(a:alias)} = a:pack[0] . " \r " . a:pack[1]
+endfun
 
-" a for angle brackets.
-onoremap aa a>
-onoremap ia i>
-
-" c for curly brackets.
-onoremap ac a}
-onoremap ic i}
-onoremap vac va}
-onoremap vic vi}
+call s:TextObjectAlias('r', '[]')
+call s:TextObjectAlias('a', '<>')
+call s:TextObjectAlias('c', '{}')
 
 " }}}
 
 " Utility functions and custom commands {{{
 
 " Command to automatically :make current buffer on save.
+au QuickFixCmdPost make cwindow
+aug automakes | aug END
 command! Automake call <SID>Automake()
-command! Make call <SID>SilentMake()
 fun! s:Automake()
-    aug automakes
-        au BufWritePost <buffer> Make
-    aug END
-endfun
-fun! s:SilentMake()
-    silent make | cwindow
+    if exists('b:automake')
+        au! automakes BufWritePost <buffer>
+        unlet b:automake
+    else
+        au automakes BufWritePost <buffer> silent make!
+        let b:automake = 1
+    endif
 endfun
 
 " Load the command's output in a new tab.
@@ -383,7 +369,8 @@ fun! <SID>TabMessage(cmd)
     redir END
     tabnew
     silent put=output
-    set nomodified
+    1delete _
+    set nomodifiable
 endfun
 
 " Convenient command to see the difference between the current buffer and the
