@@ -36,17 +36,14 @@ if has('gui_running') && has('vim_starting')
     set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
 endif
 
-" Colorscheme stuff {{{
+" Colorschemes
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'morhetz/gruvbox'
-NeoBundle 'noahfrederick/Hemisu'
-
 if has('vim_starting')
     set t_Co=256 bg=dark
     colorscheme gruvbox
 endif
-" }}}
 
 " Load a vimrc from current directory.
 set secure exrc
@@ -76,7 +73,7 @@ syntax on
 set backspace=indent,eol,start
 
 " Enable mouse.
-set mouse=a
+set mouse=ar
 
 " Hide abandoned buffers in order to not lose undo history.
 set hidden
@@ -180,9 +177,12 @@ set title
 " No status line please. There's an awesome ruler from `plugin/ruler.vim`.
 set laststatus=0
 
+" Tell vim to assume `/bin/sh` is bash.
+let g:is_bash = 1
+
 " }}}
 
-" Mappings {{{
+" Mappings & Commands {{{
 
 " Leaders ahoy!
 let mapleader = ','
@@ -255,33 +255,25 @@ nnoremap <Leader>r :exe '!time ' . g:runners[&ft]<CR>
 
 " Toggle light/dark colorscheme.
 nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
-fun! <SID>ToggleBg()
+fun! s:ToggleBg()
     let cname = g:colors_name
     exe 'set bg=' . (&bg == 'dark' ? 'light' : 'dark')
     if cname == 'Tomorrow-Night'
         colorscheme Tomorrow
     elseif cname == 'Tomorrow'
         colorscheme Tomorrow-Night
-    elseif cname == 'seoul256'
-        colo seoul256-light
-    elseif cname == 'seoul256-light'
-        colo seoul256
     endif
 endfun
 
 " Save all modified buffers.
 nnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
 vnoremap <silent> <CR> :call <SID>SuperEnterKey()<CR>
-fun! <SID>SuperEnterKey()
-    if &buftype == 'quickfix'
-        .cc
-    elseif expand('%') != ''
-        wall
-    endif
+fun! s:SuperEnterKey()
+    exe &ft == 'qf' ? '.cc' : 'wa'
 endfun
 
 " Map to change current directory to the directory of the current buffer.
-nnoremap cd :cd %:p:h<CR>:pwd<CR>
+nnoremap cd :cd %:p:h \| pwd<CR>
 
 " Turn off hlsearch temporarily.
 nnoremap <silent> <Leader>h :noh<CR>
@@ -325,26 +317,20 @@ endfun
 " Show highlighting groups for word under cursor.
 nnoremap <C-P> :call <SID>SynStack()<CR>
 fun! s:SynStack()
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'))
 endfun
 
 " Text object shortcuts.
-
 fun! s:TextObjectAlias(alias, pack)
     exe 'onoremap a' . a:alias . ' a' . a:pack[1]
     exe 'onoremap i' . a:alias . ' i' . a:pack[1]
     exe 'nnoremap va' . a:alias . ' va' . a:pack[1]
     exe 'nnoremap vi' . a:alias . ' vi' . a:pack[1]
-    let g:surround_{char2nr(a:alias)} = a:pack[0] . " \r " . a:pack[1]
+    let g:surround_{char2nr(a:alias)} = a:pack[0] . "\r" . a:pack[1]
 endfun
-
 call s:TextObjectAlias('r', '[]')
 call s:TextObjectAlias('a', '<>')
 call s:TextObjectAlias('c', '{}')
-
-" }}}
-
-" Utility functions and custom commands {{{
 
 " Command to automatically :make current buffer on save.
 au QuickFixCmdPost make cwindow
@@ -360,8 +346,8 @@ fun! s:Automake()
     endif
 endfun
 
-" Load the command's output in a new tab.
-" Taken from: http://vim.wikia.com/wiki/Capture_ex_command_output
+" Load a command's output in a new tab.
+" Adapted from: http://vim.wikia.com/wiki/Capture_ex_command_output
 command! -nargs=+ -complete=command R call <SID>TabMessage(<q-args>)
 fun! <SID>TabMessage(cmd)
     redir => output
@@ -369,22 +355,12 @@ fun! <SID>TabMessage(cmd)
     redir END
     tabnew
     silent put=output
-    1delete _
+    0delete _
     set nomodifiable
 endfun
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made. Only define it when not
-" defined already.
-command! DiffOrig vnew | set bt=nofile | read # | 0d_ | diffthis | wincmd p | diffthis
-
-" }}}
-
-" Filetype specific settings {{{
-
-" Bash shell scripting {{{
-let g:is_bash = 1
-" }}}
+" See diff with saved file.
+command! DiffOrig vnew | set bt=nofile | r# | 0d_ | diffthis | wincmd p | diffthis
 
 " }}}
 
@@ -393,7 +369,6 @@ let g:is_bash = 1
 " Netrw & Vinegar {{{
 " Netrw is already available by default.
 NeoBundle 'tpope/vim-vinegar'
-
 let g:netrw_home = $LAWN_TMP
 let g:netrw_sort_options = 'i'
 " }}}
@@ -432,9 +407,7 @@ let g:AutoPairsCenterLine = 0
 
 " Additional file types {{{
 NeoBundle 'alunny/pegjs-vim'
-NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'estin/htmljinja'
-NeoBundle 'jnwhiteh/vim-golang'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'gkz/vim-ls'
 NeoBundle 'kchmck/vim-coffee-script'
@@ -452,28 +425,6 @@ let g:mta_filetypes = {'html': 1, 'xml': 1, 'htmljinja': 1}
 let g:mta_use_matchparen_group = 0
 " }}}
 
-" Haskell {{{
-
-" Indentation.
-NeoBundle 'indenthaskell.vim'
-let g:haskell_indent_if = 2
-let g:haskell_indent_case = 2
-
-" Type and info about identifier under cursor.
-NeoBundle 'bitc/vim-hdevtools'
-au FileType haskell nnoremap <buffer> K :HdevtoolsType<CR>
-au FileType haskell nnoremap <buffer> <silent> <C-S-K> :HdevtoolsClear<CR>
-
-" }}}
-
-" Clojure {{{
-NeoBundle 'VimClojure'
-" Colorful matching parentheses.
-let vimclojure#ParenRainbow = 1
-" Special indenting rules for def* and with-* forms.
-let vimclojure#FuzzyIndent = 1
-" }}}
-
 " }}}
 
 " Text objects {{{
@@ -488,6 +439,7 @@ NeoBundle 'kana/vim-textobj-syntax'
 " Defines `a,` and `i,` for function arguments.
 NeoBundle 'sgur/vim-textobj-parameter'
 
+" TODO: Move custom text objects to a plugin and add surround support.
 " Next brackets in line {{{
 
 fun! NextSurroundA(bracket)
@@ -562,10 +514,6 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired'
 " }}}
-
-" }}}
-
-" Miscellaneous fixes {{{
 
 " Fix for Neobundle's changes to &rtp not loading the `ftdetect` scripts.
 filetype off
