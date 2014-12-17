@@ -1,5 +1,0 @@
-#!/bin/bash
-
-loc=`echo $NAUTILUS_SCRIPT_CURRENT_URI | sed s/file:\/\///g`
-
-terminator --working-directory="$loc"

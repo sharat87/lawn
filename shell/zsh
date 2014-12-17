@@ -54,7 +54,8 @@ antigen bundle ~/labs/pip-app --no-local-clone
 
 # Load the prompt theme.
 # antigen theme prose
-antigen theme sindresorhus/pure pure
+# antigen theme sindresorhus/pure pure
+antigen bundle ~/labs/pure-zsh --no-local-clone
 
 # Vim like bindings plugin. Need to run after theme, so mode indicator
 # can be set, if the theme didn't already set it.

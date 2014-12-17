@@ -1,9 +1,0 @@
-#!/bin/bash
-
-link="$(zenity --entry --text "Download URL" --entry-text "$(xsel --clipboard --output)")"
-
-# TODO: Ask only for filename and put it in the right-clicked directory.
-dest="$(zenity --entry --text "Destination for: $link" --entry-text "$(basename "$link")")"
-
-# TODO: Display download progress via zenity
-wget -cO "$dest" "$link"

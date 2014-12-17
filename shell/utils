@@ -139,6 +139,10 @@ unstow () {
     echo Unstowed $1
 }
 
+transient-notify () {
+    notify-send --hint int:transient:1 "$@"
+}
+
 #----------------------------------------
 # aptitude utilities
 #----------------------------------------
@@ -188,9 +192,9 @@ aw () {
 # install command
 ai () {
     if sudo aptitude install "$@"; then
-        notify-send "aptitude" "$1 installation finished"
+        transient-notify "aptitude" "$1 installation finished"
     else
-        notify-send "aptitude" "Error installing $1"
+        transient-notify "aptitude" "Error installing $1"
     fi
 }
 
@@ -199,9 +203,9 @@ compdef "_a install" ai
 # purge command
 ap () {
     if sudo aptitude purge "$@"; then
-        notify-send "aptitude" "$1 purged"
+        transient-notify "aptitude" "$1 purged"
     else
-        notify-send "aptitude" "Error purging $1"
+        transient-notify "aptitude" "Error purging $1"
     fi
 }
 
@@ -210,9 +214,9 @@ compdef "_a purge" ap
 # remove command (ar is the archive command)
 ad () {
     if sudo aptitude remove "$@"; then
-        notify-send "aptitude" "$1 removed"
+        transient-notify "aptitude" "$1 removed"
     else
-        notify-send "aptitude" "Error removing $1"
+        transient-notify "aptitude" "Error removing $1"
     fi
 }
 
@@ -221,7 +225,7 @@ compdef "_a remove" ad
 # update command
 au () {
     sudo aptitude update "$@"
-    notify-send "aptitude" "Update finished"
+    transient-notify "aptitude" "Update finished"
 }
 
 compdef "_a update" au
@@ -302,7 +306,7 @@ s () {
     else
         svn "$@"
     fi
-    notify-send "Subversion $1 finished"
+    transient-notify "Subversion $1 finished"
 }
 
 # svn shortys
@@ -390,8 +394,8 @@ compdef _i i
 
 # The usual `./configure`, `make` and `make installl` automation.
 auto-install () {
-    app_name="${PWD##*/}"
-    install_dir="$HOME/apps/$app_name"
+    local app_name="${PWD##*/}"
+    local install_dir="$HOME/apps/$app_name"
 
     if [[ ! -f "./configure" ]]; then
         echo "There doesn't seem to be an app here."
@@ -417,7 +421,18 @@ auto-install () {
     fi
 
     echo "$msg"
-    notify-send "$app_name finished" "${msg:-Installation complete.}"
+    transient-notify "$app_name finished" "${msg:-Installation complete.}"
+}
+
+# Compress PDF files
+compress-pdf () {
+    local infile="$1"
+    local outfile="$2"
+    if [[ -z $outfile ]]; then
+        outfile="${infile%\.pdf}.out.pdf"
+    fi
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress \
+        -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$outfile" "$infile"
 }
 
 # vim: se ft=sh :

@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# AUTHOR:   (c) Ricardo Ferreira -- OP mod with some changes from the same launchpad page
+#           Modified and v2 by Shrikant Sharat Kandula
+# NAME:     Compress PDF v2
+# DESCRIPTION:  A nice Nautilus script with a GUI to compress PDF files
+# REQUIRES: ghostscript poppler-utils zenity sed
+# LICENSE:  GNU GPL v3 (http://www.gnu.org/licenses/gpl.html)
+# WEBSITE:  https://launchpad.net/compress-pdf
+
+VERSION=2
+COMPRESSPDF_BATCH_ABORT_ERR=115
+
+if ! type zenity &> /dev/null; then
+    xmessage "ERROR: Compress PDF $VERSION needs zenity to run."
+    exit 1
+fi
+
+if ! type gs &> /dev/null; then
+    zenity --error --title="Compress PDF $VERSION" \
+        --text="PDF Compress requires the ghostscript package, which is not installed. Please install it and try again."
+    exit 1
+fi
+
+files="$(for f; do readlink -f "$f"; done)
+$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+$NEMO_SCRIPT_SELECTED_FILE_PATHS"
+files="$(echo "$files" | grep -v '^$' | sort -u)"
+
+if [[ -z $files ]]; then
+    zenity --error --title="Compress PDF $VERSION" --text="No file selected."
+    exit 1
+fi
+
+# Ask the user to select an optimization level.
+olevel=$(zenity --list --title="Compress PDF $VERSION" \
+    --text="Choose an optimization level:" --width=480 --height=300 \
+    --hide-header --print-column=3 --separator=, \
+    --column= --column= --column= \
+    'Default (close to high quality)' NA default \
+    'Screen-view only' 72dpi screen \
+    'Low quality' 150dpi ebook \
+    'High quality' 300dpi printer \
+    'High quality (color preserving)' 300dpi prepress \
+    | cut -d, -f1)
+test -z "$olevel" && exit 1
+
+# This processing is partly inspired by Edouard Saintesprit's patch from
+# Compress PDF page at Launchpad
+echo "$files" | while read arg; do
+    if ! file --brief --mime-type "$arg" | grep -iq /pdf; then continue; fi
+
+    title="$(basename "${arg%\.pdf}")"
+
+    marksfile="/tmp/compresspdf-$title-pdfmarks"
+    outfile="/tmp/compresspdf-$title"
+    rm -f "$marksfile" "$outfile"
+
+    # Extract metadata from the original PDF. This is not a crucial
+    # functionality, but maybe we could warn if pdfinfo or sed are not available
+    pdfinfo "$arg" | sed -e 's/ *$//;s/ \+/ /g;s,^,  /,' \
+        -e '/CreationDate/,$d' -e 's/$/)/;s/: / (/' > "$marksfile"
+    if ! grep -q /Title "$marksfile"; then
+        # Warning: if the pdf has not defined a Title:, ghostscript makes a
+        # fontname become the title.
+        echo "  /Title ()" >> "$marksfile";
+        # echo "  /Title ($title)" >> "$marksfile";
+    fi
+    sed -i '1s/^ /[/' "$marksfile"
+    sed -i '/:)$/d' "$marksfile"
+    echo '  /DOCINFO pdfmark' >> "$marksfile"
+
+    # Execute ghostscript while showing a progress bar
+    gs -sDEVICE=pdfwrite -dPDFSETTINGS=/$olevel \
+        -dColorConversionStrategy=/LeaveColorUnchanged \
+        -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -dSAFER \
+        -sOutputFile="$outfile" "$arg" "$marksfile" \
+    | if zenity --progress --pulsate --auto-close --title="Compress PDF $VERSION" \
+                --text="Compressing $arg"; then
+            orig_filename="${arg%\.pdf}.orig.pdf"
+            test -f "$orig_filename" || mv "$arg" "$orig_filename"
+            mv -f "$outfile" "$arg"
+        else
+            exit $COMPRESSPDF_BATCH_ABORT_ERR # Warning: it exits the subshell but not the script
+        fi
+
+    rm -f "$marksfile" "$outfile"
+
+    if [ "$?" = "$COMPRESSPDF_BATCH_ABORT_ERR" ]; then
+        zenity --error --text='COMPRESSPDF_BATCH_ABORT_ERR!'
+        exit 1
+    fi
+done

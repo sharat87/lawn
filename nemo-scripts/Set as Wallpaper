@@ -1,2 +1,0 @@
-gnome-appearance-properties -p background $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
-

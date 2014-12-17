@@ -2,11 +2,6 @@ export skip_global_compinit=1
 
 export EDITOR=vim
 
-# Load RVM function
-if [[ -s ~/apps/rvm/rvm/scripts/rvm ]]; then
-    source ~/apps/rvm/rvm/scripts/rvm
-fi
-
 export HISTIGNORE="&:[bf]g:exit:logout"
 export MANPAGER=mage
 
