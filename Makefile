@@ -9,6 +9,7 @@ git/config .gitconfig
 git/ignore .gitignore
 hg/hgrc
 nemo-scripts .gnome2/nemo-scripts
+nemo-scripts .local/share/nautilus/scripts
 shell/bash .bashrc
 shell/env .zshenv
 shell/zsh .zshrc
@@ -19,8 +20,8 @@ endef
 export LINKS
 
 put:
-	rm -rf _originals/*
-	mkdir -p tmp/{undo,baks}
+	rm -rf _originals
+	mkdir -p _originals tmp/{undo,baks}
 	${MAKE} links
 	vim +NeoBundleInstall +qall
 
@@ -30,7 +31,7 @@ links:
 		| sed -n 's,^\([^[:space:]]\+/\)\?\([^[:space:]]\+\),& .\2,p' \
 		| while read line; do \
 			source="$$(readlink -f $${line%% *})"; \
-			target="${HOME}/$${line##* }"; \
+			target="$$HOME/$${line##* }"; \
 			test -e "$$target" && mv "$$target" _originals; \
 			ln -s "$$source" "$$target"; \
 		done
