@@ -30,7 +30,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Options {{{
 
 if has('gui_running') && has('vim_starting')
-    exe 'set guifont=' . escape(s:iswin ? 'Consolas:h14:cANSI' : 'Fira Mono 16', ' ')
+    exe 'set guifont=' . escape(s:iswin ? 'Consolas:h14:cANSI' : 'Monaco 14', ' ')
     set go+=b " Enable horizontal scrollbar
     set go+=c " User console like dialogs instead of GUI ones
     set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
@@ -59,6 +59,9 @@ au BufReadPost *
 
 " Indenting settings.
 set smarttab expandtab tabstop=4 shiftwidth=4 shiftround
+
+" Path used by the `:find` command.
+set path=.,**
 
 " Show a vertical line warning of my long lines.
 set textwidth=80 colorcolumn=+1
@@ -159,11 +162,8 @@ set list
 set cryptmethod=blowfish
 
 " Enable concealing everywhere.
-if has('conceal')
-    set concealcursor=nvic
-    " Toggle concealing.
-    nnoremap <silent> <F3> :exe 'set conceallevel=' . (&conceallevel == 0 ? 2 : 0)<CR>
-endif
+set concealcursor=nvic
+nnoremap <silent> <F3> :exe 'set conceallevel=' . (&conceallevel == 0 ? 2 : 0)<CR>
 
 " Use Ag for :grep command
 if executable('ag')
@@ -185,8 +185,7 @@ let g:is_bash = 1
 " Mappings & Commands {{{
 
 " Leaders ahoy!
-let mapleader = ','
-let maplocalleader = '\'
+let [mapleader, maplocalleader] = [',', '\']
 
 " Quickly edit my vimrc. Using this path lets fugitive commands work.
 nnoremap cv :e $VIMFILES/vimrc<CR>
@@ -206,7 +205,7 @@ nnoremap c. cc
 nnoremap g. gg
 nnoremap v. V
 
-" I use `,` for leader, but need its default functionality too.
+" I have the comma as my <Leader> key, but need its default functionality.
 nnoremap <Leader>; ,
 vnoremap <Leader>; ,
 
@@ -229,7 +228,7 @@ nnoremap ` <C-w>
 nnoremap `` <C-w><C-w>
 
 " My remapping of <C-^>. If there is no alternate file, then switch to next file.
-nnoremap <silent> <Leader><Space> :exe 'silent! b' . (expand('#') == '' ? 'n' : ' #')<CR>
+nnoremap <silent> <BS> :exe 'silent! b' . (expand('#') == '' ? 'n' : '#')<CR>
 
 " Easier way to go to normal mode.
 vnoremap <silent> <C-k> <ESC>
@@ -246,12 +245,24 @@ cnoremap <C-o> <C-w>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" Some emacsy-ness on the command line.
+cnoremap <C-a> <Home>
+
+" Opening files
+nnoremap <Leader>f :find *<Left>
+
+" Switching buffers.
+nnoremap <Leader>d :ls<CR>:b<Space>
+
 " Run the current buffer appropriately.
 let g:runners = {
-            \ 'javascript': 'node %',
-            \ 'python': 'python3 %',
+            \ 'javascript': 'node "%"',
+            \ 'python': 'python3 "%"',
+            \ 'r': 'Rscript %',
+            \ 'sh': 'bash "%"',
+            \ 'vim': 'source "%"',
             \ }
-nnoremap <Leader>r :exe '!time ' . g:runners[&ft]<CR>
+nnoremap <silent> <Leader>r :exe (&ft == 'vim' ? '' : '!time ') . g:runners[&ft]<CR>
 
 " Toggle light/dark colorscheme.
 nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
@@ -285,12 +296,12 @@ vnoremap <Space> :
 " Use `U` for redo. I never understood its default functionality anyway.
 nnoremap U <C-r>
 
-" Paragraph jumping. FIXME: Slightly flaky.
-nnoremap <C-j> }j^
-nnoremap <C-k> k{j^
-
 " Open a Quickfix window for the last search.
 nnoremap <silent> g/ :vimgrep /<C-r>// % \| copen<CR>
+
+" Grepping
+nnoremap <Leader>g :vimgrep // **/*<C-Left><Left><Left>
+nnoremap <Leader>G :grep // **/*<C-Left><Left><Left>
 
 " * and # to work in visual mode, but search for the selected text
 " Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
@@ -298,8 +309,8 @@ vnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 fun! s:VSetSearch()
   let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  normal! gvy
+  let @/ = '\V' . escape(@@, '\')
   let @@ = temp
 endfun
 
@@ -315,7 +326,7 @@ fun! s:StripTrailingSpaces()
 endfun
 
 " Show highlighting groups for word under cursor.
-nnoremap <C-P> :call <SID>SynStack()<CR>
+nnoremap <C-p> :call <SID>SynStack()<CR>
 fun! s:SynStack()
     echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'))
 endfun
@@ -326,6 +337,7 @@ fun! s:TextObjectAlias(alias, pack)
     exe 'onoremap i' . a:alias . ' i' . a:pack[1]
     exe 'nnoremap va' . a:alias . ' va' . a:pack[1]
     exe 'nnoremap vi' . a:alias . ' vi' . a:pack[1]
+    " The `\r` must be in double quotes here.
     let g:surround_{char2nr(a:alias)} = a:pack[0] . "\r" . a:pack[1]
 endfun
 call s:TextObjectAlias('r', '[]')
@@ -366,11 +378,8 @@ command! DiffOrig vnew | set bt=nofile | r# | 0d_ | diffthis | wincmd p | diffth
 
 " Plugins and their configs {{{
 
-" Netrw & Vinegar {{{
-" Netrw is already available by default.
+" Vinegar {{{
 NeoBundle 'tpope/vim-vinegar'
-let g:netrw_home = $LAWN_TMP
-let g:netrw_sort_options = 'i'
 " }}}
 
 " Commentary {{{
@@ -378,15 +387,15 @@ NeoBundle 'tpope/vim-commentary'
 nmap gs <Plug>CommentaryLine
 " }}}
 
-" ctrlp {{{
-NeoBundle 'kien/ctrlp.vim'
-let g:ctrlp_map = '<Leader>f'
-nnoremap <Leader><Leader> :CtrlP<C-d>
-nnoremap <Leader>d :CtrlPBuffer<CR>
-nnoremap <Leader>l :CtrlPLine<CR>
-nnoremap <Leader>F :CtrlPClearCache<CR>
-let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
-" }}}
+" " ctrlp {{{
+" NeoBundle 'kien/ctrlp.vim'
+" let g:ctrlp_map = '<Leader>f'
+" nnoremap <Leader><Leader> :CtrlP<C-d>
+" nnoremap <Leader>d :CtrlPBuffer<CR>
+" nnoremap <Leader>l :CtrlPLine<CR>
+" nnoremap <Leader>F :CtrlPClearCache<CR>
+" let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
+" " }}}
 
 " UltiSnips {{{
 NeoBundle 'SirVer/ultisnips'
@@ -422,7 +431,6 @@ NeoBundle 'pangloss/vim-javascript'
 
 NeoBundle 'Valloric/MatchTagAlways'
 let g:mta_filetypes = {'html': 1, 'xml': 1, 'htmljinja': 1}
-let g:mta_use_matchparen_group = 0
 " }}}
 
 " }}}
@@ -439,7 +447,7 @@ NeoBundle 'kana/vim-textobj-syntax'
 " Defines `a,` and `i,` for function arguments.
 NeoBundle 'sgur/vim-textobj-parameter'
 
-" TODO: Move custom text objects to a plugin and add surround support.
+" TODO: Move custom text objects to a plugin script and add surround support.
 " Next brackets in line {{{
 
 fun! NextSurroundA(bracket)
