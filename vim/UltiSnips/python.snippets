@@ -11,8 +11,17 @@ snippet fi "from module import something" !b
 from ${1:pprint} import ${2:$1}
 endsnippet
 
+snippet .= "self.name = name" !
+self.${1:name} = $1
+endsnippet
+
+snippet ifmain "" !b
+if __name__ == '__main__':
+	${1:main()}
+endsnippet
+
 snippet doctest "run doctest on current module" !b
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+	import doctest
+	doctest.testmod()
 endsnippet

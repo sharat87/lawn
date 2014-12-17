@@ -1,7 +1,6 @@
 snippet .new "New Makefile template" !b
+SHELL := /bin/bash
 .PHONY: $1
-
-SHELL = /bin/bash
 
 ${1:default}:
 	$0
