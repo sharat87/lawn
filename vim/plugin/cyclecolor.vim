@@ -4,7 +4,6 @@
 " Maintainer: Shrikant Sharat <shrikantsharat.k@gmail.com>
 " Original: by Marvin Renich <mrvn-vim@renich.org>
 " Version:  1.1
-" Last Change:  2006 Jul 18
 
 " Copyright 2005, 2006 Marvin Renich
 "
@@ -35,12 +34,6 @@
 " This script uses globpath to get all available colorschemes, not just the ones
 " in the $VIMRUNTIME/colors directory. It also helps when the script does not
 " set the colors_name correctly (and there are some that do not).
-"
-" TODO:
-"   - Allow selecting the scheme from a list (like csExplorer.vim).
-"   - Allow blacklisting specific colorschemes.
-"   - Inspect the colorscheme files and find out the value they set to
-"       `g:colors_name' variable.
 
 function! s:CycleColor(direction)
 
@@ -51,23 +44,15 @@ function! s:CycleColor(direction)
 
     if exists('g:colors_name')
         let current_index = index(all_schemes, g:colors_name)
+        let next = (current_index + len_schemes - 1 + a:direction) % (len_schemes - 1)
     else
         let current_index = -1
-    endif
-
-    if current_index == -1
         let next = 0
-    else
-        let next = (current_index + len_schemes - 1 + a:direction) % (len_schemes - 1)
     endif
 
     let scheme = all_schemes[next]
     exec 'colorscheme ' . scheme
-
-    if g:colors_name != scheme
-        " echoerr 'Colorscheme name mismatch: ' . g:colors_name . ' != ' . scheme
-        let g:colors_name = scheme
-    endif
+    let g:colors_name = scheme
 
 endfunction
 
