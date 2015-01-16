@@ -1,3 +1,5 @@
+set -o igncr
+
 parent=~/lawn
 source $parent/shell/env
 
@@ -29,4 +31,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-PS1='\[\033[01m\]\W:)\[\033[00m\] '
+export PATH="/cygdrive/c/tools/vim74:$PATH"
+
+cd /cygdrive/c/calypso
+PS1='\n\e[1;93m\w\n\e[1;97m\#\[\033[00m\]$(if [[ $? == 0 ]]; then echo "\e[0;92m"; else echo "\e[0;91m"; fi)❯\e[0m '
+
+alias ls='ls --color=auto'

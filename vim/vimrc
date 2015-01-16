@@ -9,7 +9,7 @@ let s:iswin = has('win32') || has('win64')
 
 " Define the VIMFILES directory, if not already done.
 if !exists('$VIMFILES')
-    let $VIMFILES = s:iswin ? 'C:/tools/Vim/vimfiles' : $HOME . '/lawn/vim'
+    let $VIMFILES = expand(s:iswin ? '~/vimfiles' : '~/.vim')
 endif
 
 " Define my lawn's temp directory.
@@ -21,7 +21,7 @@ endif
 if has('vim_starting')
     set rtp+=$VIMFILES/bundles/neobundle.vim
 endif
-call neobundle#rc($VIMFILES . '/bundles/')
+call neobundle#begin($VIMFILES . '/bundles/')
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -30,26 +30,24 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Options {{{
 
 if has('gui_running') && has('vim_starting')
-    exe 'set guifont=' . escape(s:iswin ? 'Consolas:h14:cANSI' : 'Monaco 14', ' ')
+    exe 'set guifont=' . escape(s:iswin ? 'Monaco:h12:cDEFAULT' : 'Monaco 14', ' ')
     set go+=b " Enable horizontal scrollbar
     set go+=c " User console like dialogs instead of GUI ones
     set go-=T go-=e go-=m " Remove toolbar, tab bar and menubar
+endif
+
+if has('vim_starting')
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
 endif
 
 " Colorschemes
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'chriskempson/vim-tomorrow-theme'
 NeoBundle 'morhetz/gruvbox'
-if has('vim_starting')
-    set t_Co=256 bg=dark
-    colorscheme gruvbox
-endif
 
 " Load a vimrc from current directory.
 set secure exrc
-
-" Enable File type specific goodies.
-filetype plugin indent on
 
 " When editing a file, jump to the last known cursor position.
 au BufReadPost *
@@ -106,6 +104,9 @@ set nobackup nowritebackup noswapfile
 
 " Store undofiles (persistent-undo).
 set undofile undodir=$LAWN_TMP/undo//,.
+if s:iswin
+    set undodir=$LAWN_TMP\\undo\\\\,.
+endif
 
 " Lines to save from command line history.
 set history=9000
@@ -248,11 +249,11 @@ cnoremap <C-n> <Down>
 " Some emacsy-ness on the command line.
 cnoremap <C-a> <Home>
 
-" Opening files
-nnoremap <Leader>f :find *<Left>
+" " Opening files
+" nnoremap <Leader>f :find *<Left>
 
-" Switching buffers.
-nnoremap <Leader>d :ls<CR>:b<Space>
+" " Switching buffers.
+" nnoremap <Leader>d :ls<CR>:b<Space>
 
 " Run the current buffer appropriately.
 let g:runners = {
@@ -262,7 +263,11 @@ let g:runners = {
             \ 'sh': 'bash "%"',
             \ 'vim': 'source "%"',
             \ }
-nnoremap <silent> <Leader>r :exe (&ft == 'vim' ? '' : '!time ') . g:runners[&ft]<CR>
+if s:iswin
+    nnoremap <silent> <Leader>r :exe '!' . g:runners[&ft]<CR>
+else
+    nnoremap <silent> <Leader>r :exe (&ft == 'vim' ? '' : '!time ') . g:runners[&ft]<CR>
+endif
 
 " Toggle light/dark colorscheme.
 nnoremap <silent> <F5> :call <SID>ToggleBg()<CR>
@@ -387,15 +392,15 @@ NeoBundle 'tpope/vim-commentary'
 nmap gs <Plug>CommentaryLine
 " }}}
 
-" " ctrlp {{{
-" NeoBundle 'kien/ctrlp.vim'
-" let g:ctrlp_map = '<Leader>f'
-" nnoremap <Leader><Leader> :CtrlP<C-d>
-" nnoremap <Leader>d :CtrlPBuffer<CR>
-" nnoremap <Leader>l :CtrlPLine<CR>
-" nnoremap <Leader>F :CtrlPClearCache<CR>
-" let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
-" " }}}
+" ctrlp {{{
+NeoBundle 'kien/ctrlp.vim'
+let g:ctrlp_map = '<Leader>f'
+nnoremap <Leader><Leader> :CtrlP<C-d>
+nnoremap <Leader>d :CtrlPBuffer<CR>
+nnoremap <Leader>l :CtrlPLine<CR>
+nnoremap <Leader>F :CtrlPClearCache<CR>
+let g:ctrlp_custom_ignore = '\v(tmp|__pycache__|node_modules)$'
+" }}}
 
 " UltiSnips {{{
 NeoBundle 'SirVer/ultisnips'
@@ -411,6 +416,11 @@ let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 NeoBundle 'jiangmiao/auto-pairs'
 let g:AutoPairsCenterLine = 0
 " }}}
+
+" " Mini buffer explorer {{{
+" NeoBundle 'fholgado/minibufexpl.vim'
+" nnoremap <Leader>xd :MBEToggle<CR>
+" " }}}
 
 " File type sauces {{{
 
@@ -447,8 +457,42 @@ NeoBundle 'kana/vim-textobj-syntax'
 " Defines `a,` and `i,` for function arguments.
 NeoBundle 'sgur/vim-textobj-parameter'
 
+" }}}
+
+" Misc plugins {{{
+NeoBundle 'bkad/CamelCaseMotion'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'matchit.zip'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-obsession'
+NeoBundle 'tpope/vim-ragtag'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+" }}}
+
+call neobundle#end()
+
+" Enable File type specific goodies.
+" Note: This has to be after neobundle#end.
+filetype plugin indent on
+
+NeoBundleCheck
+
+" }}}
+
+" Can use plugins only after neobundle#end {{{
+
+if has('vim_starting')
+    set t_Co=256 bg=dark
+    colorscheme tango
+endif
+
 " TODO: Move custom text objects to a plugin script and add surround support.
-" Next brackets in line {{{
+" Textobj: Next brackets in line {{{
 
 fun! NextSurroundA(bracket)
     exe 'normal! f' . a:bracket
@@ -505,26 +549,5 @@ call textobj#user#plugin('nexts', {
             \ })
 
 " }}}
-
-" }}}
-
-" Misc plugins {{{
-NeoBundle 'bkad/CamelCaseMotion'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'matchit.zip'
-NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-obsession'
-NeoBundle 'tpope/vim-ragtag'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-unimpaired'
-" }}}
-
-" Fix for Neobundle's changes to &rtp not loading the `ftdetect` scripts.
-filetype off
-filetype on
 
 " }}}

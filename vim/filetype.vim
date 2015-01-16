@@ -5,14 +5,14 @@
 aug user-ftdetect | au!
     au BufRead,BufNewFile *.plt,*.gnuplot setf gnuplot
     au BufRead,BufNewFile *.t setf cram
-    au BufRead,BufNewFile build.gradle setf groovy
+    au BufRead,BufNewFile *.gradle setf groovy
 aug END
 " }}}
 
 " {{{ Comment Strings
 aug user-cstrings | au!
     au FileType r setl cms=#\ %s
-    au FileType stylus setl cms=//\ %s
+    au FileType groovy,stylus setl cms=//\ %s
 aug END
 " }}}
 

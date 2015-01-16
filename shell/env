@@ -17,10 +17,12 @@ export PIP_DOWNLOAD_CACHE=~/.pip/cache
 export PYTHONPATH=~/lawn/python-lib:"$PYTHONPATH"
 
 # Java stuff.
-export JAVA_6_HOME=$HOME/apps/javas/jdk16
-export JAVA_7_HOME=$HOME/apps/javas/jdk17
-export JAVA_HOME="$JAVA_7_HOME"
-export PATH="$JAVA_HOME/bin:$PATH"
+if [[ -z $JAVA_HOME ]]; then
+    export JAVA_6_HOME=$HOME/apps/javas/jdk6
+    export JAVA_7_HOME=$HOME/apps/javas/jdk7
+    export JAVA_HOME="$JAVA_7_HOME"
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
 
 # Go stuff.
 export GOROOT=$HOME/apps/go
