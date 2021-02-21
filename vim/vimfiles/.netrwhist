@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/shri/labs/sharats.me/posts'
+let g:netrw_dirhist_7='/Users/shri/labs/sharats.me'
+let g:netrw_dirhist_6='/Users/shri/labs/sharats.me/posts'
+let g:netrw_dirhist_5='/Users/shri/labs/sharats.me'
+let g:netrw_dirhist_4='/Users/shri/labs/prestige'
+let g:netrw_dirhist_3='/Users/shri/labs/prestige/frontend/src'
+let g:netrw_dirhist_2='/Users/shri/labs/prestige/frontend'
+let g:netrw_dirhist_1='/Users/shri/labs/prestige'
+let g:netrw_dirhist_0='/Users/shri/labs/prestige/frontend'
+let g:netrw_dirhist_9='/Users/shri/labs/prestige/docs'

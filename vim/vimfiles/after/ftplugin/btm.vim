@@ -1,0 +1,1 @@
+setl ai cms=#\ %s

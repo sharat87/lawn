@@ -1,0 +1,1288 @@
+" Author: Shrikant Sharat Kandula (2008-2019)
+" Target: GVim 8.2 on Windows and Linux. Will not work with Neovim.
+" Vim: set ft=vim fdm=marker tw=120 ff=unix noet ts=4 sw=4 sts=4 :
+
+" Download Vim binaries for Windows:
+" https://github.com/vim/vim-win32-installer/releases
+" https://bintray.com/micbou/generic/vim
+" https://vim-jp.org/redirects/
+
+" TODO:
+" Operator functions for base64 encode/decode.
+" Mappings: `nmap sk8 :-8t.` and `nmap sj8 :+8t.`
+
+" Available keys: x, s as additional leaders, cq, cr, cy
+
+" Get a debugging system working. Explore:
+" https://github.com/idanarye/vim-vebugger (supports Python & Java)
+" https://github.com/puremourning/vimspector (implementation of Microsoft's debug protocol, like LSP, supports Python)
+
+" Get auto-completion working for Python.
+
+" Avoid using the following VimScript features, as they don't work in Neovim (!)
+" scriptversion.
+" The `..` operator for unambiguous string concatenation.
+" The ! is needed to re-define commands & functions even in the same script file. The feature in `:h E127` is not there.
+
+" Shouldn't be needed, as per docs, but command-line vim on Linux goes bonkers without this.
+set nocompatible
+
+let s:is_starting = has('vim_starting')
+
+if s:is_starting
+	set encoding=utf-8
+	scriptencoding utf-8
+	setglobal fileencoding=utf-8
+endif
+
+" Helpers {{{1
+
+" My personal autocmd group.
+augroup ssk
+	autocmd!
+augroup end
+
+" Find out if we are on windows.
+let s:is_win = has('win32') || has('win64')
+
+" Define the VIMFILES directory, if not already done.
+if !exists('$VIMFILES')
+	let $VIMFILES = expand(s:is_win ? '~/vimfiles' : '~/.vim')
+endif
+
+" The VIM_SPACE directory contains all working folders for Vim, like undo files, backups etc.
+if !exists('$VIM_SPACE')
+	let $VIM_SPACE = expand('~/vim-space')
+endif
+
+" Create file's directory before saving, if it doesn't exist.
+" Original: https://stackoverflow.com/a/4294176/151048
+augroup BWCCreateDir
+	autocmd!
+	autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+fun! s:MkNonExDir(file, buf)
+	if empty(getbufvar(a:buf, '&buftype')) && a:file !~# '\v^\w+\:\/'
+		call mkdir(fnamemodify(a:file, ':h'), 'p')
+	endif
+endfun
+
+" Auto dark mode on macOS.
+if exists('##OSAppearanceChanged') && has('gui_running')
+	autocmd ssk OSAppearanceChanged * call SyncBackground()
+endif
+
+fun SyncBackground()
+	let &background = v:os_appearance % 2 == 0 ? 'light' : 'dark'
+endfun
+
+" Get the <SID> function prefix for this script.
+function s:SID()
+	return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID$')
+endfun
+
+" Disable some default plugins that I don't need.
+let g:loaded_getscriptPlugin = 'disabled-in-vimrc'
+let g:loaded_vimballPlugin = 'disabled-in-vimrc'
+let loaded_logiPat = 'disabled-in-vimrc'
+" let loaded_matchparen = 1
+
+" Import and initialize the python vim module at startup.
+autocmd ssk VimEnter * py3 import vim
+
+" Options {{{1
+
+if s:is_starting && has('gui_running')
+	if exists('&guifont')
+		if s:is_win "&& &guifont =~# '^Consolas:'
+			let &guifont = 'Code_New_Roman:h13:cDEFAULT:qCLEARTYPE'
+			set renderoptions=type:directx,renmode:6
+		elseif has('gui_macvim')
+			let &guifont = 'JuliaMono-Regular:h18'
+		endif
+	endif
+	if exists('+guioptions')
+		set guioptions-=b " Disable horizontal scrollbar.
+		set guioptions+=c " User console like dialogs instead of GUI ones.
+		set guioptions-=T " Remove toolbar.
+		if s:is_win
+			" Remove menubar and don't source the system's menu.vim file.
+			set guioptions-=m guioptions+=M
+		endif
+		if s:is_win
+			set guioptions+=! " Use Vim's terminal window for external commands, not a cmd window.
+		endif
+	endif
+endif
+
+if s:is_starting
+	set termguicolors
+	" In terminal, show block cursor in normal mode and line cursor in insert mode.
+	" Source: https://github.com/mintty/mintty/wiki/Tips#mode-dependent-cursor-in-vim
+	let &t_ti = &t_ti . "\e[1 q"
+	let &t_SI = &t_SI . "\e[5 q"
+	let &t_EI = &t_EI . "\e[1 q"
+	let &t_te = &t_te . "\e[0 q"
+endif
+
+" " Load a vimrc from current directory.
+" set secure exrc
+
+" Maximize gVim window.
+if exists(':simalt') > 0 && s:is_win
+	autocmd ssk GUIEnter * simalt ~x
+endif
+
+" When editing a file, jump to the last known cursor position.
+autocmd ssk BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe 'normal! g`"zvzz' | endif
+
+" Indenting settings.
+if s:is_starting
+	" set smarttab expandtab tabstop=4 shiftwidth=4 shiftround
+	set noexpandtab tabstop=4 shiftwidth=4
+
+	" Word wrapping.
+	set nowrap linebreak showbreak=‡
+	set breakindent breakindentopt=sbr,shift:2
+
+	" Show a vertical line warning of my long lines.
+	set textwidth=120
+	set colorcolumn=+1
+endif
+
+" Path used by the `:find` command.
+set path=.,**
+
+" Make horizontal scrolling less horrible (via @stevelosh).
+set sidescroll=1 sidescrolloff=10
+
+" Make backspace work everywhere.
+set backspace=indent,eol,start
+
+" Enable mouse.
+set mouse=ar
+
+" Enable lazy redraw for performance. Use :redraw to force a UI/title refresh.
+set lazyredraw
+
+" Don't show intro message at startup.
+set shortmess+=I
+
+" Show search result numbers when hitting n/N.
+set shortmess-=S
+
+" Hide abandoned buffers in order to not lose undo history.
+set hidden
+
+" Ignore case in searches for everything (Tab completion, C-x completions etc.).
+set ignorecase
+
+" Highlight last used search term.
+if s:is_starting
+	set hlsearch
+endif
+
+" Do incremental search.
+set incsearch
+
+" Show the matched paren for an annoyingly long time period.
+set showmatch matchtime=3
+
+" Blank lines piss me off when doing block selections!
+set virtualedit=block
+
+" No swap files.
+set noswapfile
+
+" Got bit by no backups!
+set backup writebackup
+set backupcopy=yes backupdir=$VIM_SPACE/backups//
+call mkdir(split(&backupdir, ',')[0], 'p')
+
+" Python configuration.
+let &pythonhome = $HOME . '/.asdf/installs/python/3.8.6'
+" let &pythonthreedll = $HOME . '/.asdf/installs/python/3.8.6/lib/libpython3.8.a'
+if has('gui_macvim')
+	py3 import sys, os; sys.path.insert(0, os.path.expanduser('~/vim-space/python3-venv/lib/python3.8/site-packages'))
+endif
+
+" Clipboard for Neovim
+let g:clipboard = {
+			\		'name': 'python',
+			\		'copy': {
+			\			 '+': {lines, regtype -> SetClipboard(lines, regtype)},
+			\			 '*': {lines, regtype -> SetClipboard(lines, regtype)},
+			\		 },
+			\		'paste': {
+			\			 '+': {-> GetClipboard()},
+			\			 '*': {-> GetClipboard()},
+			\		},
+			\ }
+
+fun SetClipboard(lines, regtype)
+	py3 <<EOPYTHON
+import vim, win32clipboard
+win32clipboard.OpenClipboard()
+win32clipboard.EmptyClipboard()
+win32clipboard.SetClipboardText('\n'.join(vim.eval('a:lines')))
+win32clipboard.CloseClipboard()
+EOPYTHON
+endfun
+
+fun GetClipboard()
+	py3 <<EOPYTHON
+import win32clipboard
+win32clipboard.OpenClipboard()
+data = win32clipboard.GetClipboardData().splitlines()
+result = [data, 'v' if len(data) < 2 else 'V']
+win32clipboard.CloseClipboard()
+EOPYTHON
+	return py3eval('result')
+endfun
+
+" Store undofiles (for persistent undo).
+set undofile undodir=$VIM_SPACE/undo//,.
+call mkdir(split(&undodir, ',')[0], 'p')
+
+" Undo reloading of buffer only works for files with lines less than the number in this setting.
+set undoreload=100000
+
+" Lines to save from command line history.
+set history=9999
+
+" Keep cursor on current column for certain jump commands.
+set nostartofline
+
+if s:is_starting
+	" Enable line numbers.
+	set number
+
+	" Highlight the cursor line.
+	set cursorline
+
+	" Show me the invisibles.
+	set list listchars=tab:›\ ,trail:∙,nbsp:¬,precedes:…,extends:…
+endif
+
+" Disable cursor blinking in all modes.
+set guicursor+=a:blinkon0
+
+" Display partial/incomplete commands.
+set showcmd
+
+" Show a mini-menu when using Tab-completions for commands.
+set wildmenu wildcharm=<C-z>
+
+" Ignore these files when autocompleting.
+set wildignore+=*.pyc,*/__pycache__/,*.class,.idea/,*.pdf,*/node_modules/*
+
+" Ignore case in filename completions and then some.
+set wildignorecase
+
+" Use / instead of \ in file name completion among other places.
+if exists('+shellslash')
+	set shellslash
+endif
+
+" Better diffing.
+if has('patch-8.2-360')
+	set diffopt+=algorithm:patience
+	set diffopt+=indent-heuristic
+	set diffopt+=foldcolumn:0
+endif
+
+" Split right and below, instead of left and top.
+set splitright splitbelow
+
+" Enable concealing everywhere.
+set concealcursor=nvic
+
+" Hide the statusline and show an informative ruler and title.
+set ruler title laststatus=1
+let &rulerformat = '%70(' .
+			\ '%{FugitiveStatusline()}' .
+			\ ' %=b%n %{&ff} %{&ft}' .
+			\ '%( %{len(getqflist()) ? ("q" . len(getqflist())) : ""}%)' .
+			\ '%( %{search("\\s$", "cnw", 0, 200) ? "∙$" : ""}%)' .
+			\ '%( %{exists("b:stl_fn") ? call(b:stl_fn) : ""}%)' .
+			\ '   L%l,%c%V %P %*%)'
+let &titlestring = '%t%( %m%r%)%( <%{get(g:, "cur_project", "")}>%)%( (%{expand("%:~:.:h")})%)' .
+			\ '%( (pwd: %{fnamemodify(getcwd(), ":~")})%)%( %a%) - %(%{v:servername}%)'
+
+" Don't auto-format lines that are already long.
+set formatoptions+=l
+
+" Remove commentstring when joining lines, where it makes sense.
+set formatoptions+=j
+
+" Save automatically before `:make` and some other commands.
+set autowrite
+
+" Live preview of substitue command (currently neovim only).
+if exists('&inccommand')
+	set inccommand=nosplit
+endif
+
+" External tool locations.
+let g:ctags_exe = '/tools/ctags58/ctags.exe'
+
+" Set grepprg to ripgrep.
+let &grepprg = 'rg --vimgrep --column --ignore-case --glob !yarn.lock'
+
+" Use the backtick to get out of a terminal window.
+if exists('+termwinkey')
+	set termwinkey=`
+endif
+
+" Mappings & Commands {{{1
+
+" Custom digraphs.
+digraph ^1 185 " Superscript 1
+digraph ^2 178 " Superscript 2
+digraph ^3 179 " Superscript 3
+
+" Released keys. Use for something super.
+nnoremap x <Nop>
+nnoremap X <Nop>
+nnoremap s <Nop>
+nnoremap S <Nop>
+vnoremap x <Nop>
+vnoremap X <Nop>
+vnoremap s <Nop>
+" vnoremap S <Nop>  " Used by surround.vim plugin
+
+" Leaders.
+let [g:mapleader, g:maplocalleader] = [',', '\']
+
+" Quickly edit and reload my vimrc. Using this path lets fugitive commands work.
+" nnoremap <silent> cv :e $VIMFILES/vimrc<CR>
+nnoremap <silent> cv :e $MYVIMRC<CR>
+autocmd ssk BufWritePost $MYVIMRC source $MYVIMRC
+
+" Maps that make more sense.
+nnoremap Y y$
+
+" Maps that apply linewise can use the `.` key.
+nnoremap d. dd
+nnoremap y. yy
+nnoremap c. cc
+nnoremap g. gg
+nnoremap v. V
+
+" I have the comma as my <Leader> key, but need its default functionality.
+nnoremap <Leader>; ,
+xnoremap <Leader>; ,
+
+" A use for the unused Arrow keys :).
+noremap <Up> <C-y>
+noremap <Down> <C-e>
+noremap <Left> zh
+noremap <Right> zl
+
+" Use D in visual mode to delete.
+vnoremap d <Nop>
+vnoremap D d
+
+" ` is easier to hit than <C-w>.
+nnoremap ` <C-w>
+nnoremap `` <C-w>w
+
+" Make ' act as ` which is to jump to mark's line & column.
+nnoremap " `
+xnoremap " `
+
+" Use single quote for selecting registers.
+nnoremap 's "*
+xnoremap 's "*
+nnoremap 'd "+
+xnoremap 'd "+
+nnoremap ' "
+xnoremap ' "
+noremap! <C-r>' <C-r>"
+
+" Disable minimizing on <C-z> when running GUI.
+if has('gui_running')
+	noremap <C-z> <Nop>
+endif
+
+" CTRL-U in insert mode deletes a lot. Put an undo-point before it.
+inoremap <C-u> <C-g>u<C-u>
+
+" My remapping of <C-^>. If there is no alternate file, and there's no count given, then switch to next file.
+" We use `bufloaded` to check for alternate buffer presence. This will ignore deleted buffers, as intended. To get
+" default behaviour, use `bufexists` in it's place.
+nnoremap <silent> <C-n> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) ? '#' : 'n')<CR>
+
+" Simple mappings for buffer switching.
+nnoremap <Leader>d :b *
+
+" Find/edit files
+nnoremap <Leader>f :find *
+nnoremap <Leader>e :edit **/*
+
+" Switch colorscheme.
+nnoremap coo :colo <C-d>*
+
+" Easier way to go to normal mode. Also, alternative to <ESC>.
+noremap! <silent> <C-l> <ESC>
+vnoremap <silent> <C-l> <ESC>
+onoremap <silent> <C-l> <ESC>
+cnoremap <silent> <C-l> <C-c>  " <ESC> doesn't work and even this moves the cursor by two characters.
+
+" Clear and reload the screen.
+nnoremap <C-r> <C-l>
+
+" Save all.
+nnoremap <silent> <C-m> :try\|wa\|catch /\<E141\>/\|echomsg 'Not all files saved!'\|endtry<CR>
+
+" Easy backspacing.
+noremap! <C-BS> <C-w>
+
+" Copy selection to system clipboard.
+xnoremap <C-c> "+y
+
+" Copy to system clipboard.
+nnoremap <silent> cp "+y
+nnoremap <silent> cpp "+yy
+
+" Emacs like home and end keys for insert/command mode.
+noremap! <C-a> <Home>
+inoremap <C-e> <End>
+
+" Expand pattern before cursor to all expansions.
+cnoremap <C-Tab> <C-A>
+
+" Command line conveniences.
+cnoremap <C-l> <C-Right>
+cnoremap <C-h> <C-Left>
+
+" Map to change pwd to the directory of the current buffer.
+nnoremap cm :call chdir(expand('%:p:h')) \| pwd<CR>
+
+" Map to change pwd to the repo-root-directory of the current buffer.
+nnoremap cu :call <SID>CdToRepoRoot("")<CR>
+nnoremap cU :call <SID>CdToRepoRoot("t")<CR>
+let g:root_markers = ['.git', '.hg', '.svn', '.project', '.idea', 'manage.py', 'pom.xml']
+fun s:CdToRepoRoot(cdPrefix) abort
+	for marker in g:root_markers
+		let root = finddir(marker, expand('%:p:h') . ';')
+		if !empty(root)
+			let root = fnamemodify(root, ':h')
+			if a:cdPrefix ==# 't'
+				tcd .
+			endif
+			call chdir(root)
+			echo 'cd ' . root . ' (found ' . marker . ')'
+			return
+		endif
+	endfor
+	echoerr 'No repo root found.'
+endfun
+
+" More convenient to go to command line mode.
+noremap <Space> :
+
+" Map to start command line to edit a file in <cfile>'s directory.
+nnoremap <Leader>we :<C-u>e <C-r>=expand('%:p:h')<CR>/
+
+" Map to start command line to edit a file in current directory.
+nnoremap <Leader>wf :<C-u>e **/*<C-z><S-Tab>
+
+" Map Shift+Enter to adding a new line below. Use `imap` so that any bindings for <CR> are not skipped.
+imap <S-CR> <End><CR>
+
+" Start of prev/next paragraph. We use <expr> way of doing this so they work in visual mode as well.
+noremap <silent> <expr> <C-k> (line('.') - search('^\n.\+$', 'Wenb')) . 'kzv^'
+noremap <silent> <expr> <C-j> (search('^\n.', 'Wen') - line('.')) . 'jzv^'
+
+" Switching tabs.
+nnoremap `n gt
+nnoremap `p gT
+
+" Turn off search highlights until the next search command.
+nnoremap <silent> <C-h> :nohlsearch<CR>
+
+" Edit a macro (https://github.com/mhinz/vim-galore#quickly-edit-your-macros)
+nnoremap zq :let @<C-r>=v:register<CR> = <C-r>=string(getreg(v:register))<CR><Left>
+nmap <Leader>qq "q<Leader>m
+
+" Defer loading customizations written in Python.
+" call timer_start(500, {-> execute('py3 import vim_custom_actions')})
+command TabsLineUp call <SID>TabsLineUp()
+function s:TabsLineUp() abort
+    py3 <<EOPYTHON
+import vim
+lengths = []
+for parts in (l.split('\t') for l in vim.current.buffer if '\t' in l):
+    lengths.append([len(c) for c in parts])
+vim.current.buffer.options['vartabstop'] = ','.join(str(max(ls) + 3) for ls in zip(*lengths))
+EOPYTHON
+endfunction
+
+" Start visual-block mode with current column expanded vertically.
+nnoremap <expr> vm <SID>VisualVLine()
+fun! s:VisualVLine() abort
+	let [_, lnum, col; _] = getcurpos()
+	let line = getline('.')
+	let col += strdisplaywidth(line) - strwidth(line)
+
+	let [from, to] = [lnum, lnum]
+	while strdisplaywidth(getline(from - 1)) >= col
+		let from -= 1
+	endwhile
+
+	while strdisplaywidth(getline(to + 1)) >= col
+		let to += 1
+	endwhile
+
+	return "\<C-v>" .
+				\ (to == lnum ? '' : (to - lnum . 'jo')) .
+				\ (from == lnum ? '' : (lnum - from . 'k'))
+endfun
+
+" Maximize window (currently works only for Windows).
+fun s:Maximize()
+	if has('gui') && s:is_win
+		simalt ~x
+	endif
+endfun
+
+" Increase / Decrease font size (a.k.a., zoom).
+fun s:fontSizeDelta(delta)
+	let &guifont = substitute(&guifont, s:is_win ? ':h\zs\d\+' : '\d\+', '\=eval(submatch(0) + ' . (a:delta * v:count1) . ')', '')
+	call <SID>Maximize()
+endfun
+nnoremap <silent> z+ :<C-u>call <SID>fontSizeDelta(1)<CR>
+nnoremap <silent> z- :<C-u>call <SID>fontSizeDelta(-1)<CR>
+nmap z= z+
+nmap z<kPlus> z+
+nmap z<kMinus> z-
+
+" Open a Quickfix window for the last search.
+nnoremap <silent> g/ :vimgrep /<C-r>// % \| copen<CR>
+
+" Search within the visual selection.
+xnoremap <Leader>/ <ESC>/\%V\%V<Left><Left><Left>
+
+" Run git command asynchronously using terminal.
+nnoremap <Leader>gg :ter <C-r>=&buftype == 'terminal' && job_info(term_getjob('%')).cmd[0] ==? 'git' ? '++curwin ' : ''
+			\ <CR>git --no-pager<Space>
+
+" Open sublime_merge with the current folder.
+command Smerge :call job_start('C:\tools\sublime-merge\smerge.exe -n .')
+
+" Copy selected lines as CSV
+xnoremap <silent> <Leader>y :<C-u>call <SID>CopyLinesAsCSV()<CR>
+fun s:CopyLinesAsCSV() abort
+	let [_, l1, c1, _] = getpos("'<")
+	let [_, l2, c2, _] = getpos("'>")
+	let lines = map(getline(l1, l2), {i, l -> trim(l[c1-1:c2-1])})
+	call setreg(v:register, join(lines, ', '), 'l')
+endfun
+
+" Open URL under cursor with python, if applicable.
+nnoremap <silent> gx :call <SID>OpenUrl()<CR>
+fun s:OpenUrl() abort
+	let url = expand('<cfile>')
+	if url =~? '^https\?://'
+		py3 import webbrowser; webbrowser.get('firefox').open(vim.eval('url'))
+	else
+		normal <Plug>NetrwBrowseX
+	endif
+endfun
+
+" Switch compilers.
+nnoremap com :compiler <C-d>**<Left>
+
+" Toggle concealing.
+nnoremap <silent> coe :exe 'set conceallevel=' . (&conceallevel == 0 ? 2 : 0)<CR>
+
+" Change font.
+nnoremap <silent> cof :se guifont=*<CR>
+nnoremap coF :se guifont=<C-r>=&guifont\|call <SID>Maximize()<CR>
+
+" Enable / disable folding
+nnoremap coz zi
+
+" Toggle hotkey for number and relativenumber. (The ones from plugin use `setlocal`).
+nnoremap con :set number!\|set number?<CR>
+nnoremap cor :set relativenumber!\|set relativenumber?<CR>
+
+" Toggle vertical line at &textwidth.
+nnoremap <silent> cot :exe 'set colorcolumn=' . (&colorcolumn == '' ? '+1' : '')<CR>
+
+" Highlight some patterns.
+nnoremap <Leader>* :match M1 /\c/<Left>
+nnoremap <silent> <Leader><C-h> :match<CR>
+hi M1 guibg=#CC4400 guifg=#FFFFFF gui=bold
+" hi M2 guibg=#00AA00 guifg=#FFFFFF gui=bold
+" hi M3 guibg=#0099FF guifg=#FFFFFF gui=bold
+
+" Load a project config file.
+command -nargs=1 -complete=customlist,<SID>ProjectsCompleteFn Project
+			\ call execute(['runtime projects/<args>.vim', 'let g:cur_project = "<args>"'])
+fun! s:ProjectsCompleteFn(lead, line, pos) abort
+	return map(globpath(&rtp, 'projects/' . (empty(a:lead) ? '' : '*' . a:lead) . '*.vim', 1, 1), {i, v -> fnamemodify(v, ':t:r')})
+endfun
+
+" Edit my filetype/syntax plugin files for current filetype.
+command -nargs=? -complete=filetype EditFileTypePlugin
+			\ exe 'keepj vsplit $VIMFILES/after/ftplugin/' . (empty(<q-args>) ? &filetype : <q-args>) . '.vim'
+command -nargs=? -complete=filetype Eft EditFileTypePlugin <args>
+command -nargs=? -complete=filetype EditSyntaxPlugin
+			\ exe 'keepj vsplit $VIMFILES/after/syntax/' . (empty(<q-args>) ? &filetype : <q-args>) . '.vim'
+command -nargs=? -complete=filetype Esy EditSyntaxPlugin <args>
+
+" Visual-at. This allows you to visually select a section and then hit @ to run a macro on all lines. Only lines which
+" match will change.
+" Source: https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
+xnoremap @ :<C-u>execute ":'<,'>normal @" . nr2char(getchar())<CR>
+
+" TODO: Terminal-Normal mappings.
+" FIXME: Terminal-Normal mappings apply to the wrong buffer when opened a terminal with ++hidden.
+if has('nvim')
+	" TODO: Untested terminal binding q in neovim.
+	autocmd ssk TermOpen * nnoremap <silent> <buffer> <nowait> q :<C-u>close<CR>
+else
+	autocmd ssk TerminalOpen * nnoremap <silent> <buffer> <nowait> q :<C-u>close<CR>
+endif
+
+" Re-run the same command again, in a terminal window.
+autocmd ssk TerminalOpen * nnoremap <silent> <buffer> <nowait> R
+			\ :<C-u>call term_start(job_info(term_getjob('%')).cmd, {'curwin': 1, 'term_name': bufname()})<CR>
+
+" Custom Text Objects {{{
+command -nargs=1 OXmap call <SID>OXMap(<q-args>)
+fun! s:OXMap(mapping) abort
+	exe 'onoremap <silent> ' . a:mapping
+	exe 'xnoremap <silent> ' . a:mapping
+endfun
+
+OXmap ae :<C-u>call <SID>SelectAll()<CR>
+fun! s:SelectAll() abort
+	" Just using GVgg adds stuff to the jumplist.
+	call cursor('$', 1)
+	norm! V
+	call cursor(1, 1)
+endfun
+
+fun! s:ExtendObjectMaps(key, marker) abort
+	" Direct aliases.
+	exe 'onoremap <silent> i' . a:key . ' i' . a:marker
+	exe 'xnoremap <silent> i' . a:key . ' i' . a:marker
+	exe 'onoremap <silent> a' . a:key . ' a' . a:marker
+	exe 'xnoremap <silent> a' . a:key . ' a' . a:marker
+
+	" Next directs.
+	exe 'onoremap <silent> in' . a:marker . ' :<C-u>call search("' . a:marker . '")\|norm! vi' . a:marker . '<CR>'
+	exe 'xnoremap <silent> in' . a:marker . ' :<C-u>call search("' . a:marker . '")\|norm! vi' . a:marker . '<CR>'
+	exe 'onoremap <silent> an' . a:marker . ' :<C-u>call search("' . a:marker . '")\|norm! va' . a:marker . '<CR>'
+	exe 'xnoremap <silent> an' . a:marker . ' :<C-u>call search("' . a:marker . '")\|norm! va' . a:marker . '<CR>'
+
+	" Next aliases.
+	exe 'omap <silent> in' . a:key . ' in' . a:marker
+	exe 'xmap <silent> in' . a:key . ' in' . a:marker
+	exe 'omap <silent> an' . a:key . ' an' . a:marker
+	exe 'xmap <silent> an' . a:key . ' an' . a:marker
+endfun
+call <SID>ExtendObjectMaps('b', '(')
+call <SID>ExtendObjectMaps('r', '[')
+call <SID>ExtendObjectMaps('B', '{')
+call <SID>ExtendObjectMaps('a', '<')
+
+OXmap i* :<C-u>call <SID>SelectDelimited('i*')<CR>
+OXmap a* :<C-u>call <SID>SelectDelimited('a*')<CR>
+OXmap i_ :<C-u>call <SID>SelectDelimited('i_')<CR>
+OXmap a_ :<C-u>call <SID>SelectDelimited('a_')<CR>
+fun! s:SelectDelimited(style) abort
+	let start = -1
+	let end = -1
+	let marker = a:style[1]
+	let line = getline('.')
+	let pos = col('.') - 1
+	for i in range(len(line))
+		let char = line[i]
+		if char == marker
+			if i <= pos
+				let start = i + 1
+			else
+				let end = i + 1
+			endif
+		endif
+	endfor
+	if start > 0 && end > 0
+		if a:style[0] ==? 'i'
+			let start += 1
+			let end -= 1
+		endif
+		exe 'norm! ' . start . '|v' . end . '|'
+	endif
+endfun
+
+OXmap ii :<C-u>call <SID>SelectIndented('ii')<CR>
+OXmap iI :<C-u>call <SID>SelectIndented('iI')<CR>
+OXmap ai :<C-u>call <SID>SelectIndented('ai')<CR>
+OXmap aI :<C-u>call <SID>SelectIndented('aI')<CR>
+fun! s:SelectIndented(style) abort
+	let l:start = line('.')
+	let l:end = l:start
+	let l:indent_len = indent(l:start)
+
+	if l:indent_len <= 0
+		norm! V
+		return
+	endif
+
+	while l:start >= 0
+		let l:line = getline(l:start - 1)
+		if !empty(l:line) && indent(l:start - 1) < l:indent_len
+			break
+		endif
+		let l:start = l:start - 1
+	endwhile
+
+	while l:end <= line('$')
+		let l:line = getline(l:end + 1)
+		if !empty(l:line) && indent(l:end + 1) < l:indent_len
+			break
+		endif
+		let l:end = l:end + 1
+	endwhile
+
+	if a:style[0] ==# 'a' && l:start > 0
+		let l:start = l:start - 1
+	endif
+
+	if a:style[1] ==# 'I' && l:end < line('$')
+		let l:end = l:end + 1
+	endif
+
+	call cursor(l:end, 0)
+	norm! V
+	call cursor(l:start, 0)
+endfun
+" }}}
+
+" * and # to work in visual mode, but search for the selected text
+" Source: http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
+xnoremap <silent> * :<C-u>call <SID>VSetSearch()<CR>//<CR>
+xnoremap <silent> # :<C-u>call <SID>VSetSearch()<CR>??<CR>
+fun! s:VSetSearch() abort
+	let l:temp = @@
+	normal! gvy
+	let @/ = '\V' . escape(@@, '\')
+	let @@ = l:temp
+endfun
+
+" Show highlighting groups for word under cursor.
+" nnoremap <C-p> :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')<CR>
+map <C-p> :echo 'hi:' . synIDattr(synID(line('.'), col('.'), 1), 'name')
+			\ . '  lo:' . synIDattr(synID(line('.'), col('.'), 0), 'name')
+			\ . '  trans:' . synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')<CR>
+
+" Load a vim command's output in a new tab.
+" Adapted from: http://vim.wikia.com/wiki/Capture_ex_command_output
+" TODO: Once we run a failing command with `R` like `R echo hah`, whole Vim env breaks after that.
+command -nargs=1 -complete=command R call <SID>RunInTab(<q-args>)
+fun! <SID>RunInTab(cmd) abort
+	let output = execute(cmd, 'silent')
+	tabnew
+	silent put=output
+	setl buftype=nofile
+	1,2delete _
+	setl nomodifiable
+	nnoremap <buffer> x :bwipe!<CR>
+endfun
+
+" See diff with saved file. FIXME: Doesn't seem to be working.
+command DiffOrig vnew | set buftype=nofile | read# | 0delete_ | diffthis | wincmd o | diffthis
+
+" Paste in this line if empty, or next line.
+nnoremap <silent> zp :call <SID>PasteHere()<CR>
+fun! s:PasteHere() abort
+	put+
+	norm! '[
+	if getline(line('.') - 1) == ''
+		-delete _
+	endif
+endfun
+
+" Squeeze up contiguous blank lines.
+nnoremap <silent> dc :<C-u>call <SID>CleanupBlanks()<CR>
+fun! s:CleanupBlanks() abort
+	if !empty(getline('.'))
+		return
+	endif
+	let l:curr = line('.')
+
+	let l:start = l:curr
+	while l:start > 1 && empty(getline(l:start - 1))
+		let l:start -= 1
+	endwhile
+
+	let l:end = l:curr
+	let l:last_line_num = line('$')
+	while l:end < l:last_line_num && empty(getline(l:end + 1))
+		let l:end += 1
+	endwhile
+
+	if l:end >= l:start + v:count1
+		exe l:start . '+' . v:count1 . ',' . l:end . 'd_'
+	else
+		call append(l:end, repeat([''], v:count1 - (l:end - l:start) - 1))
+	endif
+	call cursor(l:start, 1)
+endfun
+
+" Duplicate text, selected or over motion. TODO: Get this to work with visual-block mode.
+nnoremap <silent> duu :t.\|silent! call repeat#set('duu', v:count)<CR>
+nnoremap <silent> du :set opfunc=DuplicateText<CR>g@
+vnoremap <silent> du :<C-u>call DuplicateText('vis')<CR>
+fun! DuplicateText(type) abort
+	let marks = a:type ==? 'vis' ? '<>' : '[]'
+	let [_, l1, c1, _] = getpos("'" . marks[0])
+	let [_, l2, c2, _] = getpos("'" . marks[1])
+
+	if l1 == l2
+		let text = getline(l1)
+		call setline(l1, text[:c2 - 1] . text[c1 - 1:c2] . text[c2 + 1:])
+		call cursor(l2, c2 + 1)
+		if a:type ==? 'vis'
+			exe 'normal! v' . (c2 - c1) . 'l'
+		endif
+
+	else
+		call append(l2, getline(l1, l2))
+		call cursor(l2 + 1, c1)
+		if a:type ==? 'vis'
+			exe 'normal! V' . (l2 - l1) . 'j'
+		endif
+
+	endif
+endfun
+
+" Transpose tab separated values in selection or over motion.
+nnoremap <silent> gt :set opfunc=Transpose<CR>g@
+vnoremap <silent> gt :<C-u>call Transpose(1)<CR>
+fun! Transpose(...) abort
+	let vis = get(a:000, 0, 0)
+	let marks = vis ? '<>' : '[]'
+	let [_, l1, c1, _] = getpos("'" . marks[0])
+	let [_, l2, c2, _] = getpos("'" . marks[1])
+	let l:lines = map(getline(l1, l2), 'split(v:val, "\t")')
+	py3 <<EOPYTHON
+import vim
+from itertools import zip_longest
+out = list(zip_longest(*vim.eval('l:lines'), fillvalue=''))
+EOPYTHON
+	let out = map(py3eval('out'), 'join(v:val, "\t")')
+	call append(l2, out)
+	exe l1 . ',' . l2 . 'delete _'
+endfun
+
+" Strip all trailing spaces in the selection, or over motion.
+nnoremap <silent> <Leader>x :set opfunc=StripRight<CR>g@
+vnoremap <silent> <Leader>x :<C-u>call StripRight(1)<CR>
+fun! StripRight(...) abort
+	let cp = getcurpos()
+	let marks = get(a:000, 0, 0) ? '<>' : '[]'
+	let [_, l1, c1, _] = getpos("'" . marks[0])
+	let [_, l2, c2, _] = getpos("'" . marks[1])
+	exe 'keepjumps ' . l1 . ',' . l2 . 's/\s\+$//e'
+	call setpos('.', cp)
+endfun
+
+" Append a letter to all lines in motion. {{{
+nnoremap <silent> <expr> ga <SID>AppendToLines('n')
+xnoremap <silent> ga :<C-u>call <SID>AppendToLines(visualmode())<CR>
+
+fun s:AppendToLines(mode) abort
+	let c = getchar()
+	while c == "\<CursorHold>" | let c = getchar() | endwhile
+	let g:_append_to_lines = nr2char(c)
+	if a:mode ==? 'n'
+		exe 'set opfunc=' . s:SID() . 'AppendToLinesOpFunc'
+		return 'g@'
+	else
+		call s:AppendToLinesOpFunc('v')
+	endif
+endfun
+
+fun s:AppendToLinesOpFunc(type) abort
+	let marks = a:type ==? 'v' ? '<>' : '[]'
+	for l in range(line("'" . marks[0]), line("'" . marks[1]))
+		call setline(l, getline(l) . g:_append_to_lines)
+	endfor
+	unlet g:_append_to_lines
+endfun
+" }}}
+
+" Sort lines, selected or over motion. Prefer to run the :sort command with a visual selection, this lets us use the
+" rich options of the :sort command.
+xnoremap <silent> <Leader>s :sort i<CR>
+nnoremap <silent> <Leader>s :set opfunc=SortLines<CR>g@
+fun! SortLines(type) abort
+	'[,']sort i
+endfun
+
+" Reverse lines, selected or over motion.
+nnoremap <silent> gr :set opfunc=ReverseLines<CR>g@
+vnoremap <silent> gr :<C-u>call ReverseLines('vis')<CR>
+fun! ReverseLines(type) abort
+	let marks = a:type ==? 'vis' ? '<>' : '[]'
+	let [_, l1, c1, _] = getpos("'" . marks[0])
+	let [_, l2, c2, _] = getpos("'" . marks[1])
+	if l1 == l2
+		return
+	endif
+	for line in getline(l1, l2)
+		call setline(l2, line)
+		let l2 -= 1
+	endfor
+endfun
+
+" Command to copy the current file's full absolute path.
+command CopyFilePath let @+ = expand(s:is_win ? '%:p:gs?/?\\?' : '%:p')
+
+" TouchBar Commands {{{1
+
+anoremenu TouchBar.Terminal :terminal<CR>
+
+" Plugins and their configs {{{1
+
+" Start defining plugins.
+call plug#begin('~/vim-space/plugged')
+
+" Fern (file browser & project drawer) (Disabled Netrw) {{{2
+Plug 'lambdalisue/fern.vim'
+
+" Fern plugins: <https://github.com/topics/fern-vim-plugin>.
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+
+" Disable Netrw
+let g:loaded_netrwPlugin = 1
+" let g:loaded_netrw = 1  " This disables the netrw autoload script, which is needed by the markdown plugin.
+
+" Netrw settings.
+let g:netrw_ctags = g:ctags_exe
+" Issue raised: https://github.com/vim/vim/issues/4899.
+" PR raised: https://github.com/vim/vim/pull/4901.
+let g:netrw_liststyle = 1  " Long listing, like `ls -l`.
+let g:netrw_sizestyle = 'H'  " Human-readable file sizes in long listing.
+let g:netrw_timefmt = '%Y-%m-%d %I-%M-%S %p'  " ISO like date format in long-listing.
+let g:netrw_sort_options = 'i'
+let g:netrw_sort_sequence = '[\/]$,*'  " Show directories first, then the rest.
+
+" Matchit (Use % over `if`/`else` etc.) {{{2
+silent! packadd! matchit
+
+" Outdate (Date reformatting) {{{2
+Plug '~/Dropbox/labs/outdate.vim'
+
+" Runfile (run current file in a ViM terminal) {{{2
+Plug '~/Dropbox/labs/runfile.vim'
+
+" " Roast (HTTP rest client) {{{2
+" Plug '~/labs/roast.vim'
+" let g:roast_http_ext = 1
+" let g:roast_key_run = '<C-CR>'
+" nnoremap <silent> <F2> :tabedit ~/Dropbox/cip.roast<CR>
+
+" " Chemist (Python+SQLAlchmey based database client) {{{2
+" Plug '~/Dropbox/labs/chemist.vim'
+" let g:chemist_connection_urls = {
+" 			\ 'dev1_cip': 'oracle://cip:AwsCipd_2017@10.164.240.209:1521/CIPD',
+" 			\ 'dev1_t3': 'oracle://EQI:app$1234@aws-dev-priv-db-use1a-237:1521/IISD',
+" 			\ 'qa1_cip': 'oracle://cip:Ciopus_456@10.164.233.34:1521/CIPQ',
+" 			\ 'qa1_t3': 'oracle://EQI:t3ss2017@aws-qa-db-use1c-171.mhf.mhc:1521/IISQ'
+" 			\ }
+" " nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
+" nnoremap <silent> <F3> :tabedit /work/sqls/t3-sheet.sql<CR>
+
+" Live Search {{{2
+Plug '~/Dropbox/labs/live-search.vim'
+nnoremap <silent> z/ :call live_search#start(fnamemodify('.', ':p'))<CR>
+
+Plug 'tpope/vim-eunuch'
+
+" Colorschemes {{{2
+Plug 'rakr/vim-one'
+
+Plug 'NLKNguyen/papercolor-theme'
+let g:PaperColor_Theme_Options = {'theme': {'default': {'allow_bold': 1, 'allow_italic': 1}}}
+autocmd ssk ColorScheme PaperColor call <SID>PaperColorOverrides()
+fun s:PaperColorOverrides() abort
+	echomsg 'applying papercolor overrides'
+	highlight SpellBad guibg=NONE
+	exe 'hi Cursor guibg=' . (&bg == 'dark' ? 'Gray90' : 'maroon')
+	if &bg ==# 'light'
+		" Improve contrast in light mode.
+		highlight Normal guibg=#FAFAFA
+		highlight CursorLine guibg=#F2F2F2
+	endif
+endfun
+
+Plug 'morhetz/gruvbox'
+let g:gruvbox_contrast_light = 'hard'
+let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_invert_selection = 0
+autocmd ssk ColorScheme gruvbox exe 'hi Cursor gui=none'
+			\ . ' guifg=' . synIDattr(synIDtrans(hlID('Normal')), 'bg')
+			\ . ' guibg=' . synIDattr(synIDtrans(hlID('GruvboxOrange')), 'fg')
+autocmd ssk ColorScheme gruvbox exe 'hi Visual gui=none'
+			\ . ' guifg=' . synIDattr(synIDtrans(hlID('Normal')), 'bg')
+			\ . ' guibg=' . synIDattr(synIDtrans(hlID('GruvboxAqua')), 'fg')
+
+Plug 'rakr/vim-two-firewatch'
+let g:two_firewatch_italics = 1
+
+" Refresh syntax coloring after colorscheme is loaded to ensure clean coloring.
+autocmd ssk ColorScheme * syntax on
+
+autocmd ssk ColorScheme * call <SID>CustomHighlights()
+fun! s:CustomHighlights() abort
+	if synIDattr(synIDtrans(hlID('ColorColumn')), 'bg') ==# 'LightRed'
+		exe 'hi link ColorColumn CursorLine'
+	endif
+
+	hi markdownItalic gui=italic
+	hi markdownBold gui=bold
+
+	" " Instead of reversing the GUI, infer light shades of the text colors and use those as the backgrounds.
+	" hi markdownHeadingDelimiter gui=reverse
+	" hi markdownH1 gui=reverse,bold
+	" hi markdownH2 gui=reverse,bold
+	" hi markdownH3 gui=reverse,bold
+
+	if get(g:, 'colors_name') == 'one'
+		hi VertSplit guibg=#A0A1A7 guifg=#A0A1A7 gui=NONE
+		hi StatusLine guibg=#A0A1A7 guifg=#F0F0F0 gui=NONE
+		hi StatusLineNC guibg=#A0A1A7 guifg=#F0F0F0 gui=reverse
+		hi WildMenu guibg=#526FFF guifg=#FAFAFA gui=NONE
+	endif
+endfun
+
+" EditorConfig support. {{{2
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+autocmd ssk FileType gitcommit let b:EditorConfig_disable = 1
+
+" Block closing tech. {{{2
+Plug 'tpope/vim-endwise'
+Plug 'rstacruz/vim-closer'
+
+" Git integration. {{{2
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+autocmd ssk BufWritePost * GitGutter
+Plug 'stsewd/fzf-checkout.vim'
+
+nnoremap <silent> <Leader>gs :Git<CR>
+nnoremap <Leader>gc :Git commit<CR>
+" TODO: This should set an upstream if not already there.
+nnoremap <Leader>gu :call <SID>GitPush()<CR>
+nnoremap <Leader>gd :Git pull<CR>
+nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>ga :GBranches<CR>
+
+fun s:GitPush() abort
+	let upstream = trim(system('git for-each-ref --format="%(upstream:short)" $(git rev-parse --symbolic-full-name HEAD)'))
+	if upstream ==# ''
+		" TODO: Support multiple remotes, in which case, ask the user to choose a remote to push to.
+		" TODO: If remote url isn't in sharat87 namespace, don't push master or release branches.
+		let branch = trim(system('git rev-parse --abbrev-ref HEAD'))
+		exe 'Git push --set-upstream origin ' . branch
+	else
+		Git push
+	endif
+endfun
+
+" Fugitive has deprecated `q` in favor of `gq`. But I still want `q`.
+autocmd ssk FileType fugitive nmap <buffer> q gq
+autocmd ssk FileType fugitive nmap <buffer> <silent> R :e<CR>
+
+" " AsyncRun {{{2
+" Plug 'skywind3000/asyncrun.vim'
+" let g:asyncrun_open = 7
+" noremap ! :AsyncRun<Space>
+" let $PYTHONUNBUFFERED = 1
+
+" " Async make.
+" command -bang -nargs=* -complete=file Make AsyncRun -program=make -strip @<args>
+" nnoremap <silent> <Leader>m :Make %<CR>
+
+" " Async grep.
+" command -bang -nargs=+ Grep AsyncRun! -program=grep -strip @<args>
+" command -bang -nargs=+ Grepadd AsyncRun! -program=grep -strip -append @<args>
+
+" TComment {{{2
+Plug 'tomtom/tcomment_vim'
+nmap gc. gcc
+
+" Fuzzy finder (FZF) {{{2
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+nnoremap <Leader>f :GFiles<CR>
+nnoremap <Leader>d :Buffers<CR>
+nnoremap <Leader>o :History<CR>
+nnoremap <Leader>m :Marks<CR>
+nnoremap coo :Colors<CR>
+nnoremap <Leader><Space> :History:<CR>
+
+" " Fuzzy finder (Ctrl-p) (TODO: Switch to this, since its VimScript only) {{{2
+" Plug 'ctrlpvim/ctrlp.vim'
+" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+" let g:ctrlp_map = ''
+" let g:ctrlp_mruf_case_sensitive = 0
+" nnoremap <Leader>f :CtrlP .<CR>
+" nnoremap <Leader>o :CtrlPMRU<CR>
+" " nnoremap <Leader>d :<C-u>CtrlPBuffer<CR>
+" nnoremap <silent> <F5> :CtrlPClearAllCaches<CR>
+" nnoremap <Leader>d :CtrlPBuffer<CR>
+
+" SnipMate {{{2
+" This plugin has a couple of dependencies.
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+" Plug 'honza/vim-snippets'  " Disabling this since overriding doesn't seem to work reliably.
+command EditSnippets exe 'vsplit $VIMFILES/snippets/' . &filetype . '.snippets'
+" let g:snipMate = { 'override': 1, 'always_choose_first': 1 }
+
+" Ale (syntax checking and LSP integration) {{{2
+" With a good langserver, vim-lsp should be able to replace Ale.
+" Using for linting and auto-completions.
+Plug 'dense-analysis/ale'
+Plug 'desmap/ale-sensible'
+" let g:ale_fix_on_save = 1  " Runs all fixers on all file types. Does too much?
+nnoremap <Leader>ar :ALERename<CR>
+nnoremap <Leader>af :ALEFix <C-d>
+nnoremap <silent> <Leader>u :ALEFindReferences<CR>
+
+let g:ale_linters = {}
+
+let $PATH = glob(expand('~/.asdf/shims')) . ':' . $PATH
+
+let $PATH .= ':' . glob(expand('~/.asdf/installs/python/3*/bin'))
+let g:ale_linters.python = ['pyls', 'flake8', 'mypy']
+" let g:ale_python_pylint_options = '--variable-rgx=[a-z_][a-z0-9_]{2,30}'
+" let g:ale_python_flake8_options = '--max-line-length=' . &textwidth
+let g:ale_python_pyls_config = {
+			\   'pyls': {
+			\     'plugins': {
+			\       'pycodestyle': {
+			\         'enabled': v:false,
+			\       },
+			\       'flake8': {
+			\         'enabled': v:false,
+			\       },
+			\     },
+			\   },
+			\ }
+
+let $PATH .= ':' . glob(expand('~/.asdf/installs/nodejs/14*/bin'))
+let g:ale_linters.typescript = ['eslint', 'tsserver']
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '%code%∙%linter%∙%s'
+
+let g:ale_completion_enabled = 1  " This enables automatic completion, I think?
+set omnifunc=ale#completion#OmniFunc
+set completeopt=menu,menuone,popup,noselect,noinsert
+imap <C-Space> <Plug>(ale_complete)
+
+" Match XML tags (Need +python) {{{2
+Plug 'Valloric/MatchTagAlways'
+let g:mta_filetypes = {'html': 1, 'xml': 1, 'htmljinja': 1}
+let g:mta_use_matchparen_group = 0
+
+" Easy Align {{{2
+" Alternatives: Tabular, tommcdo/vim-lion (very similar, recd. by romainl)
+Plug 'junegunn/vim-easy-align'
+nmap gl <Plug>(EasyAlign)
+vmap gl <Plug>(EasyAlign)
+vmap gL :EasyAlign<Space>
+let g:easy_align_delimiters = {
+			\ 't': { 'pattern': '\t' },
+			\ ';': { 'pattern': ';', 'stick_to_left': 1, 'left_margin': 0 },
+			\ }
+
+" File type sauces {{{2
+" Tell vim to assume `/bin/sh` is bash.
+let g:is_bash = 1
+
+let g:xml_syntax_folding = 1
+let g:html_exclude_tags = ['html', 'head', 'body']  " Exclude from indentation
+
+Plug 'plasticboy/vim-markdown'
+let g:markdown_fenced_languages = ['python', 'py=python', 'pycon=python', 'sql', 'sh', 'js=javascript', 'ahk=autohotkey']
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+autocmd ssk FileType markdown nmap <Plug> <Plug>Markdown_MoveToParentHeader
+
+" Unimpaired (Shortcuts for option toggling, next/prev commands and line ops) {{{2
+Plug 'tpope/vim-unimpaired'
+nmap co yo
+
+" Repeat {{{2
+Plug 'tpope/vim-repeat'
+nnoremap <silent> U :<C-u>call repeat#wrap("\<Lt>C-R>", v:count)<CR>
+
+" CSV {{{2
+Plug 'chrisbra/csv.vim'
+let g:no_csv_maps = 1
+let g:csv_nomap_space = 1
+let g:csv_nomap_bs = 1
+let g:csv_nomap_l = 1
+let g:csv_nomap_h = 1
+let g:csv_no_conceal = 1
+
+" " The following breaks block-select-and-append-to-end as on 2019-08-13.
+" let g:csv_highlight_column = 'y'
+" let g:csv_hiGroup = 'CSVHiGroup'
+autocmd ssk ColorScheme * hi default CSVHiGroup guibg=#DDEEFF
+
+" Highlighted Yank {{{2
+Plug 'machakann/vim-highlightedyank'
+autocmd ssk ColorScheme * hi HighlightedyankRegion gui=none guibg=#FF0099 guifg=white
+let g:highlightedyank_highlight_duration = 200
+
+" Traces (live substitute) {{{2
+Plug 'markonm/traces.vim'
+let g:traces_num_range_preview = 1
+" autocmd ssk ColorScheme * hi TracesSearch guibg=#DD2602 guifg=white
+autocmd ssk ColorScheme * hi link TracesSearch DiffRemoved
+autocmd ssk ColorScheme * hi link TracesSearch DiffAdded
+
+" Surround {{{2
+Plug 'tpope/vim-surround'
+" From https://code.djangoproject.com/wiki/UsingVimWithDjango#SurroundMappings
+let g:surround_{char2nr("v")} = "{{ \r }}"
+let g:surround_{char2nr("j")} = "{% \r %}"
+let g:surround_{char2nr("l")} = "{% block \1block name: \1 %}\r{% endblock \1\1 %}"
+let g:surround_{char2nr("i")} = "{% if \1condition: \1 %}\r{% endif %}"
+let g:surround_{char2nr("w")} = "{% with \1with: \1 %}\r{% endwith %}"
+let g:surround_{char2nr("f")} = "{% for \1for loop: \1 %}\r{% endfor %}"
+let g:surround_{char2nr("c")} = "{% comment %}\r{% endcomment %}"
+
+" Vim test {{{2
+Plug 'vim-test/vim-test'
+
+" Initialize plugin system. {{{2
+call plug#end()
+
+" Looks and getting ready {{{1
+if s:is_starting
+	filetype plugin indent on
+
+	" Disable some default colorschemes so they don't show up in tab-completion.
+	for s:name in split('elflord evening darkblue koehler morning murphy pablo peachpuff ron shine torte')
+		call rename($VIMRUNTIME . '/colors/' . s:name . '.vim', $VIMRUNTIME . '/colors/' . s:name . '.vim.disabled')
+	endfor
+
+	let s:cur_hours = "%H"->strftime(localtime())
+	call SyncBackground()
+	colorscheme PaperColor
+endif

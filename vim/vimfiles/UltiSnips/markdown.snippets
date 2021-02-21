@@ -1,0 +1,42 @@
+global !p
+def create_table(snip):
+    # retrieving single line from current string and treat it like tabstops count
+    placeholders_string = snip.buffer[snip.line].strip()[1:].split("x",1)
+    rows_amount = int(placeholders_string[0])
+    columns_amount = int(placeholders_string[1])
+
+    # erase current line
+    snip.buffer[snip.line] = ''
+
+    # create anonymous snippet with expected content and number of tabstops
+    anon_snippet_title = '| ' + ' | '.join(['$' + str(col) for col in range(columns_amount)]) + ' |\n'
+    anon_snippet_delimiter = '| ' + '--- |' * columns_amount + '\n'
+    anon_snippet_body = ""
+    for row in range(rows_amount):
+        anon_snippet_body += '| ' + ' | '.join(['$' + str(row*columns_amount+col) for col in range(columns_amount)]) + ' |\n'
+    anon_snippet_table = anon_snippet_title + anon_snippet_delimiter + anon_snippet_body.rstrip()
+
+    # expand anonymous snippet
+    snip.expand_anon(anon_snippet_table)
+endglobal
+
+snippet link "Link with display text"
+[${1:${VISUAL:Text}}](${3:http://${2:www.url.com}})$0
+endsnippet
+
+snippet img "Image"
+![${1:pic alt}](${2:path}${3/.+/ "/}${3:opt title}${3/.+/"/})$0
+endsnippet
+
+snippet code "Codeblock" b
+\`\`\`
+$1
+\`\`\`
+$0
+endsnippet
+
+pre_expand "create_table(snip)"
+snippet "t(\d+x\d+)" "Customizable table" br
+endsnippet
+
+# vim:ft=snippets:
