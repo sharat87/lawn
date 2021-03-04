@@ -4,6 +4,7 @@ setlocal spell expandtab
 ia <buffer> isntead instead
 ia <buffer> stmt statement
 ia <buffer> iwll will
+ia <buffer> respose response
 
 " My python module for markdown utilities.
 py3 import markdown_utils

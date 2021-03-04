@@ -58,6 +58,10 @@ if &background ==# 'light'
 	" Ref: <https://vi.stackexchange.com/a/6828>.
 	hi Error gui=reverse guifg=red guibg=white
 
+	hi Visual         gui=NONE   guifg=#eeeeff   guibg=#1f67db
+
+	hi Search gui=BOLD guifg=brown guibg=#f5bc00
+
 	hi Cursor         gui=NONE   guifg=#FFFFFF   guibg=brown
 	hi lCursor        gui=NONE   guifg=#FFFFFF   guibg=brown
 	hi CursorIM       gui=NONE   guifg=#FFFFFF   guibg=brown
@@ -157,6 +161,7 @@ else
 		hi SpellCap     gui=undercurl guisp=#66cccc
 
 		hi MatchParen   gui=NONE      guifg=#cfbfad   guibg=#4e4e8f
+
 	else
 		exec "hi Normal         cterm=NONE   ctermfg=" . <SID>X(79) . " ctermbg=" . <SID>X(80)
 

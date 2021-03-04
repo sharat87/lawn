@@ -19,11 +19,15 @@ vim/vimrc
 endef
 export LINKS
 
+all:
+	@test -d ~/.vim || ln -sv $$PWD/vim/vimfiles ~/.vim
+	@test -f ~/.tmux.conf || ln -sv $$PWD/tmux.conf ~/.tmux.conf
+
 put:
 	rm -rf _originals
 	mkdir -p _originals tmp/{undo,baks}
 	${MAKE} links
-	vim +NeoBundleInstall +qall
+	vim +PlugInstall +qall
 
 links:
 	@echo Setting up LINKS.

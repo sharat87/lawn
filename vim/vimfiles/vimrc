@@ -301,6 +301,7 @@ set concealcursor=nvic
 set ruler title laststatus=1
 let &rulerformat = '%70(' .
 			\ '%{FugitiveStatusline()}' .
+			\ ' %{AleStatus()}' .
 			\ ' %=b%n %{&ff} %{&ft}' .
 			\ '%( %{len(getqflist()) ? ("q" . len(getqflist())) : ""}%)' .
 			\ '%( %{search("\\s$", "cnw", 0, 200) ? "∙$" : ""}%)' .
@@ -308,6 +309,11 @@ let &rulerformat = '%70(' .
 			\ '   L%l,%c%V %P %*%)'
 let &titlestring = '%t%( %m%r%)%( <%{get(g:, "cur_project", "")}>%)%( (%{expand("%:~:.:h")})%)' .
 			\ '%( (pwd: %{fnamemodify(getcwd(), ":~")})%)%( %a%) - %(%{v:servername}%)'
+
+fun AleStatus() abort
+	let info = ale#statusline#Count(bufnr('%'))
+	return info.error .. "E " .. info.warning .. "W"
+endfun
 
 " Don't auto-format lines that are already long.
 set formatoptions+=l
@@ -498,6 +504,10 @@ noremap <silent> <expr> <C-j> (search('^\n.', 'Wen') - line('.')) . 'jzv^'
 " Switching tabs.
 nnoremap `n gt
 nnoremap `p gT
+
+" Configure BetterTouchTool to map <C-9> and <C-0> to <F9> and <F10> respectively.
+nnoremap <F9> gt
+nnoremap <F10> gT
 
 " Turn off search highlights until the next search command.
 nnoremap <silent> <C-h> :nohlsearch<CR>
@@ -1078,13 +1088,15 @@ Plug 'airblade/vim-gitgutter'
 autocmd ssk BufWritePost * GitGutter
 Plug 'stsewd/fzf-checkout.vim'
 
+nnoremap <Leader>g<Space> :Git<Space>
 nnoremap <silent> <Leader>gs :Git<CR>
 nnoremap <Leader>gc :Git commit<CR>
 " TODO: This should set an upstream if not already there.
 nnoremap <Leader>gu :call <SID>GitPush()<CR>
 nnoremap <Leader>gd :Git pull<CR>
-nnoremap <Leader>gb :Git blame<CR>
+nnoremap <Leader>gn :Git blame<CR>
 nnoremap <Leader>ga :GBranches<CR>
+nnoremap <Leader>gb :Git checkout -b<Space>
 
 fun s:GitPush() abort
 	let upstream = trim(system('git for-each-ref --format="%(upstream:short)" $(git rev-parse --symbolic-full-name HEAD)'))
@@ -1156,9 +1168,13 @@ command EditSnippets exe 'vsplit $VIMFILES/snippets/' . &filetype . '.snippets'
 Plug 'dense-analysis/ale'
 Plug 'desmap/ale-sensible'
 " let g:ale_fix_on_save = 1  " Runs all fixers on all file types. Does too much?
+autocmd ssk FileType typescript nnoremap <silent> <buffer> gd :ALEGoToDefinition<CR>
+nnoremap <Leader>ad :ALEDetail<CR>
 nnoremap <Leader>ar :ALERename<CR>
 nnoremap <Leader>af :ALEFix <C-d>
+nnoremap <Leader>ai :ALEImport<CR>
 nnoremap <silent> <Leader>u :ALEFindReferences<CR>
+nnoremap <C-l> :ALENextWrap<CR>
 
 let g:ale_linters = {}
 
@@ -1284,5 +1300,5 @@ if s:is_starting
 
 	let s:cur_hours = "%H"->strftime(localtime())
 	call SyncBackground()
-	colorscheme PaperColor
+	colorscheme default_inkling
 endif
