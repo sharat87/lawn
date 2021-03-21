@@ -1,7 +1,7 @@
 # Sharat's Lawn
 
 > There's a prerequisite to being able to strike gold. You should be able to get down and dirty, and **look**. \
-> -- Me, I like to think.
+> &mdash; Me, I like to think.
 
 This is a repo of all my configuration files, predominantly of Vim and Tmux applications. There's stuff in here that's
 quite old and that I don't use as often as I used to. I may take the time to clean up some day.
