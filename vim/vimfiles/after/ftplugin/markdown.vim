@@ -93,3 +93,41 @@ fun s:AutoUpdateCounts() abort
 	endfor
 
 endfun
+
+" Pushing text to a `.done` file.
+" nnoremap <buffer> <silent> <Leader>vv :DoForCurrentLine
+nnoremap <buffer> <silent> <Leader>v :set opfunc=PushAsDoneOpFunc<CR>g@
+" vnoremap <buffer> <silent> <Leader>v :DoForSelection
+function! PushAsDoneOpFunc(type) abort
+	let marks = a:type ==? 'vis' ? '<>' : '[]'
+	let [_, l1, c1, _] = getpos("'" . marks[0])
+	let [_, l2, c2, _] = getpos("'" . marks[1])
+
+	let text = []
+
+	if l1 == l2
+		let text = [getline(l1)]
+		call setline(l1, text[:c1 - 1] . text[c2 + 1:])
+		call cursor(l2, c1)
+
+	else
+		let text = getline(l1, l2)
+		call execute(l1 . ',' . l2 . 'delete _')
+		call cursor(l1, c1)
+
+	endif
+
+	while text[0] ==# ''
+		let text = text[1:]
+	endwhile
+
+	while text[-1] ==# ''
+		let text = text[:-2]
+	endwhile
+
+	call insert(text, strftime('%Y-%m-%d %H:%M:%S %Z'))
+	call insert(text, '')
+
+	let done_file = expand('%:p:r') . '.done.' . expand('%:e')
+	call writefile(text, done_file, 'a')
+endfunction

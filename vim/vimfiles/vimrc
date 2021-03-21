@@ -648,15 +648,6 @@ command -nargs=? -complete=filetype Esy EditSyntaxPlugin <args>
 " Source: https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db
 xnoremap @ :<C-u>execute ":'<,'>normal @" . nr2char(getchar())<CR>
 
-" TODO: Terminal-Normal mappings.
-" FIXME: Terminal-Normal mappings apply to the wrong buffer when opened a terminal with ++hidden.
-if has('nvim')
-	" TODO: Untested terminal binding q in neovim.
-	autocmd ssk TermOpen * nnoremap <silent> <buffer> <nowait> q :<C-u>close<CR>
-else
-	autocmd ssk TerminalOpen * nnoremap <silent> <buffer> <nowait> q :<C-u>close<CR>
-endif
-
 " Re-run the same command again, in a terminal window.
 autocmd ssk TerminalOpen * nnoremap <silent> <buffer> <nowait> R
 			\ :<C-u>call term_start(job_info(term_getjob('%')).cmd, {'curwin': 1, 'term_name': bufname()})<CR>
@@ -963,12 +954,9 @@ anoremenu TouchBar.Terminal :terminal<CR>
 " Start defining plugins.
 call plug#begin('~/vim-space/plugged')
 
-" Fern (file browser & project drawer) (Disabled Netrw) {{{2
-Plug 'lambdalisue/fern.vim'
-
-" Fern plugins: <https://github.com/topics/fern-vim-plugin>.
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-hijack.vim'
+" NerdTree (because netrw is just too buggy) {{{2
+Plug 'preservim/nerdtree'
+nnoremap <Leader>nt :NERDTreeToggle<CR>
 
 " Disable Netrw
 let g:loaded_netrwPlugin = 1
@@ -990,7 +978,7 @@ silent! packadd! matchit
 " Outdate (Date reformatting) {{{2
 Plug '~/Dropbox/labs/outdate.vim'
 
-" Runfile (run current file in a ViM terminal) {{{2
+" Runfile (run current file in a Vim terminal) {{{2
 Plug '~/Dropbox/labs/runfile.vim'
 
 " " Roast (HTTP rest client) {{{2
@@ -1014,13 +1002,14 @@ Plug '~/Dropbox/labs/runfile.vim'
 Plug '~/Dropbox/labs/live-search.vim'
 nnoremap <silent> z/ :call live_search#start(fnamemodify('.', ':p'))<CR>
 
-Plug 'tpope/vim-eunuch'
+" Coloraptor (color picker) {{{2
+Plug '~/labs/coloraptor.vim'
 
 " Colorschemes {{{2
 Plug 'rakr/vim-one'
 
 Plug 'NLKNguyen/papercolor-theme'
-let g:PaperColor_Theme_Options = {'theme': {'default': {'allow_bold': 1, 'allow_italic': 1}}}
+let g:PaperColor_Theme_Options = #{ theme: #{ default: #{ allow_bold: 1, allow_italic: 1 } } }
 autocmd ssk ColorScheme PaperColor call <SID>PaperColorOverrides()
 fun s:PaperColorOverrides() abort
 	echomsg 'applying papercolor overrides'
@@ -1135,6 +1124,7 @@ nmap gc. gcc
 " Fuzzy finder (FZF) {{{2
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+" TODO: Have this run `:GFiles` if we are in a Git repo, else run `:Files`.
 nnoremap <Leader>f :GFiles<CR>
 nnoremap <Leader>d :Buffers<CR>
 nnoremap <Leader>o :History<CR>
@@ -1238,6 +1228,8 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_strikethrough = 1
 autocmd ssk FileType markdown nmap <Plug> <Plug>Markdown_MoveToParentHeader
 
+Plug 'ap/vim-css-color'
+
 " Unimpaired (Shortcuts for option toggling, next/prev commands and line ops) {{{2
 Plug 'tpope/vim-unimpaired'
 nmap co yo
@@ -1282,6 +1274,10 @@ let g:surround_{char2nr("i")} = "{% if \1condition: \1 %}\r{% endif %}"
 let g:surround_{char2nr("w")} = "{% with \1with: \1 %}\r{% endwith %}"
 let g:surround_{char2nr("f")} = "{% for \1for loop: \1 %}\r{% endfor %}"
 let g:surround_{char2nr("c")} = "{% comment %}\r{% endcomment %}"
+
+" Eunuch {{{2
+
+Plug 'tpope/vim-eunuch'
 
 " Vim test {{{2
 Plug 'vim-test/vim-test'
