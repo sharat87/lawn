@@ -9,10 +9,9 @@ quite old and that I don't use as often as I used to. I may take the time to cle
 You should NOT be cloning this repo on your laptop and expect it to just work. The expectation of *just works* can vary
 wildly from person to person when it comes to configuration; and there's a *lot* of configuration here.
 
-The idea of this repo is two fold:
+The idea of this repo is twofold:
 
-1. Serve as a backup of my configuration, along with all it's history.
-
+1. Serve as a backup of my configuration, along with all its history.
 1. A friend of mine wanted to see and follow my Vim config, so here it is.
 
 ## Contributing
