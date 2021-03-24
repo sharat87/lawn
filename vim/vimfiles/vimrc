@@ -1,4 +1,4 @@
-" Author: Shrikant Sharat Kandula (2008-2019)
+" Author: Shrikant Sharat Kandula (config 2008-2019)
 " Target: GVim 8.2 on Windows and Linux. Will not work with Neovim.
 " Vim: set ft=vim fdm=marker tw=120 ff=unix noet ts=4 sw=4 sts=4 :
 
@@ -17,12 +17,10 @@
 " https://github.com/idanarye/vim-vebugger (supports Python & Java)
 " https://github.com/puremourning/vimspector (implementation of Microsoft's debug protocol, like LSP, supports Python)
 
-" Get auto-completion working for Python.
-
 " Avoid using the following VimScript features, as they don't work in Neovim (!)
-" scriptversion.
-" The `..` operator for unambiguous string concatenation.
-" The ! is needed to re-define commands & functions even in the same script file. The feature in `:h E127` is not there.
+"   scriptversion.
+"   The `..` operator for unambiguous string concatenation.
+"   The ! is needed to re-define commands & functions even in the same script file. The feature in `:h E127` is missing.
 
 " Shouldn't be needed, as per docs, but command-line vim on Linux goes bonkers without this.
 set nocompatible
@@ -98,12 +96,12 @@ if s:is_starting && has('gui_running')
 			let &guifont = 'Code_New_Roman:h13:cDEFAULT:qCLEARTYPE'
 			set renderoptions=type:directx,renmode:6
 		elseif has('gui_macvim')
-			let &guifont = 'JuliaMono-Regular:h18'
+			let &guifont = 'Code New Roman:h18'
 		endif
 	endif
 	if exists('+guioptions')
 		set guioptions-=b " Disable horizontal scrollbar.
-		set guioptions+=c " User console like dialogs instead of GUI ones.
+		set guioptions+=c " Use console like dialogs instead of GUI ones.
 		set guioptions-=T " Remove toolbar.
 		if s:is_win
 			" Remove menubar and don't source the system's menu.vim file.
@@ -133,7 +131,7 @@ if exists(':simalt') > 0 && s:is_win
 	autocmd ssk GUIEnter * simalt ~x
 endif
 
-" When editing a file, jump to the last known cursor position.
+" When opening a file, jump to the last known cursor position.
 autocmd ssk BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe 'normal! g`"zvzz' | endif
 
 " Indenting settings.
@@ -975,8 +973,8 @@ let g:netrw_sort_sequence = '[\/]$,*'  " Show directories first, then the rest.
 " Matchit (Use % over `if`/`else` etc.) {{{2
 silent! packadd! matchit
 
-" Outdate (Date reformatting) {{{2
-Plug '~/Dropbox/labs/outdate.vim'
+" " Outdate (Date reformatting) {{{2
+" Plug '~/Dropbox/labs/outdate.vim'
 
 " Runfile (run current file in a Vim terminal) {{{2
 Plug '~/Dropbox/labs/runfile.vim'
@@ -989,14 +987,8 @@ Plug '~/Dropbox/labs/runfile.vim'
 
 " " Chemist (Python+SQLAlchmey based database client) {{{2
 " Plug '~/Dropbox/labs/chemist.vim'
-" let g:chemist_connection_urls = {
-" 			\ 'dev1_cip': 'oracle://cip:AwsCipd_2017@10.164.240.209:1521/CIPD',
-" 			\ 'dev1_t3': 'oracle://EQI:app$1234@aws-dev-priv-db-use1a-237:1521/IISD',
-" 			\ 'qa1_cip': 'oracle://cip:Ciopus_456@10.164.233.34:1521/CIPQ',
-" 			\ 'qa1_t3': 'oracle://EQI:t3ss2017@aws-qa-db-use1c-171.mhf.mhc:1521/IISQ'
-" 			\ }
+" let g:chemist_connection_urls = { }
 " " nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
-" nnoremap <silent> <F3> :tabedit /work/sqls/t3-sheet.sql<CR>
 
 " Live Search {{{2
 Plug '~/Dropbox/labs/live-search.vim'
@@ -1103,6 +1095,9 @@ endfun
 autocmd ssk FileType fugitive nmap <buffer> q gq
 autocmd ssk FileType fugitive nmap <buffer> <silent> R :e<CR>
 
+" Dispatch {{{2
+Plug 'tpope/vim-dispatch'
+
 " " AsyncRun {{{2
 " Plug 'skywind3000/asyncrun.vim'
 " let g:asyncrun_open = 7
@@ -1143,14 +1138,22 @@ nnoremap <Leader><Space> :History:<CR>
 " nnoremap <silent> <F5> :CtrlPClearAllCaches<CR>
 " nnoremap <Leader>d :CtrlPBuffer<CR>
 
-" SnipMate {{{2
-" This plugin has a couple of dependencies.
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
-" Plug 'honza/vim-snippets'  " Disabling this since overriding doesn't seem to work reliably.
-command EditSnippets exe 'vsplit $VIMFILES/snippets/' . &filetype . '.snippets'
-" let g:snipMate = { 'override': 1, 'always_choose_first': 1 }
+" " SnipMate {{{2
+" " This plugin has a couple of dependencies.
+" Plug 'MarcWeber/vim-addon-mw-utils'
+" Plug 'tomtom/tlib_vim'
+" Plug 'garbas/vim-snipmate'
+" " Plug 'honza/vim-snippets'  " Disabling this since overriding doesn't seem to work reliably.
+" command EditSnippets exe 'vsplit $VIMFILES/snippets/' . &filetype . '.snippets'
+" " let g:snipMate = { 'override': 1, 'always_choose_first': 1 }
+
+" Ultisnips {{{2
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+let g:UltiSnipsExpandTrigger = '<C-y>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsEditSplit = 'vertical'
 
 " Ale (syntax checking and LSP integration) {{{2
 " With a good langserver, vim-lsp should be able to replace Ale.
@@ -1281,6 +1284,30 @@ Plug 'tpope/vim-eunuch'
 
 " Vim test {{{2
 Plug 'vim-test/vim-test'
+" let g:test#strategy = 'dispatch'
+nnoremap t<C-n> :call TestCmd('TestNearest')<CR>
+nnoremap t<C-f> :call TestCmd('TestFile')<CR>
+nnoremap t<C-s> :call TestCmd('TestSuite')<CR>
+nnoremap t<C-l> :call TestCmd('TestLast')<CR>
+nnoremap t<C-g> :call TestCmd('TestVisit')<CR>
+
+function TestCmd(cmd) abort
+	let root_markers = []
+
+	if &filetype ==# 'typescript'
+		call add(root_markers, 'node_modules')
+	endif
+
+	for marker in root_markers
+		let root = finddir(marker, expand('%:p:h') . ';')
+		if !empty(root)
+			let g:test#project_root = fnamemodify(root, ':h')
+			break
+		endif
+	endfor
+
+	execute a:cmd
+endfunction
 
 " Initialize plugin system. {{{2
 call plug#end()
@@ -1296,5 +1323,5 @@ if s:is_starting
 
 	let s:cur_hours = "%H"->strftime(localtime())
 	call SyncBackground()
-	colorscheme default_inkling
+	colorscheme Papercolor
 endif

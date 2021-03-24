@@ -2,3 +2,8 @@ version 1
 
 snippet clv "console log a variable value"
 	console.log("$1", ${1:name})$0
+
+snippet if "wrap if"
+	if (condition) {
+		${0:${VISUAL:// true body}}
+	}
