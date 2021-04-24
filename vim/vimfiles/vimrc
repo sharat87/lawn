@@ -29,9 +29,9 @@ let s:is_starting = has('vim_starting')
 
 if s:is_starting
 	set encoding=utf-8
-	scriptencoding utf-8
 	setglobal fileencoding=utf-8
 endif
+scriptencoding utf-8
 
 " Helpers {{{1
 
@@ -67,10 +67,10 @@ endfun
 
 " Auto dark mode on macOS.
 if exists('##OSAppearanceChanged') && has('gui_running')
-	autocmd ssk OSAppearanceChanged * call SyncBackground()
+	autocmd ssk OSAppearanceChanged * call <SID>SyncBackground()
 endif
 
-fun SyncBackground()
+fun s:SyncBackground()
 	let &background = v:os_appearance % 2 == 0 ? 'light' : 'dark'
 endfun
 
@@ -93,7 +93,7 @@ autocmd ssk VimEnter * py3 import vim
 if s:is_starting && has('gui_running')
 	if exists('&guifont')
 		if s:is_win "&& &guifont =~# '^Consolas:'
-			let &guifont = 'Code_New_Roman:h13:cDEFAULT:qCLEARTYPE'
+			let &guifont = 'Code_New_Roman:h15:cDEFAULT:qCLEARTYPE'
 			set renderoptions=type:directx,renmode:6
 		elseif has('gui_macvim')
 			let &guifont = 'Code New Roman:h18'
@@ -196,6 +196,9 @@ set noswapfile
 set backup writebackup
 set backupcopy=yes backupdir=$VIM_SPACE/backups//
 call mkdir(split(&backupdir, ',')[0], 'p')
+
+" Spell checking options
+set spelloptions=camel
 
 " Python configuration.
 let &pythonhome = $HOME . '/.asdf/installs/python/3.8.6'
@@ -341,9 +344,15 @@ endif
 " Mappings & Commands {{{1
 
 " Custom digraphs.
-digraph ^1 185 " Superscript 1
-digraph ^2 178 " Superscript 2
-digraph ^3 179 " Superscript 3
+digraphs ^1 185 " Superscript 1
+digraphs ^2 178 " Superscript 2
+digraphs ^3 179 " Superscript 3
+digraphs -n 8211 " En dash
+digraphs -m 8212 " Em dash
+digraphs ah 8592 " Left arrow
+digraphs aj 8595 " Down arrow
+digraphs ak 8593 " Up arrow
+digraphs al 8594 " Right arrow
 
 " Released keys. Use for something super.
 nnoremap x <Nop>
@@ -420,9 +429,11 @@ nnoremap <silent> <C-n> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) 
 " Simple mappings for buffer switching.
 nnoremap <Leader>d :b *
 
-" Find/edit files
+" Find files
 nnoremap <Leader>f :find *
-nnoremap <Leader>e :edit **/*
+
+" Edit file in the directory of the currently buffer's file.
+nnoremap <Leader>e :e <C-r>=expand('%:h')<CR>/
 
 " Switch colorscheme.
 nnoremap coo :colo <C-d>*
@@ -442,12 +453,9 @@ nnoremap <silent> <C-m> :try\|wa\|catch /\<E141\>/\|echomsg 'Not all files saved
 " Easy backspacing.
 noremap! <C-BS> <C-w>
 
-" Copy selection to system clipboard.
-xnoremap <C-c> "+y
-
 " Copy to system clipboard.
-nnoremap <silent> cp "+y
-nnoremap <silent> cpp "+yy
+nnoremap <silent> yp "+y
+nnoremap <silent> ypp "+yy
 
 " Emacs like home and end keys for insert/command mode.
 noremap! <C-a> <Home>
@@ -640,6 +648,7 @@ command -nargs=? -complete=filetype Eft EditFileTypePlugin <args>
 command -nargs=? -complete=filetype EditSyntaxPlugin
 			\ exe 'keepj vsplit $VIMFILES/after/syntax/' . (empty(<q-args>) ? &filetype : <q-args>) . '.vim'
 command -nargs=? -complete=filetype Esy EditSyntaxPlugin <args>
+command EditSnippets UltiSnipsEdit
 
 " Visual-at. This allows you to visually select a section and then hit @ to run a macro on all lines. Only lines which
 " match will change.
@@ -918,8 +927,8 @@ endfun
 
 " Sort lines, selected or over motion. Prefer to run the :sort command with a visual selection, this lets us use the
 " rich options of the :sort command.
-xnoremap <silent> <Leader>s :sort i<CR>
-nnoremap <silent> <Leader>s :set opfunc=SortLines<CR>g@
+xnoremap <silent> gs :sort i<CR>
+nnoremap <silent> gs :set opfunc=SortLines<CR>g@
 fun! SortLines(type) abort
 	'[,']sort i
 endfun
@@ -942,10 +951,6 @@ endfun
 
 " Command to copy the current file's full absolute path.
 command CopyFilePath let @+ = expand(s:is_win ? '%:p:gs?/?\\?' : '%:p')
-
-" TouchBar Commands {{{1
-
-anoremenu TouchBar.Terminal :terminal<CR>
 
 " Plugins and their configs {{{1
 
@@ -985,10 +990,10 @@ Plug '~/Dropbox/labs/runfile.vim'
 " let g:roast_key_run = '<C-CR>'
 " nnoremap <silent> <F2> :tabedit ~/Dropbox/cip.roast<CR>
 
-" " Chemist (Python+SQLAlchmey based database client) {{{2
-" Plug '~/Dropbox/labs/chemist.vim'
-" let g:chemist_connection_urls = { }
-" " nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
+" Chemist (Python+SQLAlchmey based database client) {{{2
+Plug '~/Dropbox/labs/chemist.vim'
+let g:chemist_connection_urls = { }
+" nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
 
 " Live Search {{{2
 Plug '~/Dropbox/labs/live-search.vim'
@@ -1138,19 +1143,10 @@ nnoremap <Leader><Space> :History:<CR>
 " nnoremap <silent> <F5> :CtrlPClearAllCaches<CR>
 " nnoremap <Leader>d :CtrlPBuffer<CR>
 
-" " SnipMate {{{2
-" " This plugin has a couple of dependencies.
-" Plug 'MarcWeber/vim-addon-mw-utils'
-" Plug 'tomtom/tlib_vim'
-" Plug 'garbas/vim-snipmate'
-" " Plug 'honza/vim-snippets'  " Disabling this since overriding doesn't seem to work reliably.
-" command EditSnippets exe 'vsplit $VIMFILES/snippets/' . &filetype . '.snippets'
-" " let g:snipMate = { 'override': 1, 'always_choose_first': 1 }
-
 " Ultisnips {{{2
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-let g:UltiSnipsExpandTrigger = '<C-y>'
+let g:UltiSnipsExpandTrigger = '<C-o>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:UltiSnipsEditSplit = 'vertical'
@@ -1167,7 +1163,7 @@ nnoremap <Leader>ar :ALERename<CR>
 nnoremap <Leader>af :ALEFix <C-d>
 nnoremap <Leader>ai :ALEImport<CR>
 nnoremap <silent> <Leader>u :ALEFindReferences<CR>
-nnoremap <C-l> :ALENextWrap<CR>
+nnoremap <silent> <C-l> :ALENextWrap<CR>
 
 let g:ale_linters = {}
 
@@ -1195,7 +1191,7 @@ let g:ale_linters.typescript = ['eslint', 'tsserver']
 
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '%code%∙%linter%∙%s'
+let g:ale_echo_msg_format = '%linter%∙ %s'
 
 let g:ale_completion_enabled = 1  " This enables automatic completion, I think?
 set omnifunc=ale#completion#OmniFunc
@@ -1316,12 +1312,12 @@ call plug#end()
 if s:is_starting
 	filetype plugin indent on
 
-	" Disable some default colorschemes so they don't show up in tab-completion.
-	for s:name in split('elflord evening darkblue koehler morning murphy pablo peachpuff ron shine torte')
-		call rename($VIMRUNTIME . '/colors/' . s:name . '.vim', $VIMRUNTIME . '/colors/' . s:name . '.vim.disabled')
-	endfor
+	" " Disable some default colorschemes so they don't show up in tab-completion.
+	" for s:name in split('elflord evening darkblue koehler morning murphy pablo peachpuff ron shine torte')
+	" 	call rename($VIMRUNTIME . '/colors/' . s:name . '.vim', $VIMRUNTIME . '/colors/' . s:name . '.vim.disabled')
+	" endfor
 
 	let s:cur_hours = "%H"->strftime(localtime())
-	call SyncBackground()
+	call <SID>SyncBackground()
 	colorscheme Papercolor
 endif

@@ -22,6 +22,15 @@ def getShell():
 	return "sh"
 endglobal
 
+snippet .new "New file template"
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+$0
+endsnippet
+
 ###########################################################################
 #                            TextMate Snippets                            #
 ###########################################################################

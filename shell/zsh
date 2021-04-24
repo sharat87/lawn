@@ -1,83 +1,146 @@
-# start_time="$(date +%s)"
+# source ~/.profile
 
-# Antigen — A zsh plugin manager
-export ANTIGEN_DEFAULT_REPO_URL=https://github.com/sharat87/oh-my-zsh.git
-source ~/labs/antigen/antigen.zsh
+# History management settings.
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+HISTSIZE=9999
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# When I type a directory path, just cd to it.
+setopt auto_cd
 
-# Bundles from the default repo declared above.
-antigen bundles <<EOBUNDLES
+# Show time taken for the command to finish, if it takes longer than this many seconds.
+REPORTTIME=6
 
-lein
-pip
-gradle
+# Make personal scripts folder, available in the PATH.
+export PATH=~/bin:"$PATH"
 
-# Guess what to install when running an unknown command.
-command-not-found
+# A super-fast, zero-distractions, no-nonsense prompt string.
+PS1="
+%F{red}%~%f> "
 
-# The heroku tool helper plugin.
-heroku
+# Set EDITOR to be used for things like editing the command with <C-x><C-e> or for authoring git commit messages.
+export EDITOR=vim
 
-# Helper for extracting different types of archives.
-extract
+# Load asdf, also adds the shims folder to head of the PATH.
+source "$(brew --prefix asdf)"/asdf.sh
 
-# Help working with version control systems.
-svn
-git
+# Load FZF scripts.
+for f in "$(brew --prefix)/opt/fzf/shell"/*.zsh; do
+	source "$f"
+done
 
-# nicoulaj's moar completion files for zsh
-zsh-users/zsh-completions src
+if [[ -d ~/labs/antigen ]]; then
+	source ~/labs/antigen/antigen.zsh
 
-# My own lightweight alternative to virtualenvwrapper.
-~/labs/virtualenvman --no-local-clone
+	# antigen use oh-my-zsh
 
-# ZSH port of Fish shell's history search feature.
-zsh-users/zsh-history-substring-search
+	if [[ -d ~/labs/zsh-vim-mode ]]; then
+		# Vim like bindings plugin. Need to run after theme, so mode indicator
+		# can be set, if the theme didn't already set it.
+		# antigen-bundle sharat87/zsh-vim-mode
+		ZSH_VIM_MODE_NORMAL_MAP=^k
+		antigen bundle ~/labs/zsh-vim-mode --no-local-clone
+	fi
 
-# Syntax highlighting bundle.
-zsh-users/zsh-syntax-highlighting
+	# More plugins: https://github.com/unixorn/awesome-zsh-plugins#plugins
+	# This has to be the last plugin.
+	antigen bundle zsh-users/zsh-syntax-highlighting
 
-EOBUNDLES
+	antigen apply
 
-# Tracks your most used directories, based on 'frecency'. And its accompanying
-# setup code.
-antigen bundle rupa/z
-add-zsh-hook precmd _z_precmd
-function _z_precmd {
-    _z --add "$PWD"
+else
+	echo "Antigen not found. Not loading any plugins." >&2
+
+fi
+
+if type brew &>/dev/null; then
+	__brew_prefix="$(brew --prefix)"
+
+	FPATH="$__brew_prefix/share/zsh-completions:$FPATH"
+	autoload -Uz compinit
+	compinit
+
+	if [[ -f "$__brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+		source "$__brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	else
+		echo 'zsh-autosuggestions not found. Run `brew install zsh-autosuggestions`.' >&2
+	fi
+
+	unset __brew_prefix
+fi
+
+# ZSH notification for long commands.
+# Source: <https://github.com/kevinywlui/zlong_alert.zsh/blob/master/zlong_alert.zsh>
+# Use zsh/datetime for $EPOCHSECONDS
+zmodload zsh/datetime || return
+
+# Be sure we can actually set hooks
+autoload -Uz add-zsh-hook || return
+
+# Set commands to ignore if needed
+zlong_ignore_cmds='vim ssh mo mongo man watch crontab pgcli tmux'
+
+# Set as true to ignore commands starting with a space
+zlong_ignorespace=true
+
+
+# Need to set an initial timestamps otherwise, we'll be comparing an empty
+# string with an integer.
+zlong_timestamp=$EPOCHSECONDS
+
+# Define the alerting function, do the text processing here
+zlong_alert_func() {
+	local cmd=$1
+	local secs=$2
+	local ftime=$(printf '%dh:%dm:%ds\n' $(($secs / 3600)) $(($secs % 3600 / 60)) $(($secs % 60)))
+	# osascript -e "display notification \"Time taken: $ftime\" with title \"Completed $cmd\""
+	echo -n "Finished in $ftime.\a"
 }
 
-# A pip apps functionality, basing on antigen.
-antigen bundle ~/labs/pip-app --no-local-clone
+zlong_alert_pre() {
+	zlong_last_cmd=$1
 
-# Load the prompt theme.
-# antigen theme prose
-# antigen theme sindresorhus/pure pure
-antigen bundle ~/labs/pure-zsh --no-local-clone
+	if [[ $zlong_ignorespace == 'true' && ${zlong_last_cmd:0:1} == [[:space:]] ]]; then
+		# set internal variables to nothing ignoring this command
+		zlong_last_cmd=''
+		zlong_timestamp=0
+	else
+		zlong_timestamp=$EPOCHSECONDS
+	fi
 
-# Vim like bindings plugin. Need to run after theme, so mode indicator
-# can be set, if the theme didn't already set it.
-# antigen-bundle sharat87/zsh-vim-mode
-ZSH_VIM_MODE_NORMAL_MAP=^k
-antigen bundle ~/labs/zsh-vim-mode --no-local-clone
+}
 
-# Tell Antigen that we're done.
-antigen apply
+zlong_alert_post() {
+	local duration=$(($EPOCHSECONDS - $zlong_timestamp))
+	local lasted_long=$(($duration - ${REPORTTIME:-15}))
+	local cmd_head=$(echo $zlong_last_cmd | awk '{printf $1}')
+	if [[ $lasted_long -gt 0 && ! -z $zlong_last_cmd && ! $zlong_ignore_cmds =~ $cmd_head ]]; then
+		zlong_alert_func $zlong_last_cmd duration
+	fi
+	zlong_last_cmd=''
+}
 
-# FIXME: Need a better way to specify custom bundles.
-source ~/lawn/shell/utils
+add-zsh-hook preexec zlong_alert_pre
+add-zsh-hook precmd zlong_alert_post
+
+
+# Custom keybindings. These should come in last so they override any shit from external scripts
+# loaded above.
+
+# Use <C-u> to delete to start of line.
+bindkey \^U backward-kill-line
+
+bindkey \^A beginning-of-line
+bindkey \^E end-of-line
+
+
+# For tmux in alacritty, the TERM is being set to `screen`, instead of `screen-256color`.
+if [[ $TERM == screen ]]; then
+	TERM=$TERM-256color
+fi
 
 # Automatically list directory contents on `cd`.
-auto-ls () { ls --classify; }
+auto-ls () { ls -FG; }
 chpwd_functions=( auto-ls $chpwd_functions )
 
-# wohwohwohowhohohoho!
-# fortune -s -n 300 | cowsay | lolcat
-
-# end_time="$(date +%s)"
-# echo .zshrc: $((end_time - start_time)) seconds
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+source ~/lawn/shell/utils.sh
