@@ -49,9 +49,12 @@ inoremap <expr> <silent> <buffer> - line('.') == 1 && col('.') == 1 ? "---\<CR>-
 " setlocal formatexpr=FormatMarkdown()
 " setlocal formatexpr=py3eval('markdown_utils.format_any()')
 setlocal formatoptions+=n
+setlocal wrap textwidth=0
 
 " setlocal formatlistpat=^\s*\(\d\+\.\|-\|\*\)\s+
 " setlocal autoindent
+
+setlocal expandtab
 
 " Format a markdown table.
 nnoremap <silent> <buffer> <LocalLeader>t :py3 markdown_utils.format_table()<CR>

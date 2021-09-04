@@ -41,9 +41,9 @@ fun! <SID>X(a)
 endfun
 
 if &background ==# 'light'
-	hi Normal guifg=#222222 guibg=#FFFFFF
+	hi Normal guifg=#333333 guibg=#FFFFFF
 
-	hi CursorLine  guibg=#FFFBDB
+	hi CursorLine  guibg=#F5F5F5
 	hi ColorColumn guibg=#FFF0F0
 
 	hi SpecialKey guifg=#BBCCCC
@@ -67,6 +67,9 @@ if &background ==# 'light'
 	hi CursorIM       gui=NONE   guifg=#FFFFFF   guibg=brown
 
 	hi SignColumn     gui=NONE   guifg=#222222   guibg=#FFFFFF
+
+	hi LineNr       gui=NONE guifg=#ce4e4e guibg=NONE
+	hi CursorLineNr gui=BOLD guifg=#ce4e4e guibg=NONE
 
 else
 	" The dark theme is inspired by the `inkpot` colorscheme.

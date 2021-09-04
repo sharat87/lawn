@@ -8,3 +8,6 @@ vim/backups
 vim/undo
 vim/venv
 vim/vimfiles/spell
+plug.vim.old
+
+.DS_Store

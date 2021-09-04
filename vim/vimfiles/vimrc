@@ -93,10 +93,10 @@ autocmd ssk VimEnter * py3 import vim
 if s:is_starting && has('gui_running')
 	if exists('&guifont')
 		if s:is_win "&& &guifont =~# '^Consolas:'
-			let &guifont = 'Code_New_Roman:h15:cDEFAULT:qCLEARTYPE'
+			let &guifont = 'Code_New_Roman:h18:cDEFAULT:qCLEARTYPE'
 			set renderoptions=type:directx,renmode:6
 		elseif has('gui_macvim')
-			let &guifont = 'Code New Roman:h18'
+			let &guifont = 'Code New Roman:h20'
 		endif
 	endif
 	if exists('+guioptions')
@@ -512,8 +512,8 @@ nnoremap `n gt
 nnoremap `p gT
 
 " Configure BetterTouchTool to map <C-9> and <C-0> to <F9> and <F10> respectively.
-nnoremap <F9> gt
-nnoremap <F10> gT
+nnoremap <F9> gT
+nnoremap <F10> gt
 
 " Turn off search highlights until the next search command.
 nnoremap <silent> <C-h> :nohlsearch<CR>
@@ -1077,11 +1077,11 @@ Plug 'stsewd/fzf-checkout.vim'
 nnoremap <Leader>g<Space> :Git<Space>
 nnoremap <silent> <Leader>gs :Git<CR>
 nnoremap <Leader>gc :Git commit<CR>
-" TODO: This should set an upstream if not already there.
 nnoremap <Leader>gu :call <SID>GitPush()<CR>
-nnoremap <Leader>gd :Git pull<CR>
+nnoremap <Leader>gd :Git dn<CR>
 nnoremap <Leader>gn :Git blame<CR>
-nnoremap <Leader>ga :GBranches<CR>
+nnoremap <Leader>ga :GBranches --local<CR>
+nnoremap <Leader>gA :GBranches track --remote<CR>
 nnoremap <Leader>gb :Git checkout -b<Space>
 
 fun s:GitPush() abort
@@ -1092,12 +1092,12 @@ fun s:GitPush() abort
 		let branch = trim(system('git rev-parse --abbrev-ref HEAD'))
 		exe 'Git push --set-upstream origin ' . branch
 	else
-		Git push
+		Git up
 	endif
 endfun
 
 " Fugitive has deprecated `q` in favor of `gq`. But I still want `q`.
-autocmd ssk FileType fugitive nmap <buffer> q gq
+autocmd ssk FileType git,fugitive,fugitiveblame nmap <buffer> q gq
 autocmd ssk FileType fugitive nmap <buffer> <silent> R :e<CR>
 
 " Dispatch {{{2
@@ -1124,8 +1124,8 @@ nmap gc. gcc
 " Fuzzy finder (FZF) {{{2
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-" TODO: Have this run `:GFiles` if we are in a Git repo, else run `:Files`.
 nnoremap <Leader>f :GFiles<CR>
+nnoremap <Leader>F :Files<CR>
 nnoremap <Leader>d :Buffers<CR>
 nnoremap <Leader>o :History<CR>
 nnoremap <Leader>m :Marks<CR>
@@ -1211,6 +1211,7 @@ vmap gl <Plug>(EasyAlign)
 vmap gL :EasyAlign<Space>
 let g:easy_align_delimiters = {
 			\ 't': { 'pattern': '\t' },
+			\ 'p': { 'pattern': '\|' },
 			\ ';': { 'pattern': ';', 'stick_to_left': 1, 'left_margin': 0 },
 			\ }
 
@@ -1280,14 +1281,17 @@ Plug 'tpope/vim-eunuch'
 
 " Vim test {{{2
 Plug 'vim-test/vim-test'
-" let g:test#strategy = 'dispatch'
-nnoremap t<C-n> :call TestCmd('TestNearest')<CR>
-nnoremap t<C-f> :call TestCmd('TestFile')<CR>
-nnoremap t<C-s> :call TestCmd('TestSuite')<CR>
-nnoremap t<C-l> :call TestCmd('TestLast')<CR>
-nnoremap t<C-g> :call TestCmd('TestVisit')<CR>
+nnoremap <Leader>tn :call <SID>TestCmd('TestNearest')<CR>
+nnoremap <Leader>tf :call <SID>TestCmd('TestFile')<CR>
+nnoremap <Leader>ts :call <SID>TestCmd('TestSuite')<CR>
+nnoremap <Leader>tl :call <SID>TestCmd('TestLast')<CR>
+nnoremap <Leader>tg :call <SID>TestCmd('TestVisit')<CR>
 
-function TestCmd(cmd) abort
+function s:TestCmd(cmd) abort
+	" See `:h test-strategies`, quite a few options.
+	let g:test#strategy = 'vimterminal'  " Using dispatch isn't showing a diff when tests fail.
+	" let g:test#strategy = exists(":Dispatch") > 0 ? 'dispatch' : 'vimterminal'
+
 	let root_markers = []
 
 	if &filetype ==# 'typescript'
