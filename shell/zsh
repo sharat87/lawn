@@ -12,7 +12,7 @@ setopt auto_cd
 REPORTTIME=6
 
 # Make personal scripts folder, available in the PATH.
-export PATH=~/bin:"$PATH"
+export PATH=~/bin:~/.local/bin:"$PATH"
 
 # A super-fast, zero-distractions, no-nonsense prompt string.
 PS1="
@@ -32,7 +32,10 @@ done
 if [[ -d ~/labs/antigen ]]; then
 	source ~/labs/antigen/antigen.zsh
 
-	# antigen use oh-my-zsh
+	# Fix paste taking too long: <https://github.com/ohmyzsh/ohmyzsh/issues/6338#issuecomment-491504348>.
+	export DISABLE_MAGIC_FUNCTIONS=true
+
+	antigen use oh-my-zsh
 
 	if [[ -d ~/labs/zsh-vim-mode ]]; then
 		# Vim like bindings plugin. Need to run after theme, so mode indicator
@@ -41,6 +44,10 @@ if [[ -d ~/labs/antigen ]]; then
 		ZSH_VIM_MODE_NORMAL_MAP=^k
 		antigen bundle ~/labs/zsh-vim-mode --no-local-clone
 	fi
+
+	for p in man aws docker docker-compose kubectl helm fzf mvn httpie python node; do
+		antigen bundle "$p"
+	done
 
 	# More plugins: https://github.com/unixorn/awesome-zsh-plugins#plugins
 	# This has to be the last plugin.
@@ -144,3 +151,8 @@ auto-ls () { ls -FG; }
 chpwd_functions=( auto-ls $chpwd_functions )
 
 source ~/lawn/shell/utils.sh
+
+# >>>> Vagrant command completion (start)
+fpath=(/opt/vagrant/embedded/gems/2.2.19/gems/vagrant-2.2.19/contrib/zsh $fpath)
+compinit
+# <<<<  Vagrant command completion (end)

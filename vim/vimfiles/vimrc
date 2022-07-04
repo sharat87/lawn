@@ -96,7 +96,7 @@ if s:is_starting && has('gui_running')
 			let &guifont = 'Code_New_Roman:h18:cDEFAULT:qCLEARTYPE'
 			set renderoptions=type:directx,renmode:6
 		elseif has('gui_macvim')
-			let &guifont = 'Code New Roman:h20'
+			let &guifont = 'Monaco:h18'
 		endif
 	endif
 	if exists('+guioptions')
@@ -114,7 +114,7 @@ if s:is_starting && has('gui_running')
 endif
 
 if s:is_starting
-	set termguicolors
+	" set termguicolors
 	" In terminal, show block cursor in normal mode and line cursor in insert mode.
 	" Source: https://github.com/mintty/mintty/wiki/Tips#mode-dependent-cursor-in-vim
 	let &t_ti = &t_ti . "\e[1 q"
@@ -325,7 +325,7 @@ set formatoptions+=j
 " Save automatically before `:make` and some other commands.
 set autowrite
 
-" Live preview of substitue command (currently neovim only).
+" Live preview of substitute command (currently neovim only).
 if exists('&inccommand')
 	set inccommand=nosplit
 endif
@@ -355,13 +355,12 @@ digraphs ak 8593 " Up arrow
 digraphs al 8594 " Right arrow
 
 " Released keys. Use for something super.
-nnoremap x <Nop>
-nnoremap X <Nop>
 nnoremap s <Nop>
-nnoremap S <Nop>
+vnoremap s <Nop>
+nnoremap x <Nop>
 vnoremap x <Nop>
 vnoremap X <Nop>
-vnoremap s <Nop>
+" nnoremap S <Nop>
 " vnoremap S <Nop>  " Used by surround.vim plugin
 
 " Leaders.
@@ -386,11 +385,16 @@ nnoremap v. V
 nnoremap <Leader>; ,
 xnoremap <Leader>; ,
 
-" A use for the unused Arrow keys :).
-noremap <Up> <C-y>
-noremap <Down> <C-e>
-noremap <Left> zh
-noremap <Right> zl
+" Bring search jumps to the middle of the screen.
+noremap n nzz
+noremap N Nzz
+
+" Not needed with Moonlander.
+" " A use for the unused Arrow keys :).
+" noremap <Up> <C-y>
+" noremap <Down> <C-e>
+" noremap <Left> zh
+" noremap <Right> zl
 
 " Use D in visual mode to delete.
 vnoremap d <Nop>
@@ -432,17 +436,21 @@ nnoremap <Leader>d :b *
 " Find files
 nnoremap <Leader>f :find *
 
-" Edit file in the directory of the currently buffer's file.
-nnoremap <Leader>e :e <C-r>=expand('%:h')<CR>/
+" Map to start command line to edit a file in <cfile>'s directory.
+nnoremap <Leader>e :<C-u>e <C-r>=expand('%:p:h')<CR>/
 
 " Switch colorscheme.
 nnoremap coo :colo <C-d>*
 
-" Easier way to go to normal mode. Also, alternative to <ESC>.
-noremap! <silent> <C-l> <ESC>
-vnoremap <silent> <C-l> <ESC>
-onoremap <silent> <C-l> <ESC>
-cnoremap <silent> <C-l> <C-c>  " <ESC> doesn't work and even this moves the cursor by two characters.
+" Close with saving.
+nnoremap X :x<CR>
+
+" Commenting since using ESC is easier on Moonlander.
+" " Easier way to go to normal mode. Also, alternative to <ESC>.
+" noremap! <silent> <C-l> <ESC>
+" vnoremap <silent> <C-l> <ESC>
+" onoremap <silent> <C-l> <ESC>
+" cnoremap <silent> <C-l> <C-c>  " <ESC> doesn't work and even this moves the cursor by two characters.
 
 " Clear and reload the screen.
 nnoremap <C-r> <C-l>
@@ -450,8 +458,9 @@ nnoremap <C-r> <C-l>
 " Save all.
 nnoremap <silent> <C-m> :try\|wa\|catch /\<E141\>/\|echomsg 'Not all files saved!'\|endtry<CR>
 
-" Easy backspacing.
+" Word backspacing.
 noremap! <C-BS> <C-w>
+noremap! <M-BS> <C-w>
 
 " Copy to system clipboard.
 nnoremap <silent> yp "+y
@@ -494,15 +503,6 @@ endfun
 " More convenient to go to command line mode.
 noremap <Space> :
 
-" Map to start command line to edit a file in <cfile>'s directory.
-nnoremap <Leader>we :<C-u>e <C-r>=expand('%:p:h')<CR>/
-
-" Map to start command line to edit a file in current directory.
-nnoremap <Leader>wf :<C-u>e **/*<C-z><S-Tab>
-
-" Map Shift+Enter to adding a new line below. Use `imap` so that any bindings for <CR> are not skipped.
-imap <S-CR> <End><CR>
-
 " Start of prev/next paragraph. We use <expr> way of doing this so they work in visual mode as well.
 noremap <silent> <expr> <C-k> (line('.') - search('^\n.\+$', 'Wenb')) . 'kzv^'
 noremap <silent> <expr> <C-j> (search('^\n.', 'Wen') - line('.')) . 'jzv^'
@@ -511,12 +511,18 @@ noremap <silent> <expr> <C-j> (search('^\n.', 'Wen') - line('.')) . 'jzv^'
 nnoremap `n gt
 nnoremap `p gT
 
-" Configure BetterTouchTool to map <C-9> and <C-0> to <F9> and <F10> respectively.
-nnoremap <F9> gT
-nnoremap <F10> gt
+" " Navigation from Terminal windows.
+" " Don't work well, and screw up fzf popup.
+" tnoremap `<Space> <C-w>:
+" tnoremap n <C-w>gt
+" tnoremap p <C-w>gT
+" Use <Esc> in terminal windows to go to Normal mode (taken from :h terminal).
+" tnoremap <Esc> <C-w>N
+tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
+set notimeout ttimeout timeoutlen=100
 
 " Turn off search highlights until the next search command.
-nnoremap <silent> <C-h> :nohlsearch<CR>
+nnoremap <silent> <Leader>c :nohlsearch<CR>
 
 " Edit a macro (https://github.com/mhinz/vim-galore#quickly-edit-your-macros)
 nnoremap zq :let @<C-r>=v:register<CR> = <C-r>=string(getreg(v:register))<CR><Left>
@@ -574,8 +580,15 @@ nmap z= z+
 nmap z<kPlus> z+
 nmap z<kMinus> z-
 
+" Invoke grep
+nnoremap <Leader>/ :grep<Space>
+
 " Open a Quickfix window for the last search.
-nnoremap <silent> g/ :vimgrep /<C-r>// % \| copen<CR>
+nnoremap <silent> g/ :grep /<C-r>// % \| copen<CR>
+
+" Automatically open quickfix/location window, if the last command produced anything.
+autocmd ssk QuickFixCmdPost [^l]* nested cwindow
+autocmd ssk QuickFixCmdPost    l* nested lwindow
 
 " Search within the visual selection.
 xnoremap <Leader>/ <ESC>/\%V\%V<Left><Left><Left>
@@ -952,6 +965,15 @@ endfun
 " Command to copy the current file's full absolute path.
 command CopyFilePath let @+ = expand(s:is_win ? '%:p:gs?/?\\?' : '%:p')
 
+nnoremap <Leader>b :call <SID>BookmarkSearch()<CR>
+fun! s:BookmarkSearch() abort
+	call fzf#run(fzf#wrap('bookmarks', {
+				\ 'source': readfile(g:NERDTreeBookmarksFile),
+				\ 'sink': {loc -> execute("cd " . loc->substitute('^\S\+ ', '', '')->substitute('^\~', $HOME, ''))},
+				\ 'options': ['+m', '--tiebreak=index', '--prompt', 'NERDTreeBookmarks> ', '--ansi']
+				\ }))
+endfun
+
 " Plugins and their configs {{{1
 
 " Start defining plugins.
@@ -959,7 +981,7 @@ call plug#begin('~/vim-space/plugged')
 
 " NerdTree (because netrw is just too buggy) {{{2
 Plug 'preservim/nerdtree'
-nnoremap <Leader>nt :NERDTreeToggle<CR>
+nnoremap - :NERDTreeToggle<CR>
 
 " Disable Netrw
 let g:loaded_netrwPlugin = 1
@@ -990,14 +1012,13 @@ Plug '~/Dropbox/labs/runfile.vim'
 " let g:roast_key_run = '<C-CR>'
 " nnoremap <silent> <F2> :tabedit ~/Dropbox/cip.roast<CR>
 
-" Chemist (Python+SQLAlchmey based database client) {{{2
-Plug '~/Dropbox/labs/chemist.vim'
-let g:chemist_connection_urls = { }
-" nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
+" " Chemist (Python+SQLAlchmey based database client) {{{2
+" Plug '~/Dropbox/labs/chemist.vim'
+" let g:chemist_connection_urls = { }
+" " nnoremap <buffer> <silent> <C-CR> :ChemistRunQueryAtCursor<CR>
 
 " Live Search {{{2
 Plug '~/Dropbox/labs/live-search.vim'
-nnoremap <silent> z/ :call live_search#start(fnamemodify('.', ':p'))<CR>
 
 " Coloraptor (color picker) {{{2
 Plug '~/labs/coloraptor.vim'
@@ -1009,7 +1030,6 @@ Plug 'NLKNguyen/papercolor-theme'
 let g:PaperColor_Theme_Options = #{ theme: #{ default: #{ allow_bold: 1, allow_italic: 1 } } }
 autocmd ssk ColorScheme PaperColor call <SID>PaperColorOverrides()
 fun s:PaperColorOverrides() abort
-	echomsg 'applying papercolor overrides'
 	highlight SpellBad guibg=NONE
 	exe 'hi Cursor guibg=' . (&bg == 'dark' ? 'Gray90' : 'maroon')
 	if &bg ==# 'light'
@@ -1067,12 +1087,12 @@ autocmd ssk FileType gitcommit let b:EditorConfig_disable = 1
 " Block closing tech. {{{2
 Plug 'tpope/vim-endwise'
 Plug 'rstacruz/vim-closer'
+autocmd ssk FileType javascript,typescript let b:closer_flags = '([{'
 
 " Git integration. {{{2
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 autocmd ssk BufWritePost * GitGutter
-Plug 'stsewd/fzf-checkout.vim'
 
 nnoremap <Leader>g<Space> :Git<Space>
 nnoremap <silent> <Leader>gs :Git<CR>
@@ -1124,11 +1144,15 @@ nmap gc. gcc
 " Fuzzy finder (FZF) {{{2
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'stsewd/fzf-checkout.vim'
 nnoremap <Leader>f :GFiles<CR>
 nnoremap <Leader>F :Files<CR>
 nnoremap <Leader>d :Buffers<CR>
 nnoremap <Leader>o :History<CR>
-nnoremap <Leader>m :Marks<CR>
+nnoremap <Leader>s :Snippets<CR>
+inoremap <C-s> <C-o>:Snippets<CR>
+
+nnoremap <Leader>zh :Helptags<CR>
 nnoremap coo :Colors<CR>
 nnoremap <Leader><Space> :History:<CR>
 
@@ -1146,10 +1170,9 @@ nnoremap <Leader><Space> :History:<CR>
 " Ultisnips {{{2
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-let g:UltiSnipsExpandTrigger = '<C-o>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 let g:UltiSnipsEditSplit = 'vertical'
+" See :h UltiSnips-trigger-key-mappings
+inoremap <C-x><C-k> <C-x><C-k>
 
 " Ale (syntax checking and LSP integration) {{{2
 " With a good langserver, vim-lsp should be able to replace Ale.
@@ -1222,13 +1245,19 @@ let g:is_bash = 1
 let g:xml_syntax_folding = 1
 let g:html_exclude_tags = ['html', 'head', 'body']  " Exclude from indentation
 
-Plug 'plasticboy/vim-markdown'
-let g:markdown_fenced_languages = ['python', 'py=python', 'pycon=python', 'sql', 'sh', 'js=javascript', 'ahk=autohotkey']
+Plug 'preservim/vim-markdown'
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_fenced_languages = ['python', 'py=python', 'pycon=python', 'sql', 'sh', 'js=javascript', 'ahk=autohotkey']
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_strikethrough = 1
 autocmd ssk FileType markdown nmap <Plug> <Plug>Markdown_MoveToParentHeader
 
 Plug 'ap/vim-css-color'
+Plug 'TovarishFin/vim-solidity'
+Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
+
+Plug 'chr4/nginx.vim'
+autocmd ssk BufRead,BufNewFile *.conf set filetype=nginx
 
 " Unimpaired (Shortcuts for option toggling, next/prev commands and line ops) {{{2
 Plug 'tpope/vim-unimpaired'
@@ -1323,5 +1352,5 @@ if s:is_starting
 
 	let s:cur_hours = "%H"->strftime(localtime())
 	call <SID>SyncBackground()
-	colorscheme Papercolor
+	colorscheme PaperColor
 endif

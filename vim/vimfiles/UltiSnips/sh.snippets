@@ -22,11 +22,15 @@ def getShell():
 	return "sh"
 endglobal
 
-snippet .new "New file template"
+snippet new "New file template"
 #!/bin/bash
 
 set -o errexit
 set -o nounset
+set -o pipefail
+if [[ -n ${XTRACE:-} ]]; then
+	set -o xtrace
+fi
 
 $0
 endsnippet
@@ -34,17 +38,6 @@ endsnippet
 ###########################################################################
 #                            TextMate Snippets                            #
 ###########################################################################
-snippet #! "#!/usr/bin/env (!env)" b
-`!p snip.rv = '#!/usr/bin/env ' + getShell() + "\n" `
-endsnippet
-
-snippet sbash "safe bash options"
-#!/usr/bin/env bash
-set -euo pipefail
-IFS=$'\n\t'
-`!p snip.rv ='\n\n' `
-endsnippet
-
 snippet temp "Tempfile"
 ${1:TMPFILE}="$(mktemp -t ${3:--suffix=${4:.SUFFIX}} ${2:`!p
 snip.rv = re.sub(r'[^a-zA-Z]', '_', snip.fn) or "untitled"
@@ -100,5 +93,3 @@ while ${2:[[ ${1:condition} ]]}; do
 	${0:#statements}
 done
 endsnippet
-
-# vim:ft=snippets:

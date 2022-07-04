@@ -7,7 +7,11 @@ lawn="$(cd "$(dirname "$0")"; pwd)"
 
 link() {
 	local lawn_path="$lawn/$1"
-	local home_path="$HOME/$2"
+	local home_path="$2"
+
+	if [[ $home_path != /* ]]; then
+		home_path="$HOME/$home_path"
+	fi
 
 	if [[ ! -e "$lawn_path" ]]; then
 		echo "Nothing present at $lawn_path, skipping."
@@ -19,7 +23,7 @@ link() {
 		echo "$(tput setaf 2)$(tput bold)$(ln -vsf "$lawn_path" "$home_path")$(tput sgr 0)" | sed "s:$HOME:~:g"
 
 	elif [[ $(readlink "$home_path") == "$lawn_path" ]]; then
-		echo "$(tput setaf 4)No change for '$lawn_path'$(tput sgr 0)"
+		echo "$(tput setaf 4)No change for $lawn_path$(tput sgr 0)" | sed "s:$HOME:~:g"
 
 	else
 		echo "$(tput setaf 1)$(tput bold)Skipping '$lawn_path -> $home_path'$(tput sgr 0)" | sed "s:$HOME:~:g"
@@ -42,3 +46,5 @@ link "mongoshrc.js" .mongoshrc.js
 link "qutebrowser" .qutebrowser
 
 link "xbar" Library/"Application Support"/xbar/plugins
+
+link "Caddyfile" /usr/local/etc/Caddyfile

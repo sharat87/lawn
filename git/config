@@ -31,6 +31,9 @@
 
 	unstage = restore --stage
 
+	current-branch = rev-parse --abbrev-ref HEAD
+	cur-branch = current-branch
+
 [color]
 	ui = true
 	branch = auto
@@ -65,3 +68,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[init]
+	defaultBranch = main

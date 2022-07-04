@@ -6,7 +6,7 @@ def x(snip):
 		snip.rv = ""
 endglobal
 
-snippet .new "New file template" b
+snippet new "New file template" b
 <!doctype html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -241,6 +241,10 @@ endsnippet
 
 snippet link "HTML <link>" w
 <link rel="${1:stylesheet}" href="${2:/css/master.css}" type="text/css" media="${3:screen}" charset="${5:utf-8}"`!p x(snip)`>
+endsnippet
+
+snippet css "<link rel=stylesheet>" w
+<link rel=stylesheet href="${1:/css/master.css}">
 endsnippet
 
 snippet mailto "HTML <a mailto: >" w

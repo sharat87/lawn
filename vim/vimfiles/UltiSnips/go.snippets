@@ -5,3 +5,15 @@ endsnippet
 snippet lf "log.Fatal(err)" b
 log.Fatal(${1:err})$0
 endsnippet
+
+snippet new "New file skeleton" b
+package main
+
+import (
+	"log"
+)
+
+func main() {
+	log.Println("Hello world")
+}
+endsnippet
