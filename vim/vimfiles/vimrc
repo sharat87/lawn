@@ -201,10 +201,10 @@ call mkdir(split(&backupdir, ',')[0], 'p')
 set spelloptions=camel
 
 " Python configuration.
-let &pythonhome = $HOME . '/.asdf/installs/python/3.8.6'
-" let &pythonthreedll = $HOME . '/.asdf/installs/python/3.8.6/lib/libpython3.8.a'
+let &pythonhome = $HOME . '/.asdf/installs/python/3.10.10'
+let &pythonthreedll = $HOME . '/.asdf/installs/python/3.10.10/lib/libpython3.10.dylib'
 if has('gui_macvim')
-	py3 import sys, os; sys.path.insert(0, os.path.expanduser('~/vim-space/python3-venv/lib/python3.8/site-packages'))
+	py3 import sys, os; sys.path.insert(0, os.path.expanduser('~/vim-space/python3-venv/lib/python3.10/site-packages'))
 endif
 
 " Clipboard for Neovim
@@ -1142,7 +1142,7 @@ Plug 'tomtom/tcomment_vim'
 nmap gc. gcc
 
 " Fuzzy finder (FZF) {{{2
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 nnoremap <Leader>f :GFiles<CR>
